@@ -1,0 +1,32 @@
+@startuml Database
+
+title "Database Mockup"
+
+hide methods
+
+class User {
+
+}
+
+class Freelancer {
+
+}
+
+class Client {
+    
+}
+
+class Animal_Client {
+    name
+    DOB
+
+}
+
+class Service
+
+class Animal {
+    specie
+}
+
+
+@enduml
