@@ -4,29 +4,80 @@ title "Database Mockup"
 
 hide methods
 
+' classes
 class User {
+    /'
+    PK - userId
+    '/
 
+    userId
+    username
+    password
+    name
+    DOB
+    email
+    NIF
 }
 
 class Freelancer {
+    /'
+    PK - freelancerId
+    '/
 
-}
-
-class Client {
+    freelancerId
     
 }
 
-class Animal_Client {
+class Client {
+    /'
+    PK - clientId
+    '/
+
+    clientId
+}
+
+class Pet {
+    /'
+    PK - petId
+    FK - owner, aponta para Client
+    '/
+
+    petId
     name
     DOB
-
+    ownerId
 }
 
-class Service
+class Service {
+    /'
+    PK - serviceId
+    '/
+
+    serviceId
+    name
+}
 
 class Animal {
+    /'
+    PK - animalId
+    '/
+
+    animalId
     specie
 }
+
+' Preicsa ter essa?
+' class Admin {
+' }
+
+' associations
+
+User <|-- Freelancer
+User <|-- Client
+
+Client "1" -- "many" Pet : owns >
+
+Animal "many" -- "1" Pet
 
 
 @enduml
