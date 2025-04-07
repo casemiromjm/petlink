@@ -5,9 +5,9 @@ function atualizarContador() {
     const contador = document.getElementById('resultado-contador');
 
     if (numeroDeAnuncios > 1000) {
-        contador.textContent = "Encontrámos mais de 1000 anúncios";
+        contador.textContent = "Encontramos mais de 1000 anúncios";
     } else {
-        contador.textContent = `Encontrámos ${numeroDeAnuncios} anúncio${numeroDeAnuncios === 1 ? '' : 's'}`;
+        contador.textContent = `Encontramos ${numeroDeAnuncios} anúncio${numeroDeAnuncios === 1 ? '' : 's'}`;
     }
 }
 
