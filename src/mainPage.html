@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiteName Here</title>
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h1>Nome do site</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a>Contratar Serviço </li>
+                <li>Anunciar Serviço</li>
+                <li>O meu perfil</li>
+            </ul>
+            <div class="profile-icon">
+            </div>
+        </nav>
+    </header>
+
+    <hr>
+
+    <section class="pesquisa">
+        <input type="text" placeholder="O que procuras?">
+        <select id="location">
+            <option value="">Todo o país</option>
+            <option value="porto">Porto</option>
+            <option value="lisboa">Lisboa</option>
+            <option value="coimbra">Coimbra</option>
+            <option value="faro">Faro</option>
+            <option value="braga">Braga</option>
+        </select>
+        <button onclick="pesquisar()">Pesquisar</button>
+    </section>
+    <section class="filtros">
+        <h2>Filtros</h2>
+        <label for="duracao">Duração</label>
+        <select>
+            <option>Curto Prazo</option>
+            <option>Médio Prazo</option>
+            <option>Longo Prazo</option>
+        </select>
+        <label for="animais">Animais</label>
+        <select>
+            <option>Todos</option>
+            <option>Cães</option>
+            <option>Gatos</option>
+            <option>Pássaros</option>
+            <option>Hamsters</option>
+            <option>Coelhos</option>
+            <option>Peixes</option>
+            <option>Roedores</option>
+            <option>Répteis</option>
+        </select>
+        <label for="serviço">Serviço</label>
+        <select>
+            <option>Todos</option>
+            <option>Passeio</option>
+            <option>Pet Sitting</option>
+            <option>Banho</option>
+            <option>Tosquia</option>
+        </select>
+        <a href="#" onclick="limparFiltros()">Limpar Filtros</a>
+        </div>
+    </section>
+    <section class="results">
+    <h3 id="resultado-contador"></h3>
+
+    </section>
+
+    <script src="mainPage.js"></script>
+</body>
+
+</html>
