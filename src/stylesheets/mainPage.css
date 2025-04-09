@@ -27,12 +27,23 @@ nav ul {
 }
 
 nav ul li {
-    margin-left: 20px;
+    margin-left: 10px;
 }
 
 nav ul li a {
     text-decoration: none;
     color: white;
+}
+
+
+nav ul .serviço{
+    display: flex;
+    margin-right:13em;
+}
+
+nav ul .serviço :not(:last-child) ::after{
+    content: " |";
+    margin-left: 5px;
 }
 
 
@@ -57,7 +68,7 @@ nav ul li a {
     padding-left: 50px;
 }
 
-.pesquisa #iconSearch{
+.pesquisa #iconSearch {
     width: 23px;
     height: auto;
     position: absolute;
@@ -76,7 +87,7 @@ nav ul li a {
 }
 
 .pesquisa select {
-    position:relative;
+    position: relative;
     padding: 10px;
     border-color: #f4f4f4;
     min-width: 200px;
@@ -104,30 +115,39 @@ nav ul li a {
 }
 
 .filtros {
-    padding: 20px;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-    gap: 15px;
+    margin-left: 5em;
+    margin-top:3em;
 }
 
 .filtros h2 {
-    margin: 0;
-    font-size: 1.2em;
+    font-size: 1.4em;
+    margin-bottom:1.1em;
 }
 
-.filtros label {
+.filtros #titles {
+    display: flex;
+    gap: 5.4em;
+}
+
+.filtros h3 {
     font-size: 0.9em;
     color: #404040;
+    font-weight: lighter;
+    margin-right: 5px;
+    margin-bottom: 0.3em;
+    margin-top: 0;
 }
 
 .filtros select {
     padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    font-size: 0.9em;
+    width: 140px;
+    height: 45px;
+    border: 0.5px solid white;
 }
 
 .filtros a {
+    margin-left: 1.2em;
     text-decoration: underline;
     color: #404040;
     font-size: 0.9em;
@@ -138,11 +158,12 @@ nav ul li a {
 }
 
 .results {
-    padding: 20px;
+    margin-left: 5em;
+    margin-top:4em;
 }
 
 .results h3 {
-    font-size: 1.1em;
-    color: #555;
+
+    font-size: 1.5em;
     margin-bottom: 15px;
 }
