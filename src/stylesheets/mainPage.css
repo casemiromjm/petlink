@@ -15,8 +15,22 @@ header {
     align-items: center;
 }
 
+.logo {
+    position: relative;
+}
+
 .logo h1 {
+    position: relative;
     margin: 0;
+    margin-left: 2.5em;
+}
+
+.logo img {
+    position: absolute;
+    top: -0.9em;
+    margin-left: 1em;
+    width: 60px;
+    height: auto;
 }
 
 nav ul {
@@ -24,26 +38,50 @@ nav ul {
     padding: 0;
     margin: 0;
     display: flex;
+    position: relative;
+    font-size: 1.1em;
 }
 
-nav ul li {
-    margin-left: 10px;
+nav ul .serviço li {
+    margin-left: 1em;
 }
 
-nav ul li a {
+nav ul a {
     text-decoration: none;
     color: white;
 }
 
 
-nav ul .serviço{
+nav ul .serviço {
     display: flex;
-    margin-right:13em;
+    margin-right: 16em;
 }
 
-nav ul .serviço :not(:last-child) ::after{
+nav ul .serviço :not(:last-child) ::after {
     content: " |";
-    margin-left: 5px;
+    margin-left: 1em;
+}
+
+nav a img {
+    width: 20px;
+    height: auto;
+    vertical-align: middle;
+}
+
+nav .messages {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-right: 6em;
+}
+
+nav .profile-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-right: 2em;
 }
 
 
@@ -116,12 +154,12 @@ nav ul .serviço :not(:last-child) ::after{
 
 .filtros {
     margin-left: 5em;
-    margin-top:3em;
+    margin-top: 3em;
 }
 
 .filtros h2 {
     font-size: 1.4em;
-    margin-bottom:1.1em;
+    margin-bottom: 1.1em;
 }
 
 .filtros #titles {
@@ -159,7 +197,7 @@ nav ul .serviço :not(:last-child) ::after{
 
 .results {
     margin-left: 5em;
-    margin-top:4em;
+    margin-top: 4em;
 }
 
 .results h3 {
