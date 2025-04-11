@@ -17,7 +17,7 @@ function pesquisar() {
 }
 
 function limparFiltros() {
-    const filtros = document.querySelectorAll('.filters select');
+    const filtros = document.querySelectorAll('.filtros select');
     filtros.forEach(filtro => filtro.selectedIndex = 0);
     atualizarContador();
 }

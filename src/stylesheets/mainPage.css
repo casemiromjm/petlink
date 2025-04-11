@@ -157,8 +157,13 @@ nav .profile-icon {
     margin-top: 3em;
 }
 
+.sort select {
+    border: 1px solid white;
+    font-weight: lighter;
+}
+
 .filtros h2 {
-    font-size: 1.4em;
+    font-size: 1.2em;
     margin-bottom: 1.1em;
 }
 
@@ -178,21 +183,38 @@ nav .profile-icon {
 
 .filtros select {
     padding: 8px;
+    border: 1px solid #f4f4f4;
     font-size: 0.9em;
     width: 140px;
     height: 45px;
-    border: 0.5px solid white;
 }
 
 .filtros a {
     margin-left: 1.2em;
     text-decoration: underline;
     color: #404040;
-    font-size: 0.9em;
+    font-size: 0.97em;
 }
 
-.filtros a:hover {
-    text-decoration: underline;
+.sort {
+    display: flex;
+    justify-content: right;
+    margin-right: 5em;
+}
+
+.sort h3 {
+    margin: 0;
+    padding: 8px;
+    font-weight: lighter;
+    font-size: 1.1em;
+
+}
+
+.sort select {
+    padding: 8px;
+    font-size: 0.9em;
+    width: 180px;
+    height: 35px;
 }
 
 .results {
