@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anunciar Serviço</title>
+    <link rel="stylesheet" href="stylesheets/advertCreate.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <img src="../resources/logo.png" alt="logo">
+            <h1>Nome do site</h1>
+        </div>
+        <nav>
+            <ul>
+                <div class="serviço">
+                    <li><a href="mainPage.html">Contratar Serviço</a></li>
+                    <li><a href="advertCreate.html">Anunciar Serviço</a></li>
+                </div>
+                <div class="messages">
+                    <li><a href="messages.html">Mensagens</li>
+                    <img src="../resources/messages.png" alt="messages"></a>
+                </div>
+                <div class="profile-icon">
+                    <li><a href="profiles.html">O meu perfil</li>
+                    <img src="../resources/circle-user.png" alt="profile-icon"></a>
+                </div>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="ad-create">
+        <h2>Anunciar Serviço</h2>
+        <div class="upload-box">
+            <div class="upload-placeholder">
+                <span> + </span>
+                <p>Carregar fotografias</p>
+            </div>
+        </div>
+        <form id="ad-form">
+            <label for="titulo">Título</label>
+            <br>
+            <input type="text" id="titulo" name="titulo" required>
+            <br>
+
+            <label for="descricao">Descrição</label>
+            <br>
+            <textarea type="text" id="descricao" name="descricao" required></textarea>
+            <br>
+
+            <label for="tipo">Tipo de serviço</label> <!--Um serviço pode ser vários tipos? Banho + tosquia ou petsitting + banho poderiam existir juntos-->
+            <br> 
+            <select id="tipo" name="tipo" required>
+                <option disabled selected>Selecionar</option>
+                <option>Passeio</option>
+                <option>Tosquia</option>
+                <option>Pet Sitting</option>
+                <option>Banho</option>x
+                <option>Tosquia</option>
+            </select>
+            <br>
+
+            <label for="preco">Preço</label>
+            <br>
+            <input type="number" id="preco" name="preco" required>
+            <label for="preco-por">€ /</label>
+            <select id="preco-por" name="preco-por" required>
+                <option disabled selected>Selecionar</option>
+                <option>hora</option>
+                <option>dia</option>
+                <option>semana</option>
+                <option>mês</option>
+            </select>
+            <br>
+
+            <label for="animais">Animais</label>
+            <br>
+            <label><input type="checkbox" name="animais[]" value="Cães">Cães</label>
+            <label><input type="checkbox" name="animais[]" value="Gatos">Gatos</label><br>
+            <label><input type="checkbox" name="animais[]" value="Pássaros">Pássaros</label>
+            <label><input type="checkbox" name="animais[]" value="Hamsters">Furões</label><br>
+            <label><input type="checkbox" name="animais[]" value="Coelhos">Coelhos</label>
+            <label><input type="checkbox" name="animais[]" value="Peixes">Peixes</label><br>
+            <label><input type="checkbox" name="animais[]" value="Roedores">Roedores</label>
+            <label><input type="checkbox" name="animais[]" value="Répteis">Répteis</label>
+
+            <button type="submit">Criar Anúncio</button>
+        </form>
+
+    </section>
+</body>

@@ -1,0 +1,98 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #ffbd59;
+    color: white;
+    padding: 22px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    position: relative;
+}
+
+.logo h1 {
+    position: relative;
+    margin: 0;
+    margin-left: 2.5em;
+}
+
+.logo img {
+    position: absolute;
+    top: -0.9em;
+    margin-left: 1em;
+    width: 60px;
+    height: auto;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    position: relative;
+    font-size: 1.1em;
+}
+
+nav ul .serviço li {
+    margin-left: 1em;
+}
+
+nav ul a {
+    text-decoration: none;
+    color: white;
+}
+
+
+nav ul .serviço {
+    display: flex;
+    margin-right: 16em;
+}
+
+nav ul .serviço :not(:last-child) ::after {
+    content: " |";
+    margin-left: 1em;
+}
+
+nav a img {
+    width: 20px;
+    height: auto;
+    vertical-align: middle;
+}
+
+nav .messages {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-right: 6em;
+}
+
+nav .profile-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-right: 2em;
+}
+
+.ad-create {
+    max-width: 650px;
+    margin: 2em auto;
+    background: white;
+    padding: 2em;
+    border-radius: 4px;
+}
+
+.ad-create h2 {
+    text-align: center;
+    margin-bottom: 1em;
+}
