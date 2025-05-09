@@ -1,0 +1,27 @@
+<?php declare(strict_types = 1); ?>
+
+<link rel="stylesheet" href="../stylesheets/style.css">
+
+<?php function drawAdDetails(array $ad): void { ?>
+  <section class="ad-details">
+    <div class="ad-images">
+      <img src="<?= htmlspecialchars($ad['image_path'] ?? 'https://via.placeholder.com/600') ?>" alt="Imagem do anúncio">
+    </div>
+    <div class="ad-info">
+      <h1><?= htmlspecialchars($ad['title']) ?></h1>
+      <p class="ad-price"><?= htmlspecialchars((string)$ad['price']) ?>€ / <?= htmlspecialchars($ad['price_period']) ?></p>
+      <p class="ad-description"><?= htmlspecialchars($ad['description']) ?></p>
+      <button>Enviar mensagem</button>
+    </div>
+    <div class="ad-user">
+      <h2><?= htmlspecialchars($ad['username']) ?></h2>
+      <p><?= htmlspecialchars($ad['user_description'] ?? 'Descrição não disponível.') ?></p>
+      <p><i class="fi fi-rr-marker"></i> Porto, Campanhã</p>
+      <p><i class="fi fi-rr-star"></i> 4.7/5 (32 avaliações)</p>
+    </div>
+    <div class="ad-reviews">
+      <h3>Avaliações recentes</h3>
+      <p>Espaço reservado para avaliações futuras.</p>
+    </div>
+  </section>
+<?php } ?>
