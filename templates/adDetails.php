@@ -8,13 +8,18 @@
       <img src="<?= htmlspecialchars($ad['image_path'] ?? 'https://via.placeholder.com/600') ?>" alt="Imagem do anúncio">
     </div>
     <div class="ad-info">
-      <h1><?= htmlspecialchars($ad['title']) ?></h1>
-      <p class="ad-price"><?= htmlspecialchars((string)$ad['price']) ?>€ / <?= htmlspecialchars($ad['price_period']) ?></p>
+      <div class="ad-info-header">
+        <h1><?= htmlspecialchars($ad['title']) ?></h1>
+        <span class="ad-price"><?= htmlspecialchars((string)$ad['price']) ?>€ / <?= htmlspecialchars($ad['price_period']) ?></span>
+        <button>Enviar mensagem</button>
+      </div>
       <p class="ad-description"><?= htmlspecialchars($ad['description']) ?></p>
-      <button>Enviar mensagem</button>
     </div>
     <div class="ad-user">
-      <h2><?= htmlspecialchars($ad['username']) ?></h2>
+      <h2>
+        <strong><?= htmlspecialchars($ad['name']) ?></strong>
+        <span class="username"><?= htmlspecialchars($ad['username']) ?></span>
+      </h2>
       <p><?= htmlspecialchars($ad['user_description'] ?? 'Descrição não disponível.') ?></p>
       <p><i class="fi fi-rr-marker"></i> Porto, Campanhã</p>
       <p><i class="fi fi-rr-star"></i> 4.7/5 (32 avaliações)</p>

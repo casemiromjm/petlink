@@ -2,14 +2,13 @@
 declare(strict_types = 1);
 
 function getAnuncios(PDO $db, int $limit = 10): array {
-    // Dynamically construct the query with the LIMIT value
     $query = '
-        SELECT ads.id, ads.title, ads.description, ads.service_type, ads.price, ads.price_period, users.username 
-        FROM ads 
+        SELECT ads.id, ads.title, ads.description, ads.service_type, ads.price, ads.price_period, users.username, users.name
+        FROM ads
         JOIN users ON ads.username = users.username
         LIMIT ' . intval($limit);
 
-    $stmt = $db->query($query); // Use query() instead of prepare() since there are no placeholders
+    $stmt = $db->query($query);
 
     $anuncios = [];
     while ($anuncio = $stmt->fetch()) {
@@ -21,6 +20,7 @@ function getAnuncios(PDO $db, int $limit = 10): array {
             'price' => $anuncio['price'],
             'price_period' => $anuncio['price_period'],
             'username' => $anuncio['username'],
+            'name' => $anuncio['name'], // Include the name
             'animals' => getAnuncioAnimals($db, $anuncio['id'])
         );
     }
@@ -73,7 +73,7 @@ function getAnuncioAnimals(PDO $db, int $adId): array {
 
 function getAdById(PDO $db, int $id): ?array {
     $stmt = $db->prepare('
-        SELECT ads.*, users.description AS user_description
+        SELECT ads.*, users.name, users.username, users.description AS user_description
         FROM ads
         JOIN users ON ads.username = users.username
         WHERE ads.id = ?

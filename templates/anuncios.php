@@ -15,7 +15,9 @@
           <a href="pages/adDetails.php?id=<?= htmlspecialchars((string)$anuncio['id']) ?>" class="ad">
             <div class="ad-header">
               <img src="https://via.placeholder.com/50" alt="Foto do utilizador" class="user-photo">
-              <span class="username"><?= htmlspecialchars($anuncio['username']) ?></span>
+              <span class="username">
+                <strong><?= htmlspecialchars($anuncio['name']) ?></strong>
+              </span>
             </div>
             <h2 class="ad-title"><?= htmlspecialchars($anuncio['title']) ?></h2>
             <p class="ad-location"><i class="fi fi-rr-marker"></i> Porto, Campanhã</p>

@@ -7,6 +7,14 @@ body {
     color: #333;
 }
 
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
 /* Página do perfil (layout) */
 body.profile-page {
     display: grid;
@@ -497,7 +505,6 @@ form .animal-checkboxes label {
 }
 
 /* Resultados */
-
 .results {
     display: flex;
     flex-direction: column;
@@ -518,7 +525,7 @@ form .animal-checkboxes label {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: flex-start; /* Changed from center to flex-start */
+    justify-content: flex-start;
     margin-bottom: 20px;
     margin-left: 75px;
 }
@@ -551,9 +558,9 @@ form .animal-checkboxes label {
 }
 
 .ad-header .username {
-    font-weight: bold;
+    font-weight: lighter;
     font-size: 1em;
-    color: #333;
+    color: #666;
 }
 
 .ad-title {
@@ -603,7 +610,7 @@ form .animal-checkboxes label {
     color: #FFD700;
 }
 
-/* Container for the entire ad details page */
+/*Detalhes de um anúncio específico*/
 .ad-details {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -615,7 +622,7 @@ form .animal-checkboxes label {
     border-radius: 8px;
 }
 
-/* Top-left: Ad image */
+/* Cima-esquerda: Imagem do anúncio */
 .ad-images {
     grid-column: 1 / 2;
     grid-row: 1 / 2;
@@ -626,31 +633,41 @@ form .animal-checkboxes label {
     border-radius: 8px;
 }
 
-/* Bottom-left: Ad details */
+/* Baixo-esquerda: Detalhes*/
 .ad-info {
     grid-column: 1 / 2;
     grid-row: 2 / 3;
     background: #ffffff;
-    padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden; 
 }
 
-.ad-info h1 {
-    font-size: 1.8em;
-    margin-bottom: 10px;
-    color: #333;
+.ad-info-header {
+    background-color: #c0cac5;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd; 
 }
 
-.ad-info .ad-price {
-    font-size: 1.2em;
+.ad-info-header h1 {
+    font-size: 1.5em;
+    color: #333; 
+    margin: 0;
+}
+
+.ad-info-header .ad-price {
+    font-size: 1.1em;
     font-weight: bold;
-    color: #81B29A;
-    margin-bottom: 20px;
+    color: #666; 
+    margin-left: 10px;
 }
 
-.ad-info button {
-    background-color: #81B29A;
+
+.ad-info-header button {
+    background-color: #7c968b; 
     color: white;
     border: none;
     padding: 10px 20px;
@@ -660,18 +677,18 @@ form .animal-checkboxes label {
     font-weight: bold;
 }
 
-.ad-info button:hover {
-    background-color: #568870;
+.ad-info-header button:hover {
+    background-color: #6f877e;
 }
 
 .ad-info .ad-description {
+    padding: 20px;
     font-size: 1em;
     color: #555;
     line-height: 1.5;
-    margin-top: 20px;
 }
 
-/* Top-right: User details */
+/* Cima-direita: Detalhes do utilizador */
 .ad-user {
     grid-column: 2 / 3;
     grid-row: 1 / 2;
@@ -685,15 +702,19 @@ form .animal-checkboxes label {
     font-size: 1.2em;
     margin-bottom: 10px;
     color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.ad-user p {
-    font-size: 0.9em;
-    color: #555;
-    line-height: 1.5;
+.ad-user .username {
+    font-size: 0.7em;
+    color: #888; 
+    font-weight: normal;
+    margin-top: 4px;
 }
 
-/* Bottom-right: Reviews */
+/* Baixo-direita: Avaliações */
 .ad-reviews {
     grid-column: 2 / 3;
     grid-row: 2 / 3;
