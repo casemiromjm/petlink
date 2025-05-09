@@ -51,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         // Redirect to a success page or back to the ad creation page
-        header('Location: ../adCreate.php?success=1');
+        header('Location: ../pages/adCreate.php?success=1');
         exit;
     } catch (Exception $e) {
         // Handle errors (e.g., log them and redirect to an error page)

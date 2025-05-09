@@ -5,7 +5,7 @@
 <?php function drawAdCreate() { ?>
     <section class="ad-create">
         <h2>Anunciar Serviço</h2>
-        <form id="ad-form" action="actions/action_adCreate.php" method="post" enctype="multipart/form-data">
+        <form id="ad-form" action="../actions/action_adCreate.php" method="post" enctype="multipart/form-data">
             <label for="upload-box">Carregar fotografias</label>
             <div class="upload-box">
                 <input type="file" id="imageUpload" name="image" accept="image/*">

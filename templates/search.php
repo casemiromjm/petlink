@@ -4,32 +4,38 @@
 
 <?php function drawSearch() { ?>
   <section class="pesquisa">
-    <img src="../resources/search.png" alt="search" id="iconSearch">
-    <input type="text" placeholder="O que procuras?">
-    <img src="../resources/marker.png" alt="marker" id="iconMarker">
-    <select id="location">
-      <option value="">Todo o país</option>
-      <option value="açores">Açores</option>
-      <option value="aveiro">Aveiro</option>
-      <option value="beja">Beja</option>
-      <option value="braga">Braga</option>
-      <option value="bragança">Bragança</option>
-      <option value="castelo branco">Castelo Branco</option>
-      <option value="coimbra">Coimbra</option>
-      <option value="evora">Évora</option>
-      <option value="faro">Faro</option>
-      <option value="guarda">Guarda</option>
-      <option value="leiria">Leiria</option>
-      <option value="lisboa">Lisboa</option>
-      <option value="madeira">Madeira</option>
-      <option value="portalegre">Portalegre</option>
-      <option value="porto">Porto</option>
-      <option value="santarem">Santarém</option>
-      <option value="setubal">Setúbal</option>
-      <option value="viana do castelo">Viana do Castelo</option>
-      <option value="vila real">Vila Real</option>
-      <option value="viseu">Viseu</option>
-    </select>
+    <div class="input-wrapper">
+      <img src="../resources/search.png" alt="search" class="icon">
+      <input type="text" placeholder="O que procuras?">
+    </div>
+
+    <div class="select-wrapper">
+      <img src="../resources/marker.png" alt="marker" class="icon">
+      <select id="location">
+        <option value="">Todo o país</option>
+        <option value="açores">Açores</option>
+        <option value="aveiro">Aveiro</option>
+        <option value="beja">Beja</option>
+        <option value="braga">Braga</option>
+        <option value="bragança">Bragança</option>
+        <option value="castelo branco">Castelo Branco</option>
+        <option value="coimbra">Coimbra</option>
+        <option value="evora">Évora</option>
+        <option value="faro">Faro</option>
+        <option value="guarda">Guarda</option>
+        <option value="leiria">Leiria</option>
+        <option value="lisboa">Lisboa</option>
+        <option value="madeira">Madeira</option>
+        <option value="portalegre">Portalegre</option>
+        <option value="porto">Porto</option>
+        <option value="santarem">Santarém</option>
+        <option value="setubal">Setúbal</option>
+        <option value="viana do castelo">Viana do Castelo</option>
+        <option value="vila real">Vila Real</option>
+        <option value="viseu">Viseu</option>
+      </select>
+    </div>
+
     <button onclick="pesquisar()">Pesquisar</button>
   </section>
 

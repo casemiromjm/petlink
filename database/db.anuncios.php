@@ -70,4 +70,16 @@ function getAnuncioAnimals(PDO $db, int $adId): array {
 
     return $animals;
 }
+
+function getAdById(PDO $db, int $id): ?array {
+    $stmt = $db->prepare('
+        SELECT ads.*, users.description AS user_description
+        FROM ads
+        JOIN users ON ads.username = users.username
+        WHERE ads.id = ?
+    ');
+    $stmt->execute([$id]);
+    $ad = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $ad ?: null;
+}
 ?>

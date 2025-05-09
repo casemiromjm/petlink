@@ -19,7 +19,7 @@
         <ul>
           <div class="serviço">
             <li><a href="../index.php">Contratar Serviço</a></li>
-            <li><a href="pages/adCreate.php">Anunciar Serviço</a></li>
+            <li><a href="../pages/adCreate.php">Anunciar Serviço</a></li>
           </div>
           <div class="messages">
             <li><a href="messages.html">Mensagens

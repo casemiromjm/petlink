@@ -116,63 +116,68 @@ footer {
     padding: 20px;
     display: flex;
     justify-content: center;
-    gap: 3px;
-    outline: none;
-    box-shadow: none;
-    border: none;
-    position: relative;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
-.pesquisa input[type="text"] {
-    padding: 10px;
-    border: none;
+.input-wrapper,
+.select-wrapper {
+    position: relative;
     flex-grow: 1;
     max-width: 600px;
-    font-size: 17px;
-    position: relative;
-    padding-left: 50px;
 }
 
-.pesquisa #iconSearch {
-    width: 23px;
-    height: auto;
-    position: absolute;
-    z-index: 1;
-    left: 280px;
-    top: 42px;
+.input-wrapper input,
+.select-wrapper select {
+    width: 100%;
+    border: none;
 }
 
-.pesquisa #iconMarker {
-    width: 23px;
-    height: auto;
-    position: absolute;
-    z-index: 1;
-    right: 535px;
-    top: 42px;
-}
-
-.pesquisa select {
-    position: relative;
-    padding: 10px;
-    border-color: #F4F1DE;
-    min-width: 200px;
-    color: #404040;
-    padding-left: 40px;
+.pesquisa input[type="text"],
+.pesquisa select,
+.pesquisa button {
     height: 70px;
-    border-top: 4px solid white;
-    border-bottom: 4px solid white;
-    font-size: 17px;
+    font-size: 17px; 
+    padding: 0px 34px;
+}
+
+.input-wrapper {
+    flex-grow: 2; 
+    max-width: 600px;
+    position: relative;
+}
+
+.select-wrapper {
+    flex-grow: 1;
+    max-width: 300px;
+    position: relative;
+}
+
+
+.pesquisa button {
+    min-width: 120px; 
+}
+
+.icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: auto;
+    z-index: 2;
 }
 
 .pesquisa button {
     background-color: #81B29A;
     color: white;
     border: none;
-    padding: 10px 15px;
+    padding: 10px 20px;
+    font-size: 17px;
     cursor: pointer;
     font-weight: bold;
-    min-width: 100px;
-    font-size: 17px;
+    height: 70px;
+    align-self: center;
 }
 
 .pesquisa button:hover {
@@ -596,4 +601,116 @@ form .animal-checkboxes label {
 .ad-rating i {
     margin-right: 5px;
     color: #FFD700;
+}
+
+/* Container for the entire ad details page */
+.ad-details {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Top-left: Ad image */
+.ad-images {
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+}
+
+.ad-images img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+/* Bottom-left: Ad details */
+.ad-info {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ad-info h1 {
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.ad-info .ad-price {
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #81B29A;
+    margin-bottom: 20px;
+}
+
+.ad-info button {
+    background-color: #81B29A;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.ad-info button:hover {
+    background-color: #568870;
+}
+
+.ad-info .ad-description {
+    font-size: 1em;
+    color: #555;
+    line-height: 1.5;
+    margin-top: 20px;
+}
+
+/* Top-right: User details */
+.ad-user {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ad-user h2 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.ad-user p {
+    font-size: 0.9em;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Bottom-right: Reviews */
+.ad-reviews {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.ad-reviews h3 {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.ad-reviews p {
+    font-size: 0.9em;
+    color: #555;
+    line-height: 1.5;
 }
