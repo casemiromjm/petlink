@@ -1,0 +1,73 @@
+<?php
+declare(strict_types = 1);
+
+function getAnuncios(PDO $db, int $limit = 10): array {
+    // Dynamically construct the query with the LIMIT value
+    $query = '
+        SELECT ads.id, ads.title, ads.description, ads.service_type, ads.price, ads.price_period, users.username 
+        FROM ads 
+        JOIN users ON ads.username = users.username
+        LIMIT ' . intval($limit);
+
+    $stmt = $db->query($query); // Use query() instead of prepare() since there are no placeholders
+
+    $anuncios = [];
+    while ($anuncio = $stmt->fetch()) {
+        $anuncios[] = array(
+            'id' => $anuncio['id'],
+            'title' => $anuncio['title'],
+            'description' => $anuncio['description'],
+            'service_type' => $anuncio['service_type'],
+            'price' => $anuncio['price'],
+            'price_period' => $anuncio['price_period'],
+            'username' => $anuncio['username'],
+            'animals' => getAnuncioAnimals($db, $anuncio['id'])
+        );
+    }
+
+    return $anuncios;
+}
+
+function getAnuncio(PDO $db, int $id): array {
+    $stmt = $db->prepare('
+        SELECT ads.id, ads.title, ads.description, ads.service_type, ads.price, ads.price_period, users.username 
+        FROM ads 
+        JOIN users ON ads.username = users.username
+        WHERE ads.id = ?
+    ');
+    $stmt->execute([$id]);
+
+    $anuncio = $stmt->fetch();
+
+    if (!$anuncio) {
+        throw new Exception('Anúncio não encontrado.');
+    }
+
+    return array(
+        'id' => $anuncio['id'],
+        'title' => $anuncio['title'],
+        'description' => $anuncio['description'],
+        'service_type' => $anuncio['service_type'],
+        'price' => $anuncio['price'],
+        'price_period' => $anuncio['price_period'],
+        'username' => $anuncio['username'],
+        'animals' => getAnuncioAnimals($db, $anuncio['id'])
+    );
+}
+
+function getAnuncioAnimals(PDO $db, int $adId): array {
+    $stmt = $db->prepare('
+        SELECT animal_type 
+        FROM ad_animals 
+        WHERE ad_id = ?
+    ');
+    $stmt->execute([$adId]);
+
+    $animals = [];
+    while ($animal = $stmt->fetch()) {
+        $animals[] = $animal['animal_type'];
+    }
+
+    return $animals;
+}
+?>
