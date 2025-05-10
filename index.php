@@ -12,7 +12,7 @@
   require_once('database/db.anuncios.php');
 
   $db = getDatabaseConnection();
-  $anuncios = getAnuncios($db, 10);
+  $anuncios = getAnuncios($db, 16);
 
   drawHeader();
   drawSearch();

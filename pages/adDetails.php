@@ -12,6 +12,7 @@
 
   $db = getDatabaseConnection();
   $adId = isset($_GET['id']) ? intval($_GET['id']) : null;
+  $success = isset($_GET['success']) ? intval($_GET['success']) : 0;
 
   if ($adId === null) {
     die('Anúncio não encontrado.');
@@ -25,6 +26,7 @@
 
   // Desenhar o layout
   drawHeader();
-  drawAdDetails($ad);
+
+  drawAdDetails($ad, $success);
   drawFooter();
 ?>

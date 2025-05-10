@@ -9,16 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $db = getDatabaseConnection();
 
-        // Validate and sanitize input
         $title = htmlspecialchars(trim($_POST['titulo']));
         $description = htmlspecialchars(trim($_POST['descricao']));
         $serviceType = htmlspecialchars(trim($_POST['tipo']));
         $price = floatval($_POST['preco']);
         $pricePeriod = htmlspecialchars(trim($_POST['preco-por']));
-        $username = 'maria123'; // Replace with the logged-in user's username
+        $username = 'maria123';
         $animals = $_POST['animais'] ?? [];
 
-        // Handle image upload
         $imagePath = null;
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
             $uploadDir = '../images/';
@@ -34,27 +32,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        // Insert ad into the database
         $stmt = $db->prepare('
             INSERT INTO ads (title, username, description, service_type, price, price_period, image_path)
             VALUES (?, ?, ?, ?, ?, ?, ?)
         ');
         $stmt->execute([$title, $username, $description, $serviceType, $price, $pricePeriod, $imagePath]);
 
-        // Get the last inserted ad ID
         $adId = $db->lastInsertId();
 
-        // Insert associated animals into the ad_animals table
         $stmtAnimal = $db->prepare('INSERT INTO ad_animals (ad_id, animal_type) VALUES (?, ?)');
         foreach ($animals as $animal) {
             $stmtAnimal->execute([$adId, htmlspecialchars($animal)]);
         }
 
-        // Redirect to a success page or back to the ad creation page
-        header('Location: ../pages/adCreate.php?success=1');
+        header("Location: ../pages/adDetails.php?id=$adId&success=1");
         exit;
     } catch (Exception $e) {
-        // Handle errors (e.g., log them and redirect to an error page)
         echo "Error: " . $e->getMessage();
         exit;
     }

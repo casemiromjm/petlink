@@ -1,11 +1,12 @@
 <?php
 declare(strict_types = 1);
 
-function getAnuncios(PDO $db, int $limit = 10): array {
+function getAnuncios(PDO $db, int $limit = 16): array {
     $query = '
-        SELECT ads.id, ads.title, ads.description, ads.service_type, ads.price, ads.price_period, users.username, users.name
+        SELECT ads.id, ads.title, ads.description, ads.service_type, ads.price, ads.price_period, ads.image_path, users.username, users.name
         FROM ads
         JOIN users ON ads.username = users.username
+        ORDER BY ads.id DESC
         LIMIT ' . intval($limit);
 
     $stmt = $db->query($query);
@@ -19,8 +20,9 @@ function getAnuncios(PDO $db, int $limit = 10): array {
             'service_type' => $anuncio['service_type'],
             'price' => $anuncio['price'],
             'price_period' => $anuncio['price_period'],
+            'image_path' => $anuncio['image_path'],
             'username' => $anuncio['username'],
-            'name' => $anuncio['name'], // Include the name
+            'name' => $anuncio['name'],
             'animals' => getAnuncioAnimals($db, $anuncio['id'])
         );
     }
