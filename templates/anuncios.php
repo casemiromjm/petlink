@@ -5,11 +5,24 @@
 <?php function drawAds(array $anuncios): void { ?>
   <section class="results">
     <div class="result-text">
-      <h2>Encontrámos mais de <?= count($anuncios) ?> anúncios</h2>
+      <h2>
+            <?php
+            $num_anuncios = count($anuncios);
+            if ($num_anuncios == 0) {
+                echo "Não encontrámos anúncios.";
+            } elseif ($num_anuncios == 1) {
+                echo "Encontrámos 1 anúncio";
+            } elseif ($num_anuncios < 1000) {
+                echo "Encontrámos $num_anuncios anúncios";
+            } else {
+                echo "Encontrámos mais de 1000 anúncios";
+            }
+            ?>
+        </h2>
     </div>
     <div class="ad-list">
-      <?php if (empty($anuncios)): ?>
-        <p>No ads found.</p>
+        <?php if (empty($anuncios)): ?>
+            <p>Não foram encontrados anúncios.</p>
       <?php else: ?>
         <?php foreach ($anuncios as $anuncio): ?>
           <a href="pages/adDetails.php?id=<?= htmlspecialchars((string)$anuncio['id']) ?>" class="ad">
