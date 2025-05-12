@@ -4,4 +4,5 @@
 <?php require_once('../templates/sidebar.php'); ?>
 
 <body class="animals">
+    
 </body>
