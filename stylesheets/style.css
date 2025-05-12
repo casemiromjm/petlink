@@ -346,6 +346,7 @@ body.profile-page {
     background-color: #c0cac5;
     width: 20em;
     padding: 0;
+    height: 100%;
 }
 
 .side-nav ul {
@@ -356,40 +357,34 @@ body.profile-page {
 
 .side-nav ul li {
     text-decoration: none;
-    display: block; 
-    color: #474747;
-    padding: 22px 22px; 
+    display: block;
+    padding: 0; 
     list-style-type: none;
     font-size: 1.1em;
     border-bottom: 0.1em solid #7c968b;
 }
 
-.side-nav ul li:first-child {
-    background-color: #7c968b;
-}
-
-.side-nav ul li:first-child a {
-    color: white;
-}
-
-.side-nav ul li:hover,
-.side-nav ul li:active {
-    background-color: #7c968b;
-}
-
 .side-nav ul li a {
-    color: #474747; 
+    display: block;
+    padding: 22px 22px;
+    color: #474747;
     text-decoration: none;
-    transition: color 0.3s, background-color 0.3s; 
+    transition: color 0.3s, background-color 0.3s;
 }
 
 .side-nav ul li:hover a,
 .side-nav ul li:active a {
+    background-color: #7c968b;
     color: white;
 }
 
 .side-nav ul li:last-child {
     border: none; 
+}
+
+.side-nav ul li.active a {
+    background-color: #7c968b; 
+    color: white;
 }
 
 /* Conteúdo do perfil */

@@ -3,7 +3,10 @@
 
   require_once('../templates/layout.php');
   require_once('../templates/profile.php'); 
+  require_once('../templates/sidebar.php');
 
   drawHeader();
+  drawNavbar();
   drawFooter();
+
 ?>
