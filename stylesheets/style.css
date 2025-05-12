@@ -369,7 +369,7 @@ body.profile-page {
     padding: 22px 22px;
     color: #474747;
     text-decoration: none;
-    transition: color 0.3s, background-color 0.3s;
+    transition: color 0.4s, background-color 0.4s;
 }
 
 .side-nav ul li:hover a,
