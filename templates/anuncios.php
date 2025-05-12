@@ -2,12 +2,12 @@
 
 <link rel="stylesheet" href="../stylesheets/style.css">
 
-<?php function drawAds(array $anuncios): void { ?>
+<?php function drawAds(array $anuncios, $totalAds): void { ?>
   <section class="results">
     <div class="result-text">
       <h2>
             <?php
-            $num_anuncios = count($anuncios);
+            $num_anuncios = $totalAds;
             if ($num_anuncios == 0) {
                 echo "Não encontrámos anúncios.";
             } elseif ($num_anuncios == 1) {
@@ -33,7 +33,7 @@
               <div class="ad-header">
                 <img src="https://via.placeholder.com/50" alt="Foto do utilizador" class="user-photo">
                 <span class="username">
-                  <strong><?= htmlspecialchars($anuncio['name']) ?></strong>
+                  <strong><?= htmlspecialchars($anuncio['username']) ?></strong>
                 </span>
               </div>
               <h2 class="ad-title"><?= htmlspecialchars($anuncio['title']) ?></h2>

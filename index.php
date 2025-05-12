@@ -8,14 +8,28 @@
   require_once('templates/layout.php');
   require_once('templates/search.php');
   require_once('templates/anuncios.php');
-  require_once('database/connection.php');
+  require_once('database/connection.db.php');
   require_once('database/db.anuncios.php');
 
   $db = getDatabaseConnection();
-  $anuncios = getAnuncios($db, 16);
+
+  $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+  $limit = 16;
+  $anuncios = getAnuncios($db, $page, $limit);
+  $totalAds = getTotalAdCount($db);
+  $totalPages = ceil($totalAds / $limit);
 
   drawHeader();
   drawSearch();
-  drawAds($anuncios);
+  drawAds($anuncios, $totalAds);
+
+  if ($totalPages > 1) {
+    echo '<div class="pagination">';
+    for ($i = 1; $i <= $totalPages; $i++) {
+        $activeClass = ($i === $page) ? 'active' : '';
+        echo '<a href="?page=' . $i . '" class="' . $activeClass . '">' . $i . '</a> ';
+    }
+    echo '</div>';
+}
   drawFooter();
 ?>
