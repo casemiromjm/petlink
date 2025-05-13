@@ -69,9 +69,10 @@
       <option>Todos</option>
       <option>Passeio</option>
       <option>Pet Sitting</option>
-      <option>Banho</option>
-      <option>Treino</option>
       <option>Tosquia</option>
+      <option>Treino</option>
+      <option>Alojamento</option>
+      <option>Veterinário</option>
     </select>
     <a href="#" onclick="limparFiltros()">Limpar Filtros</a>
   </section>
