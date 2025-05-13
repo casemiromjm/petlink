@@ -10,11 +10,11 @@
   <section class="ad-details">
     <div class="ad-user">
       <h2>
-        <strong><?= htmlspecialchars($ad['name']) ?></strong>
+        <strong><?= htmlspecialchars($ad['username']) ?></strong>
         <span class="username"><?= htmlspecialchars($ad['username']) ?></span>
       </h2>
       <p><?= htmlspecialchars($ad['user_description'] ?? 'Descrição não disponível.') ?></p>
-      <p><i class="fi fi-rr-marker"></i> Porto, Campanhã</p>
+      <p><i class="fi fi-rr-marker"></i> <?= htmlspecialchars($ad['district'])?></p>
       <p><i class="fi fi-rr-star"></i> 4.7/5 (32 avaliações)</p>
     </div>
     <div class="ad-images">

@@ -37,10 +37,9 @@
                           <?php $animals = getAnuncioAnimals($db, $anuncio['id']); ?>
                         <h2 class="ad-title"><?= htmlspecialchars($anuncio['title'] ?? '') ?></h2>
                         <p class="ad-animals"><i class="fi fi-rr-paw"></i> <?= htmlspecialchars(implode(', ', $animals)) ?></p>
-                        <p class="ad-location"><i class="fi fi-rr-marker"></i> Porto, Campanhã</p>
+                        <p class="ad-location"><i class="fi fi-rr-marker"></i> <?= htmlspecialchars($anuncio['district']) ?></p>
                         <p class="ad-price"><i class="fi fi-rr-euro"></i> <?= htmlspecialchars((string)($anuncio['price'] ?? '')) ?>€ / <?= htmlspecialchars($anuncio['price_period'] ?? '') ?></p>
                         <p class="ad-rating"><i class="fi fi-rr-star"></i> 4.7/5 (32 avaliações)</p>
-
                     </div>
                   </a>
                     <?php endforeach; ?>

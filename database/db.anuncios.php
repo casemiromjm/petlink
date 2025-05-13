@@ -12,6 +12,7 @@ function getAnuncios(PDO $db, int $page = 1, int $limit = 16): array {
             ads.image_path,
             users.username,
             users.name,
+            users.district,
             users.profile_photo
         FROM ads
         JOIN users ON ads.username = users.username
@@ -75,13 +76,16 @@ function getAnuncioAnimals(PDO $db, int $adId): array {
 
     return $animals;
 }
-
 function getAdById(PDO $db, int $id): ?array {
     $stmt = $db->prepare('
-        SELECT ads.*, users.name, users.username, users.description AS user_description
-        FROM ads
-        JOIN users ON ads.username = users.username
-        WHERE ads.id = ?
+      SELECT
+        ads.*,
+        users.username,
+        users.user_description,
+        users.district
+      FROM ads
+      JOIN users ON ads.username = users.username
+      WHERE ads.ad_id = ?
     ');
     $stmt->execute([$id]);
     $ad = $stmt->fetch(PDO::FETCH_ASSOC);

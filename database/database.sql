@@ -18,6 +18,7 @@ CREATE TABLE Users (
     profile_photo NVARCHAR(255),
     phone NVARCHAR(24),
     district NVARCHAR(40) NOT NULL,
+    user_description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -105,14 +106,14 @@ INSERT INTO Services (service_name, description) VALUES ('Veterinário', 'Servi�
 INSERT INTO Services (service_name, description) VALUES ('Transporte', 'Serviços de transporte de animais');
 
 -- Inserir utilizadores
-INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('maria123', 'maria@example.com', 'Maria Silva', './resources/woman1.png', '912345678', 'Lisboa','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash, user_description) VALUES ('maria123', 'maria@example.com', 'Maria Silva', './resources/woman1.png', '912345678', 'Lisboa','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Olá, sou a Maria e adoro animais. Tenho 10 anos de experiência profissional e seria um prazer tomar conta do seu bichinho.');
 INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('joao_pets', 'joao@example.com', 'João Costa', 'default_profile.png', '913456789', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
 INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('rita_t', 'rita@example.com', 'Rita Teixeira', 'default_profile.png', '914567890', 'Coimbra','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
 INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('tomas_vv3', 'tomasthebest@example.com', 'Tomás Ribeiro', 'default_profile.png', '914191674', 'Setúbal','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('anasantos', 'ana.santos@example.com', 'Ana Santos', 'default_profile.png', '961122334', 'Aveiro','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('carlosm', 'carlos.m@example.com', 'Carlos Martins', 'default_profile.png', '923456789', 'Braga','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('sofia_l', 'sofia.l@example.com', 'Sofia Lima', 'default_profile.png', '935678901', 'Faro','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('miguel_p', 'miguel.p@example.com', 'Miguel Pereira', 'default_profile.png', '917890123', 'Guarda','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('anasantos', 'ana.santos@example.com', 'Ana Santos', 'default_profile.png', 'Aveiro', '961122334','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('carlosm', 'carlos.m@example.com', 'Carlos Martins', 'default_profile.png', 'Braga' ,'923456789','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('sofia_l', 'sofia.l@example.com', 'Sofia Lima', 'default_profile.png', 'Faro','935678901','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('miguel_p', 'miguel.p@example.com', 'Miguel Pereira', 'default_profile.png', 'Guarda','917890123','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
 INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('margarida_p', 'margarida.p@example.com','Margarida Pacheco' , 'default_profile.png', 'Funchal', '927788990','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
 INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('joanam', 'joana.m@example.com', 'Joana Marta', 'default_profile.png', 'Beja', '939900112','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
 INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('helder_c', 'helder.c@example.com', 'Helder Carlo','default_profile.png', 'Portalegre', '916611223','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
