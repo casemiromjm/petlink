@@ -10,7 +10,7 @@
   <section class="ad-details">
     <div class="ad-user">
       <h2>
-        <strong><?= htmlspecialchars($ad['username']) ?></strong>
+        <strong><?= htmlspecialchars($ad['name']) ?></strong>
         <span class="username"><?= htmlspecialchars($ad['username']) ?></span>
       </h2>
       <p><?= htmlspecialchars($ad['user_description'] ?? 'Descrição não disponível.') ?></p>

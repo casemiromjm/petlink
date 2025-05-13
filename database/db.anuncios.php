@@ -82,6 +82,7 @@ function getAdById(PDO $db, int $id): ?array {
         ads.*,
         ads.image_path,
         users.username,
+        users.name, -- Fetch the name
         users.user_description,
         users.district
       FROM ads
