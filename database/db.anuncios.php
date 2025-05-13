@@ -80,6 +80,7 @@ function getAdById(PDO $db, int $id): ?array {
     $stmt = $db->prepare('
       SELECT
         ads.*,
+        ads.image_path,
         users.username,
         users.user_description,
         users.district

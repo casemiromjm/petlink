@@ -18,7 +18,7 @@
       <p><i class="fi fi-rr-star"></i> 4.7/5 (32 avaliações)</p>
     </div>
     <div class="ad-images">
-      <img src="<?= htmlspecialchars($ad['image_path'] ?? 'https://via.placeholder.com/600') ?>" alt="Imagem do anúncio">
+      <img src="<?= htmlspecialchars($ad['image_path']) ?>" alt="Imagem do anúncio">
     </div>
 
     <div class="ad-reviews">
