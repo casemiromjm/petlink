@@ -21,7 +21,7 @@
 
   drawHeader();
   drawSearch();
-  drawAds($anuncios, $totalAds);
+  drawAds($anuncios, $totalAds, $db);
 
   if ($totalPages > 1) {
     echo '<div class="pagination">';

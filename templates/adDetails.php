@@ -7,7 +7,6 @@
   <?php if ($success === 1): ?>
     <div id="success-message" class="success-message">Anúncio criado com sucesso</div>
   <?php endif; ?>
-
   <section class="ad-details">
     <div class="ad-user">
       <h2>

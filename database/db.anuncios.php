@@ -1,30 +1,29 @@
 <?php
 declare(strict_types = 1);
-function getAnuncios(PDO $db,int $page = 1, int $limit = 16): array {
+function getAnuncios(PDO $db, int $page = 1, int $limit = 16): array {
     $offset = ($page - 1) * $limit;
     $query = '
-        SELECT ads.ad_id, ads.title, ads.description, ads.price, ads.price_period, ads.image_path, users.username, users.name
+        SELECT
+            ads.ad_id as id,
+            ads.title,
+            ads.description,
+            ads.price,
+            ads.price_period,
+            ads.image_path,
+            users.username,
+            users.name,
+            users.profile_photo
         FROM ads
         JOIN users ON ads.username = users.username
         ORDER BY ads.ad_id DESC
-        LIMIT ' . intval($limit); // This part is the main issue for pagination
-    $stmt = $db->query($query); // Using $db->query directly
+        LIMIT :limit OFFSET :offset
+    ';
 
-    $anuncios = [];
-    while ($anuncio = $stmt->fetch()) {
-        $anuncios[] = array(
-            'id' => $anuncio['ad_id'],
-            'title' => $anuncio['title'],
-            'description' => $anuncio['description'],
-            'price' => $anuncio['price'],
-            'price_period' => $anuncio['price_period'],
-            'image_path' => $anuncio['image_path'],
-            'username' => $anuncio['username'],
-            'name' => $anuncio['name'],
-            'animals' => getAnuncioAnimals($db, $anuncio['ad_id'])
-        );
-    }
-    return $anuncios;
+    $stmt = $db->prepare($query);
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetchAll();
 }
 
 function getTotalAdCount(PDO $db): int {
