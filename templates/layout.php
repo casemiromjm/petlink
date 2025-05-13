@@ -14,7 +14,7 @@
     <header>
       <div class="logo">
         <img src="../resources/logo.png" alt="logo">
-        <h1>Nome do site</h1>
+        <h1><a href="../index.php">Nome do site</a></h1>
       </div>
       <nav>
         <ul>
@@ -34,7 +34,7 @@
         </ul>
       </nav>
     </header>
-  
+
     <main>
 <?php } ?>
 
