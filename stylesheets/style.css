@@ -121,12 +121,26 @@ footer {
     position: relative;
     flex-grow: 1;
     max-width: 600px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
 }
 
 .input-wrapper input,
 .select-wrapper select {
     width: 100%;
     border: none;
+    margin: 0;
+    display: block;
+    align-items: inherit;
+}
+
+.input-wrapper i,
+.select-wrapper i {
+    color: #666;
+    position: absolute;
+    left: 0.5em;
+    font-size: 1.2em;
 }
 
 .pesquisa input[type="text"],
