@@ -28,7 +28,7 @@
                     </div>
                     <div class="ad-content">
                         <div class="ad-header">
-                            <div class="user-photo-container"> <img src="<?= htmlspecialchars($anuncio['user_photo_path'] ?? 'https://via.placeholder.com/50/AAAAAA/000000?Text=User') ?>" alt="Foto do utilizador" class="user-photo">
+                            <div class="user-photo-container"> <img src="<?= htmlspecialchars($anuncio['profile_photo'] ?? 'https://via.placeholder.com/50/AAAAAA/000000?Text=User') ?>" alt="Foto do utilizador" class="user-photo">
                             </div>
                             <span class="username">
                                 <strong><?= htmlspecialchars($anuncio['username'] ?? '') ?></strong>
