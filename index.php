@@ -25,9 +25,28 @@
 
   if ($totalPages > 1) {
     echo '<div class="pagination">';
-    for ($i = 1; $i <= $totalPages; $i++) {
+    $range = 2; 
+
+
+    if ($page > $range + 1) {
+        echo '<a href="?page=1">1</a>';
+        if ($page > $range + 2) {
+            echo '<span>...</span>'; 
+        }
+    }
+
+
+    for ($i = max(1, $page - $range); $i <= min($totalPages, $page + $range); $i++) {
         $activeClass = ($i === $page) ? 'active' : '';
-        echo '<a href="?page=' . $i . '" class="' . $activeClass . '">' . $i . '</a> ';
+        echo '<a href="?page=' . $i . '" class="' . $activeClass . '">' . $i . '</a>';
+    }
+
+
+    if ($page < $totalPages - $range) {
+        if ($page < $totalPages - $range - 1) {
+            echo '<span>...</span>'; 
+        }
+        echo '<a href="?page=' . $totalPages . '">' . $totalPages . '</a>';
     }
     echo '</div>';
 }

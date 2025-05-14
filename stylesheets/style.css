@@ -961,3 +961,43 @@ side-nav ul li.active a {
 .upload-box input[type="file"] {
     margin-top: 10px;
 }
+
+/* Pagination Styles */
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+    gap: 10px;
+}
+
+.pagination a {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 1em;
+    color: #333;
+    background-color: #f4f4f4;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination a:hover {
+    background-color: #81B29A;
+    color: white;
+}
+
+.pagination a.active {
+    background-color: #81B29A;
+    color: white;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.pagination span {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 1em;
+    color: #999;
+}
