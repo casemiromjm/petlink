@@ -832,23 +832,37 @@ side-nav ul li.active a {
 }
 
 .add-animal {
+    background: #f9f9f9;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     border: 2px dashed #ccc;
-    color: #666;
     cursor: pointer;
+    color: #c0cac5 !important; 
+    height: 260px;
 }
 
-.add-animal:hover {
-    background-color: #f9f9f9;
+.add-animal p {
+    color: #666 !important; 
 }
 
 .add-icon {
     font-size: 2em;
     font-weight: bold;
     margin-bottom: 0.5em;
+    color: #666 !important; 
+}
+
+.add-animal:hover {
+    background-color: #c0cac5;
+}
+
+.add-icon {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    color: #666;
 }
 
 /* Layout de animais */

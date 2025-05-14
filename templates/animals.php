@@ -3,6 +3,23 @@
 <link rel="stylesheet" href="../stylesheets/style.css">
 <?php require_once('../templates/sidebar.php'); ?>
 
+<?php
+function translateAnimalType(string $animalType): string {
+    $translations = [
+        'Cães' => 'Cão',
+        'Gatos' => 'Gato',
+        'Roedores' => 'Roedor',
+        'Pássaros' => 'Pássaro',
+        'Répteis' => 'Réptil',
+        'Peixes' => 'Peixe',
+        'Furões' => 'Furão',
+        'Coelhos' => 'Coelho'
+    ];
+
+    return $translations[$animalType] ?? $animalType;
+}
+?>
+
 <?php function drawAnimals(PDO $db, int $userId): void { ?>
 <body class="animals">
     <section class="animal-list">
@@ -22,7 +39,7 @@
                 <div class="animal-card">
                     <img src="<?= htmlspecialchars(str_replace('./', '../', $animal['animal_picture'] ?? '../resources/default_animal.png')) ?>" alt="Animal">
                     <h3><?= htmlspecialchars($animal['name']) ?></h3>
-                    <p><?= htmlspecialchars($animal['animal_name']) ?> • <?= htmlspecialchars((string)$animal['age']) ?> anos</p>
+                    <p><?= htmlspecialchars(translateAnimalType($animal['animal_name'])) ?> • <?= htmlspecialchars((string)$animal['age']) ?> anos</p>
                 </div>
             <?php endforeach; ?>
             <div class="animal-card add-animal">
