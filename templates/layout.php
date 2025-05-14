@@ -1,4 +1,5 @@
 <?php declare(strict_types = 1); ?>
+<?php session_start(); // Ensure session is started ?>
 
 <?php function drawHeader() { ?>
   <head>
@@ -10,7 +11,6 @@
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
   </head>
   <body>
-
     <header>
       <div class="logo">
         <img src="../resources/logo.png" alt="logo">
@@ -23,24 +23,28 @@
             <li><a href="../pages/adCreate.php">Anunciar Serviço</a></li>
           </div>
           <div class="messages">
-            <li><a href="messages.html">Mensagens
+            <li><a href="../pages/mensagens.php">Mensagens
                 <i class="fi fi-rr-envelope"></i>
               </a></li>
           </div>
           <div class="profile-icon">
-            <li><a href="../pages/profile.php">O meu perfil
-                <i class="fi fi-rr-circle-user"></i></a></li>
+            <?php if (isset($_SESSION['user_id'])): ?>
+              <li><a href="../pages/profile.php">O meu perfil
+                  <i class="fi fi-rr-circle-user"></i></a></li>
+              <li><a href="../actions/action_logout.php">Logout</a></li>
+            <?php else: ?>
+              <li><a href="../pages/login.php">Login</a></li>
+              <li><a href="../pages/signup.php">Sign Up</a></li>
+            <?php endif; ?>
           </div>
         </ul>
       </nav>
     </header>
-
     <main>
 <?php } ?>
 
 <?php function drawFooter() { ?>
     </main>
-
     <footer>
       Projeto LTW . Turma 2 Grupo TBA . 2024/2025
     </footer>

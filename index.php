@@ -35,7 +35,6 @@
 
     $range = 2; // Number of pages to show before and after the current page
 
-    // Show the first page
     if ($page > $range + 1) {
         echo '<a href="?page=1">1</a>';
         if ($page > $range + 2) {
