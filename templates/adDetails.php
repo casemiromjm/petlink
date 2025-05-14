@@ -10,15 +10,15 @@
   <section class="ad-details">
     <div class="ad-user">
       <h2>
-        <strong><?= htmlspecialchars($ad['name']) ?></strong>
-        <span class="username"><?= htmlspecialchars($ad['username']) ?></span>
+        <strong><?= htmlspecialchars($ad['name'] ?? 'Nome não disponível') ?></strong>
+        <span class="username"><?= htmlspecialchars($ad['username'] ?? 'Usuário não disponível') ?></span>
       </h2>
       <p><?= htmlspecialchars($ad['user_description'] ?? 'Descrição não disponível.') ?></p>
-      <p><i class="fi fi-rr-marker"></i> <?= htmlspecialchars($ad['district'])?></p>
+      <p><i class="fi fi-rr-marker"></i> <?= htmlspecialchars($ad['district'] ?? 'Localização não disponível') ?></p>
       <p><i class="fi fi-rr-star"></i> 4.7/5 (32 avaliações)</p>
     </div>
     <div class="ad-images">
-      <img src="<?= htmlspecialchars($ad['image_path']) ?>" alt="Imagem do anúncio">
+      <img src="<?= htmlspecialchars(str_replace('./', '../', $ad['image_path'] ?? '../resources/default_ad.png')) ?>" alt="Imagem do anúncio">
     </div>
 
     <div class="ad-reviews">
@@ -28,11 +28,11 @@
 
     <div class="ad-info">
       <div class="ad-info-header">
-        <h1><?= htmlspecialchars($ad['title']) ?></h1>
-        <span class="ad-price"><?= htmlspecialchars((string)$ad['price']) ?>€ / <?= htmlspecialchars($ad['price_period']) ?></span>
+        <h1><?= htmlspecialchars($ad['title'] ?? 'Título não disponível') ?></h1>
+        <span class="ad-price"><?= htmlspecialchars((string)($ad['price'] ?? '0.00')) ?>€ / <?= htmlspecialchars($ad['price_period'] ?? 'período não disponível') ?></span>
         <button>Enviar mensagem</button>
       </div>
-      <p class="ad-description"><?= nl2br(htmlspecialchars($ad['description'])) ?></p>
+      <p class="ad-description"><?= nl2br(htmlspecialchars($ad['description'] ?? 'Descrição não disponível')) ?></p>
     </div>
   </section>
 <?php } ?>

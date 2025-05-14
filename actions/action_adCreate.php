@@ -19,16 +19,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $imagePath = null;
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = '../images/';
-            $fileName = basename($_FILES['image']['name']);
-            $targetPath = $uploadDir . uniqid() . '_' . $fileName;
+            $uploadDir = '../resources/'; 
+            $fileName = uniqid() . '_' . basename($_FILES['image']['name']);
+            $targetPath = $uploadDir . $fileName;
 
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0755, true);
             }
 
             if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-                $imagePath = $targetPath;
+                $imagePath = './resources/' . $fileName; 
             }
         }
 

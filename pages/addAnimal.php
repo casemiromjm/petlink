@@ -6,7 +6,6 @@
   require_once('../templates/addAnimal.php');
 
   drawHeader();
-  drawNavbar();
   drawAddAnimal();
-  drawFooter();
+  drawFooter(); 
 ?>
