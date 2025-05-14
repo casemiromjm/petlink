@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS Services;
 DROP TABLE IF EXISTS Ad_services;
 DROP TABLE IF EXISTS Orders;
 DROP TABLE IF EXISTS Reviews;
+DROP TABLE IF EXISTS user_animals;
 
 -- Criar tables
 
@@ -84,6 +85,15 @@ CREATE TABLE Reviews (
     FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE,
     FOREIGN KEY (freelancer_username) REFERENCES Users(username) ON DELETE CASCADE,
     FOREIGN KEY (client_username) REFERENCES Users(username) ON DELETE CASCADE
+);
+
+CREATE TABLE user_animals (
+    user_id INT NOT NULL,
+    name NVARCHAR(50) NOT NULL,
+    age INT NOT NULL,
+    species INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (species) REFERENCES Animal_types(animal_id)
 );
 
 -- Inserir animais
