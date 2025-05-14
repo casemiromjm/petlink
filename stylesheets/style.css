@@ -1001,3 +1001,24 @@ side-nav ul li.active a {
     font-size: 1em;
     color: #999;
 }
+
+/* Pagination Arrows */
+.pagination .arrow {
+    font-size: 1.2em;
+    color: #333;
+    background: none; 
+    border: none; 
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.pagination .arrow:hover {
+    color: #f4f4f4; 
+}
+
+.pagination .arrow.disabled {
+    color: #999; 
+    cursor: default;
+    pointer-events: none;
+}
