@@ -3,7 +3,7 @@ declare(strict_types = 1);
 ini_set('display_errors', '1');
 error_reporting(E_ALL);
 
-require_once('../database/connection.php');
+require_once(__DIR__ . '/../database/connection.db.php'); // Use absolute path
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
@@ -11,10 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $title = htmlspecialchars(trim($_POST['titulo']));
         $description = htmlspecialchars(trim($_POST['descricao']));
-        $serviceType = htmlspecialchars(trim($_POST['tipo']));
+        $serviceTypeId = intval($_POST['tipo']); // Expecting the service type ID directly
         $price = floatval($_POST['preco']);
         $pricePeriod = htmlspecialchars(trim($_POST['preco-por']));
-        $username = 'maria123';
+        $username = 'maria123'; // Replace with the actual logged-in username
         $animals = $_POST['animais'] ?? [];
 
         $imagePath = null;
@@ -32,17 +32,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
+        // Insert the ad into the ads table
         $stmt = $db->prepare('
-            INSERT INTO ads (title, username, description, service_type, price, price_period, image_path)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO ads (title, username, description, price, price_period, image_path)
+            VALUES (?, ?, ?, ?, ?, ?)
         ');
-        $stmt->execute([$title, $username, $description, $serviceType, $price, $pricePeriod, $imagePath]);
+        $stmt->execute([$title, $username, $description, $price, $pricePeriod, $imagePath]);
 
         $adId = $db->lastInsertId();
 
-        $stmtAnimal = $db->prepare('INSERT INTO ad_animals (ad_id, animal_type) VALUES (?, ?)');
+        // Insert the ad-service relationship into the ad_services table
+        $stmtService = $db->prepare('INSERT INTO ad_services (ad_id, service_id) VALUES (?, ?)');
+        $stmtService->execute([$adId, $serviceTypeId]);
+
+        // Insert the ad-animal relationships into the ad_animals table
+        $stmtAnimal = $db->prepare('INSERT INTO ad_animals (ad_id, animal_id) VALUES (?, ?)');
         foreach ($animals as $animal) {
-            $stmtAnimal->execute([$adId, htmlspecialchars($animal)]);
+            $stmtAnimal->execute([$adId, intval($animal)]);
         }
 
         header("Location: ../pages/adDetails.php?id=$adId&success=1");

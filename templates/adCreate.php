@@ -21,11 +21,13 @@
             <label for="tipo">Tipo de serviço</label>
             <select id="tipo" name="tipo" required>
                 <option disabled selected>Selecionar</option>
-                <option>Passeio</option>
-                <option>Tosquia</option>
-                <option>Pet Sitting</option>
-                <option>Banho</option>
-                <option>Tosquia</option>
+                <option value="1">Passeio</option>
+                <option value="2">Tosquia</option>
+                <option value="3">Petsitting</option>
+                <option value="4">Treino</option>
+                <option value="5">Alojamento</option>
+                <option value="6">Veterinário</option>
+                <option value="7">Transporte</option>
             </select>
             <br>
 
@@ -45,14 +47,14 @@
 
             <label for="animais">Animais</label>
             <div class="animal-checkboxes">
-                <label><input type="checkbox" name="animais[]" value="Cães">Cães</label>
-                <label><input type="checkbox" name="animais[]" value="Gatos">Gatos</label>
-                <label><input type="checkbox" name="animais[]" value="Pássaros">Pássaros</label>
-                <label><input type="checkbox" name="animais[]" value="Hamsters">Furões</label>
-                <label><input type="checkbox" name="animais[]" value="Coelhos">Coelhos</label>
-                <label><input type="checkbox" name="animais[]" value="Peixes">Peixes</label>
-                <label><input type="checkbox" name="animais[]" value="Roedores">Roedores</label>
-                <label><input type="checkbox" name="animais[]" value="Répteis">Répteis</label>
+                <label><input type="checkbox" name="animais[]" value="1">Cães</label>
+                <label><input type="checkbox" name="animais[]" value="2">Gatos</label>
+                <label><input type="checkbox" name="animais[]" value="3">Pássaros</label>
+                <label><input type="checkbox" name="animais[]" value="4">Roedores</label>
+                <label><input type="checkbox" name="animais[]" value="5">Répteis</label>
+                <label><input type="checkbox" name="animais[]" value="6">Peixes</label>
+                <label><input type="checkbox" name="animais[]" value="7">Furões</label>
+                <label><input type="checkbox" name="animais[]" value="8">Coelhos</label>
             </div>
 
             <button type="submit">Criar Anúncio</button>
