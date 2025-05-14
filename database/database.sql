@@ -92,6 +92,7 @@ CREATE TABLE user_animals (
     name NVARCHAR(50) NOT NULL,
     age INT NOT NULL,
     species INT NOT NULL,
+    animal_picture NVARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (species) REFERENCES Animal_types(animal_id)
 );
@@ -252,3 +253,6 @@ INSERT INTO Ad_services(ad_id, service_id) VALUES (29, 3); -- Petsitting
 -- Inserir reviews
 --INSERT INTO Reviews (order_id, freelancer_username, client_username, rating, comment) VALUES
 --INSERT INTO Reviews (order_id, freelancer_username, client_username, rating) VALUES
+
+-- Query para obter nome e foto de animais de um utilizador específico
+SELECT name, animal_picture FROM user_animals WHERE user_id = 1;

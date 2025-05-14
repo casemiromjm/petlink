@@ -10,7 +10,7 @@
         <div class="animal-cards">
             <?php
             $stmt = $db->prepare('
-                SELECT ua.name, ua.age, at.animal_name
+                SELECT ua.name, ua.age, at.animal_name, ua.animal_picture
                 FROM user_animals ua
                 JOIN Animal_types at ON ua.species = at.animal_id
                 WHERE ua.user_id = ?
@@ -20,7 +20,7 @@
 
             foreach ($animals as $animal): ?>
                 <div class="animal-card">
-                    <img src="../resources/default_animal.png" alt="Animal">
+                    <img src="<?= htmlspecialchars(str_replace('./', '../', $animal['animal_picture'] ?? '../resources/default_animal.png')) ?>" alt="Animal">
                     <h3><?= htmlspecialchars($animal['name']) ?></h3>
                     <p><?= htmlspecialchars($animal['animal_name']) ?> • <?= htmlspecialchars((string)$animal['age']) ?> anos</p>
                 </div>

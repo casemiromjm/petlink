@@ -361,7 +361,7 @@ body.profile-page {
     background-color: #c0cac5;
     width: 20em;
     padding: 0;
-    height: 100%;
+    height: 100%; /* Ensure it stretches to the full height of the parent */
 }
 
 .side-nav ul {
@@ -402,7 +402,7 @@ body.profile-page {
     border: none;
 }
 
-.side-nav ul li.active a {
+side-nav ul li.active a {
     background-color: #7c968b; 
     color: white;
 }
@@ -414,7 +414,6 @@ body.profile-page {
     display: flex;
     justify-content: center;
 }
-
 
 .edit-profile-container {
     padding: 0;
@@ -473,7 +472,6 @@ body.profile-page {
 .profile-form {
     display: block;
 }
-
 
 .form-group label {
     display: block;
@@ -801,14 +799,17 @@ body.profile-page {
     border-radius: 4px;
 }
 
-/* Animal Cards */
+/* Animais do utilizador */
 .animal-list {
-    max-width: 900px;
-    margin: 2em auto;
+    text-align: center; 
+}
+
+.animal-cards {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
     justify-content: center;
+    margin-top: 20px;
+    gap: 20px;
 }
 
 .animal-card {
@@ -827,6 +828,7 @@ body.profile-page {
     object-fit: cover;
     border-radius: 4px;
     margin-bottom: 1em;
+    width: 200px;
 }
 
 .add-animal {
@@ -847,4 +849,22 @@ body.profile-page {
     font-size: 2em;
     font-weight: bold;
     margin-bottom: 0.5em;
+}
+
+/* Layout de animais */
+.animals-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.animals-layout .side-nav {
+    height: 100%; 
+    min-height: 100vh;
+}
+
+.animals-layout .animals-content {
+    flex: 1;
+    padding: 40px;
+    min-height: 100vh; 
+    box-sizing: border-box;
 }

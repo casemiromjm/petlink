@@ -10,7 +10,18 @@ $db = getDatabaseConnection();
 $userId = 1; // Replace with the actual logged-in user's ID
 
 drawHeader();
-drawNavbar();
-drawAnimals($db, $userId);
+?>
+<body>
+    <div class="animals-layout">
+        <aside class="side-nav">
+            <?php drawNavbar(); ?>
+        </aside>
+
+        <main class="animals-content">
+            <?php drawAnimals($db, $userId); ?>
+        </main>
+    </div>
+</body>
+<?php
 drawFooter();
 ?>
