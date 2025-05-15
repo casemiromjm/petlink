@@ -19,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['username'] = $user['username'];
         $_SESSION['name'] = $user['name'];
         $_SESSION['profile_photo'] = $user['profile_photo'];
+        $_SESSION['email'] = $user['email'];
 
         error_log('User logged in: ' . print_r($_SESSION, true));
 

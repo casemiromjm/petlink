@@ -6,8 +6,15 @@ require_once('../templates/sidebar.php');
 require_once('../templates/animals.php');
 require_once('../database/connection.db.php');
 
+session_start();
+
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit;
+}
+
 $db = getDatabaseConnection();
-$userId = 1; // Replace with the actual logged-in user's ID
+$userId = $_SESSION['user_id'];
 
 drawHeader();
 ?>

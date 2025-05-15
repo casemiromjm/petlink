@@ -1,20 +1,26 @@
 <?php
 declare(strict_types = 1);
 
+session_start(); 
 require_once('../database/connection.db.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $db = getDatabaseConnection();
 
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: ../pages/login.php');
+            exit;
+        }
+
+        $userId = $_SESSION['user_id'];
         $name = htmlspecialchars(trim($_POST['name']));
         $age = intval($_POST['age']);
         $species = intval($_POST['species']);
-        $userId = 1; // Replace with the actual logged-in user's ID
 
         $animalPicture = null;
         if (isset($_FILES['animal-picture']) && $_FILES['animal-picture']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = '../resources/'; // Save images in the resources folder
+            $uploadDir = '../resources/'; 
             $fileName = uniqid() . '_' . basename($_FILES['animal-picture']['name']);
             $targetPath = $uploadDir . $fileName;
 
@@ -23,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if (move_uploaded_file($_FILES['animal-picture']['tmp_name'], $targetPath)) {
-                $animalPicture = './resources/' . $fileName; // Save the path with './resources/'
+                $animalPicture = './resources/' . $fileName; 
             }
         }
 

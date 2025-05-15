@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirm_password'];
     $name = trim($_POST['name']);
-    $district = trim($_POST['district']);
+    $district = htmlspecialchars(trim($_POST['district']));
 
     if ($password !== $confirmPassword) {
         header('Location: ../pages/signup.php?error=password_mismatch');

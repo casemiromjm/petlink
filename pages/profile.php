@@ -5,17 +5,17 @@
   require_once('../templates/profile.php'); 
   require_once('../templates/sidebar.php');
 
-drawHeader();
+  drawHeader();
 ?>
-<body class="profile-page">
-    <div class="profile-layout">
+<body>
+    <div class="profile-container"> 
         <aside class="side-nav">
             <?php drawNavbar(); ?>
         </aside>
 
-        <main class="profile-content">
+        <section class="profile-section"> 
             <?php drawEditProfile(); ?>
-        </main>
+        </section>
     </div>
 </body>
 <?php
