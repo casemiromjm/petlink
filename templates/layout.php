@@ -16,37 +16,46 @@
         <img src="../resources/logo.png" alt="logo">
         <h1><a href="../index.php">Nome do site</a></h1>
       </div>
-      <nav>
-        <ul>
-          <div class="serviço">
-            <li><a href="../index.php">Contratar Serviço</a></li>
-            <li><a href="../pages/adCreate.php">Anunciar Serviço</a></li>
+      <nav style="width:100%;">
+        <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+          <div class="nav-center" style="flex:1; display: flex; justify-content: center;">
+            <ul style="display: flex; align-items: center; gap: 0;">
+              <li><a href="../index.php">Contratar Serviço</a></li>
+              <li style="pointer-events:none; color:#fff; font-weight:bold; padding: 0 1em;">|</li>
+              <li><a href="../pages/adCreate.php">Anunciar Serviço</a></li>
+            </ul>
           </div>
-          <div class="messages">
-            <li><a href="../pages/mensagens.php">Mensagens
-                <i class="fi fi-rr-envelope"></i>
-              </a></li>
+          <div class="nav-right" style="display: flex; align-items: center; gap: 1.5em;">
+            <ul style="display: flex; align-items: center; margin: 0;">
+              <li>
+                <a href="../pages/mensagens.php">Mensagens
+                  <i class="fi fi-rr-envelope"></i>
+                </a>
+              </li>
+              <li style="padding:0;">
+                <?php if (isset($_SESSION['user_id'])): ?>
+                  <div class="hamburger-menu">
+                    <div class="menu-header">
+                      <img src="<?= htmlspecialchars(str_replace('./', '../', $_SESSION['profile_photo'] ?? '../resources/default_profile.png')) ?>" alt="Foto de perfil" class="user-photo">
+                      <span class="username"><?= htmlspecialchars($_SESSION['name'] ?? 'Usuário') ?></span>
+                      <i class="fi fi-rr-menu-dots"></i>
+                    </div>
+                    <ul class="menu-options">
+                      <li>
+                        <a href="../pages/userprofile.php?username=<?= urlencode($_SESSION['username']) ?>">O meu perfil</a>
+                      </li>
+                      <li><a href="../pages/profile.php#edit">Editar Perfil</a></li>
+                      <li><a href="../actions/action_logout.php">Log out</a></li>
+                    </ul>
+                  </div>
+                <?php else: ?>
+                  <a href="../pages/login.php">Login</a>
+                  <a href="../pages/signup.php">Sign Up</a>
+                <?php endif; ?>
+              </li>
+            </ul>
           </div>
-          <div class="profile-icon">
-            <?php if (isset($_SESSION['user_id'])): ?>
-              <div class="hamburger-menu">
-                <div class="menu-header">
-                  <img src="<?= htmlspecialchars(str_replace('./', '../', $_SESSION['profile_photo'] ?? '../resources/default_profile.png')) ?>" alt="Foto de perfil" class="user-photo">
-                  <span class="username"><?= htmlspecialchars($_SESSION['name'] ?? 'Usuário') ?></span>
-                  <i class="fi fi-rr-menu-dots"></i>
-                </div>
-                <ul class="menu-options">
-                  <li><a href="../pages/profile.php">O meu perfil</a></li>
-                  <li><a href="../pages/profile.php#edit">Editar Perfil</a></li>
-                  <li><a href="../actions/action_logout.php">Log out</a></li>
-                </ul>
-              </div>
-            <?php else: ?>
-              <li><a href="../pages/login.php">Login</a></li>
-              <li><a href="../pages/signup.php">Sign Up</a></li>
-            <?php endif; ?>
-          </div>
-        </ul>
+        </div>
       </nav>
     </header>
     <main>
