@@ -6,7 +6,15 @@
   require_once('../templates/sidebar.php');
 
   drawHeader();
-  drawNavbar();
+?>
+<main class="profile-page">
+  <aside class="side-nav">
+    <?php drawNavbar(); ?>
+  </aside>
+  <section class="content">
+    <?php drawEditProfile(); ?>
+  </section>
+</main>
+<?php
   drawFooter();
-
 ?>

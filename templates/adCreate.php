@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="../stylesheets/style.css">
 
 <?php function drawAdCreate() { ?>
-    <section class="ad-create">
+    <section class="form-container">
         <h2>Anunciar Serviço</h2>
         <form id="ad-form" action="../actions/action_adCreate.php" method="post" enctype="multipart/form-data">
             <label for="upload-box">Carregar fotografias</label>
@@ -12,11 +12,9 @@
             </div>
             <label for="titulo">Título</label>
             <input type="text" id="titulo" name="titulo" required>
-            <br>
 
             <label for="descricao">Descrição</label>
-            <textarea type="text" id="descricao" name="descricao" required></textarea>
-            <br>
+            <textarea id="descricao" name="descricao" required></textarea>
 
             <label for="tipo">Tipo de serviço</label>
             <select id="tipo" name="tipo" required>
@@ -29,7 +27,6 @@
                 <option value="6">Veterinário</option>
                 <option value="7">Transporte</option>
             </select>
-            <br>
 
             <label for="preco">Preço</label>
             <div id="preco-container">
@@ -42,7 +39,6 @@
                     <option>semana</option>
                     <option>mês</option>
                 </select>
-                <br>
             </div>
 
             <label for="animais">Animais</label>

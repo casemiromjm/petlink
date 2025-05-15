@@ -3,30 +3,29 @@
 <link rel="stylesheet" href="../stylesheets/style.css">
 
 <?php function drawSignUp(): void { ?>
-  <section class="signup">
+  <section class="form-container signup">
     <h2>Sign Up</h2>
     <?php if (isset($_GET['error'])): ?>
       <p class="error-message">
         <?php
           if ($_GET['error'] === 'password_mismatch') {
-              echo 'Passwords do not match.';
+              echo 'As passwords que inseriu não coincidem.';
           } elseif ($_GET['error'] === 'duplicate') {
-              echo 'Username or email already exists.';
+              echo 'Este username ou email já está a ser utilizado.';
           }
         ?>
       </p>
     <?php endif; ?>
     <form action="../actions/action_signup.php" method="post">
-        
-      <label for="name">Name</label>
+      <label for="name">Nome</label>
       <input type="text" id="name" name="name" required>
 
       <label for="username">Username</label>
       <input type="text" id="username" name="username" required>
 
-      <label for="district">District</label>
+      <label for="district">Distrito</label>
       <select id="district" name="district" required>
-        <option value="" disabled selected>Select your district</option>
+        <option value="" disabled selected>Selecione o seu distrito</option>
         <option value="Açores">Açores</option>
         <option value="Aveiro">Aveiro</option>
         <option value="Beja">Beja</option>
@@ -55,12 +54,11 @@
       <label for="password">Password</label>
       <input type="password" id="password" name="password" required>
 
-      <label for="confirm_password">Confirm Password</label>
+      <label for="confirm_password">Confirme a password</label>
       <input type="password" id="confirm_password" name="confirm_password" required>
-
 
       <button type="submit">Sign Up</button>
     </form>
-    <p>Already have an account? <a href="login.php">Log in here</a>.</p>
+    <p>Já tem uma conta? <a href="login.php">Entre aqui</a>.</p>
   </section>
 <?php } ?>

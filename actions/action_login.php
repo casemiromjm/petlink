@@ -7,11 +7,11 @@ require_once('../database/connection.db.php');
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = getDatabaseConnection();
 
-    $username = htmlspecialchars(trim($_POST['username']));
+    $identifier = htmlspecialchars(trim($_POST['username'])); 
     $password = $_POST['password'];
 
-    $stmt = $db->prepare('SELECT * FROM Users WHERE username = ?');
-    $stmt->execute([$username]);
+    $stmt = $db->prepare('SELECT * FROM Users WHERE username = ? OR email = ?');
+    $stmt->execute([$identifier, $identifier]);
     $user = $stmt->fetch();
 
     if ($user && password_verify($password, $user['password_hash'])) {
