@@ -11,7 +11,7 @@ body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #efebe8;
+    background-color: #f4eee9;
     color: #333;
     height: 100%;
     display: flex;
@@ -174,6 +174,93 @@ nav .profile-icon {
     margin-right: 2em;
 }
 
+/* Hamburger Menu */
+.hamburger-menu {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    font-family: sans-serif;
+}
+
+.hamburger-menu .menu-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0px 20px;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+}
+
+.hamburger-menu .menu-header .user-photo {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #81B29A; 
+}
+
+.hamburger-menu .menu-header .username {
+    font-size: 1em;
+    color: #f9fafb;
+    font-weight: 600;
+}
+
+.hamburger-menu .menu-header i {
+    font-size: 1.4em;
+    color: #f9fafb; 
+    transition: transform 0.3s ease;
+}
+
+.hamburger-menu:hover .menu-header i {
+    transform: rotate(90deg);
+}
+
+/* Dropdown Options */
+.hamburger-menu .menu-options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #2b4d43; 
+    border: 1px solid #81B29A; 
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); 
+    list-style: none;
+    padding: 10px 0;
+    min-width: 225px;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.hamburger-menu:hover .menu-options {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hamburger-menu .menu-options li {
+    padding: 10px 20px;
+    white-space: nowrap;
+    transition: background-color 0.2s;
+}
+
+.hamburger-menu .menu-options li:hover {
+    background-color: #1f3934; /* Slightly darker green for hover */
+}
+
+.hamburger-menu .menu-options li a {
+    text-decoration: none;
+    color: #f9fafb; /* Light text color */
+    font-size: 0.95em;
+    display: block;
+    width: 100%;
+    transition: color 0.3s;
+}
+
+.hamburger-menu .menu-options li a:hover {
+    color: #81B29A; /* Primary green for hover */
+}
+
 /* Footer */
 footer {
     grid-area: footer;
@@ -185,7 +272,8 @@ footer {
 
 /* Barra de pesquisa */
 .pesquisa {
-    padding: 20px;
+    padding-top: 30px;
+    padding-bottom: 0px;
     display: flex;
     justify-content: center;
     gap: 10px;
@@ -209,6 +297,7 @@ footer {
     margin: 0;
     display: block;
     align-items: inherit;
+    border-radius: 4px;
 }
 
 .input-wrapper i,
@@ -222,9 +311,10 @@ footer {
 .pesquisa input[type="text"],
 .pesquisa select,
 .pesquisa button {
-    height: 70px;
+    height: 60px;
     font-size: 17px;
     padding: 0px 34px;
+    border-radius: 4px;
 }
 
 .input-wrapper {
@@ -237,11 +327,6 @@ footer {
     flex-grow: 1;
     max-width: 300px;
     position: relative;
-}
-
-
-.pesquisa button {
-    min-width: 120px;
 }
 
 .icon {
@@ -262,8 +347,9 @@ footer {
     font-size: 17px;
     cursor: pointer;
     font-weight: bold;
-    height: 70px;
+    height: 60px;
     align-self: center;
+    min-width: 120px;
 }
 
 .pesquisa button:hover {
@@ -531,6 +617,7 @@ side-nav ul li.active a {
     color: #81B29A;
     text-decoration: none;
     font-size: 0.9em;
+    cursor: pointer;
 }
 
 .change-photo-link:hover {
@@ -1067,4 +1154,19 @@ side-nav ul li.active a {
 /* Main content area should stretch to fill available space */
 main {
     flex: 1;
+}
+
+.hidden-input {
+    display: none; /* Completely hide the file input */
+}
+
+.change-photo-link {
+    color: #81B29A;
+    text-decoration: none;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+.change-photo-link:hover {
+    text-decoration: underline;
 }

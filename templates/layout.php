@@ -29,9 +29,18 @@
           </div>
           <div class="profile-icon">
             <?php if (isset($_SESSION['user_id'])): ?>
-              <li><a href="../pages/profile.php">O meu perfil
-                  <i class="fi fi-rr-circle-user"></i></a></li>
-              <li><a href="../actions/action_logout.php">Logout</a></li>
+              <div class="hamburger-menu">
+                <div class="menu-header">
+                  <img src="<?= htmlspecialchars(str_replace('./', '../', $_SESSION['profile_photo'] ?? '../resources/default_profile.png')) ?>" alt="Foto de perfil" class="user-photo">
+                  <span class="username"><?= htmlspecialchars($_SESSION['name'] ?? 'Usuário') ?></span>
+                  <i class="fi fi-rr-menu-dots"></i>
+                </div>
+                <ul class="menu-options">
+                  <li><a href="../pages/profile.php">O meu perfil</a></li>
+                  <li><a href="../pages/profile.php#edit">Editar Perfil</a></li>
+                  <li><a href="../actions/action_logout.php">Log out</a></li>
+                </ul>
+              </div>
             <?php else: ?>
               <li><a href="../pages/login.php">Login</a></li>
               <li><a href="../pages/signup.php">Sign Up</a></li>

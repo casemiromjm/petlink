@@ -14,8 +14,8 @@
         <div class="profile-image-placeholder">
           <img src="<?= htmlspecialchars(str_replace('./', '../', $_SESSION['profile_photo'] ?? '../resources/default_profile.png')) ?>" alt="Foto de perfil">
         </div>
-        <label for="profile-photo" class="change-photo-link">Alterar foto de perfil</label>
-        <input type="file" id="profile-photo" name="profile-photo" accept="image/*">
+        <label for="profile-photo" class="change-photo-link">Mudar foto de perfil</label>
+        <input type="file" id="profile-photo" name="profile-photo" accept="image/*" class="hidden-input">
       </div>
 
       <label for="nome">Nome</label>
