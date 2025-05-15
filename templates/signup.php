@@ -5,6 +5,7 @@
 <?php function drawSignUp(): void { ?>
   <section class="form-container signup">
     <h2>Sign Up</h2>
+    <h3>Bem-vindo!</h3>
     <?php if (isset($_GET['error'])): ?>
       <p class="error-message">
         <?php

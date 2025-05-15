@@ -1,3 +1,11 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 /* Estilos gerais */
 body {
     font-family: sans-serif;
@@ -5,6 +13,15 @@ body {
     padding: 0;
     background-color: #F4F1DE;
     color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+
+
+main {
+    flex: 1;
+    display: flex;
 }
 
 a {
@@ -382,14 +399,19 @@ form .animal-checkboxes label {
 
 /* Página do perfil (layout) */
 body.profile-page {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    grid-template-columns: 250px 1fr;
-    grid-template-areas:
-        "header header"
-        "nav content"
-        "footer footer";
+    display: flex;
     min-height: 100vh;
+}
+
+.profile-layout {
+    display: flex;
+    flex: 1;
+}
+
+.profile-layout .profile-content {
+    flex: 1;
+    padding: 40px;
+    box-sizing: border-box;
 }
 
 /* Sidebar do perfil */
@@ -398,7 +420,7 @@ body.profile-page {
     background-color: #c0cac5;
     width: 20em;
     padding: 0;
-    height: 100%; /* Ensure it stretches to the full height of the parent */
+    height: 100%;
 }
 
 .side-nav ul {
@@ -865,10 +887,6 @@ side-nav ul li.active a {
     min-height: 100vh;
 }
 
-.animals-layout .side-nav {
-    height: 100%; 
-    min-height: 100vh;
-}
 
 .animals-layout .animals-content {
     flex: 1;
@@ -877,7 +895,6 @@ side-nav ul li.active a {
     box-sizing: border-box;
 }
 
-/* Add Animal Page Styles */
 .add-animal-page {
     display: flex;
     flex-direction: column;
@@ -897,7 +914,7 @@ side-nav ul li.active a {
 }
 
 
-/* Pagination Styles */
+/* Pagination */
 .pagination {
     display: flex;
     justify-content: center;
@@ -937,7 +954,6 @@ side-nav ul li.active a {
     color: #999;
 }
 
-/* Pagination Arrows */
 .pagination .arrow {
     font-size: 1.2em;
     color: #333;
@@ -958,7 +974,7 @@ side-nav ul li.active a {
     pointer-events: none;
 }
 
-/* Login and Signup Pages */
+/* Login e Signup */
 .login, .signup {
     max-width: 400px;
     margin: 2em auto;
@@ -1000,11 +1016,22 @@ side-nav ul li.active a {
 }
 
 .error-message {
-    background-color: #E63946;
-    color: white;
+    background-color: #E63946 !important; 
+    color: white !important;
     padding: 0.5em; 
     border-radius: 4px;
     text-align: center;
     margin-bottom: 0.8em; 
     font-size: 0.9em;
+}
+
+.login input[type="text"],
+.login input[type="email"],
+.login input[type="password"],
+.login select,
+.signup input[type="text"],
+.signup input[type="email"],
+.signup input[type="password"],
+.signup select {
+    margin-bottom: 1em; 
 }
