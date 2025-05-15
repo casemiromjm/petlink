@@ -14,6 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = htmlspecialchars(trim($_POST['email']));
         $phone = htmlspecialchars(trim($_POST['telemovel']));
         $district = htmlspecialchars(trim($_POST['localidade']));
+        $user_description = trim($_POST['user_description']); // Allow line breaks
 
         // Handle profile photo upload
         $profilePhoto = $_SESSION['profile_photo'];
@@ -37,10 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         error_log('Executing query...');
         $stmt = $db->prepare('
             UPDATE Users
-            SET name = ?, username = ?, email = ?, phone = ?, district = ?, profile_photo = ?
+            SET name = ?, username = ?, email = ?, phone = ?, district = ?, profile_photo = ?, user_description = ?
             WHERE user_id = ?
         ');
-        $stmt->execute([$name, $username, $email, $phone, $district, $profilePhoto, $userId]);
+        $stmt->execute([$name, $username, $email, $phone, $district, $profilePhoto, $user_description, $userId]);
 
         // Update session data
         $_SESSION['name'] = $name;
@@ -49,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['phone'] = $phone;
         $_SESSION['district'] = $district;
         $_SESSION['profile_photo'] = $profilePhoto;
+        $_SESSION['user_description'] = $user_description;
 
         header('Location: ../pages/profile.php?success=1');
         exit;

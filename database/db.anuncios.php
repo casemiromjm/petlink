@@ -82,9 +82,10 @@ function getAdById(PDO $db, int $id): ?array {
         ads.*,
         ads.image_path,
         users.username,
-        users.name, -- Fetch the name
-        users.user_description,
-        users.district
+        users.name,
+        users.district,
+        users.profile_photo,
+        users.created_at
       FROM ads
       JOIN users ON ads.username = users.username
       WHERE ads.ad_id = ?

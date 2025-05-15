@@ -805,9 +805,7 @@ side-nav ul li.active a {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    height: 200px;
-    overflow-y: auto;
-    /* scroll se for preciso mas talvez não seja pq podemos limitar o tamanho da descrição */
+    height: 265px;
 }
 
 .ad-user h2 {
@@ -820,10 +818,48 @@ side-nav ul li.active a {
 }
 
 .ad-user .username {
-    font-size: 0.7em;
-    color: #888;
+    font-size: 0.85em;
+    color: #767676;
     font-weight: normal;
     margin-top: 4px;
+}
+
+.ad-user h2 {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.ad-user-photo {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2.5px solid #81B29A;
+    display: block;
+}
+
+.ad-user-header {
+    background: #e3e7e5;
+    padding: 10px 18px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 18px;
+    width: 100%;
+    min-width: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    justify-content: flex-start;
+}
+
+.ad-user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
 }
 
 /* Cima-direita: Imagem do anúncio */
@@ -1151,13 +1187,12 @@ side-nav ul li.active a {
     margin-bottom: 1em; 
 }
 
-/* Main content area should stretch to fill available space */
 main {
     flex: 1;
 }
 
 .hidden-input {
-    display: none; /* Completely hide the file input */
+    display: none;
 }
 
 .change-photo-link {
@@ -1169,4 +1204,21 @@ main {
 
 .change-photo-link:hover {
     text-decoration: underline;
+}
+
+.profile-link {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 8px 18px;
+    background-color: #81B29A;
+    color: #fff !important;
+    border-radius: 4px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.profile-link:hover {
+    background-color: #568870;
+    color: #fff !important;
 }

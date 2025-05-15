@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['email'] = $user['email'];
         $_SESSION['phone'] = $user['phone']; 
         $_SESSION['district'] = $user['district']; 
+        $_SESSION['user_description'] = $user['user_description'];
 
         error_log('User logged in: ' . print_r($_SESSION, true));
 
