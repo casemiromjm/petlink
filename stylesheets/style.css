@@ -176,6 +176,7 @@ nav .profile-icon {
     align-items: center;
     gap: 0.5em;
     margin-right: 2em;
+    height: 100px;
 }
 
 /* Hamburger Menu */
@@ -200,7 +201,9 @@ nav .profile-icon {
     height: 42px;
     border-radius: 50%;
     object-fit: cover;
-    border: 2px solid #81B29A; 
+    border: 2px solid #81B29A;
+    display: block;
+    background: #e0e0e0; 
 }
 
 .hamburger-menu .menu-header .username {
@@ -543,7 +546,7 @@ body.profile-page {
     border: none;
 }
 
-side-nav ul li.active a {
+.side-nav ul li.active a {
     background-color: #7c968b; 
     color: white;
 }
@@ -718,7 +721,7 @@ side-nav ul li.active a {
     width: 40px;
     height: 40px;
     border-radius: 50%; /* Makes the image circular */
-    object-fit: cover; /* Ensures the image fills the circle while maintaining aspect ratio */
+    object-fit: cover;  /* Ensures the image fills the circle while maintaining aspect ratio */
     display: block;
     margin-right: 10px;
 }
@@ -1749,4 +1752,17 @@ main {
 
 .profile-username {
   font-size: 1rem;
+}
+
+.animal-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+}
+.animal-card-link .animal-card {
+    cursor: pointer;
+    transition: box-shadow 0.2s;
+}
+.animal-card-link .animal-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }

@@ -27,7 +27,7 @@ function translateAnimalType(string $animalType): string {
         <div class="animal-cards">
             <?php
             $stmt = $db->prepare('
-                SELECT ua.name, ua.age, at.animal_name, ua.animal_picture
+                SELECT ua.rowid, ua.name, ua.age, at.animal_name, ua.animal_picture
                 FROM user_animals ua
                 JOIN Animal_types at ON ua.species = at.animal_id
                 WHERE ua.user_id = ?
@@ -36,18 +36,20 @@ function translateAnimalType(string $animalType): string {
             $animals = $stmt->fetchAll();
 
             foreach ($animals as $animal): ?>
-                <div class="animal-card">
-                    <img src="<?= htmlspecialchars(str_replace('./', '../', $animal['animal_picture'] ?? '../resources/default_animal.png')) ?>" alt="Animal">
-                    <h3><?= htmlspecialchars($animal['name']) ?></h3>
-                    <p><?= htmlspecialchars(translateAnimalType($animal['animal_name'])) ?> • <?= htmlspecialchars((string)$animal['age']) ?> anos</p>
-                </div>
+                <a class="animal-card-link" href="../pages/editAnimal.php?id=<?= htmlspecialchars((string)$animal['rowid']) ?>">
+                    <div class="animal-card">
+                        <img src="<?= htmlspecialchars(str_replace('./', '../', $animal['animal_picture'] ?? '../resources/default_animal.png')) ?>" alt="Animal">
+                        <h3><?= htmlspecialchars($animal['name']) ?></h3>
+                        <p><?= htmlspecialchars(translateAnimalType($animal['animal_name'])) ?> • <?= htmlspecialchars((string)$animal['age']) ?> anos</p>
+                    </div>
+                </a>
             <?php endforeach; ?>
-            <div class="animal-card add-animal">
-                <a href="../pages/addAnimal.php">
+            <a class="animal-card-link" href="../pages/addAnimal.php">
+                <div class="animal-card add-animal">
                     <div class="add-icon">+</div>
                     <p>Adicionar animal</p>
-                </a>
-            </div>
+                </div>
+            </a>
         </div>
     </section>
 </body>
