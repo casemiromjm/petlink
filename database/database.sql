@@ -170,7 +170,6 @@ INSERT INTO Services (service_name, description) VALUES ('Transporte', 'Serviço
 -- Inserir utilizadores
 INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('casemiro', 'casemiro@example.com', 'Casemiro', '../resources/man1.png', '912345678', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
 INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('francisca', 'francisca@example.com', 'Francisca', '../resources/woman1.png', '912345678', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
-INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('sara', 'sara@example.com', 'Sara', '../resources/woman1.png', '912345678', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
 
 INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('maria123', 'maria@example.com', 'Maria Silva', '../resources/woman1.png', '912345678', 'Lisboa','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
 INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('joao_pets', 'joao@example.com', 'João Costa', '../resources/man1.png', '913456789', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
@@ -295,7 +294,7 @@ DROP TABLE temp_tab;
 CREATE TEMP TABLE temp_tab AS SELECT role_id FROM Roles WHERE role_type = 'admin';
 
 INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'casemiro'), (SELECT role_id FROM temp_tab));
-INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'sara'), (SELECT role_id FROM temp_tab));
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'staragarica'), (SELECT role_id FROM temp_tab));
 INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'francisca'), (SELECT role_id FROM temp_tab));
 
 DROP TABLE temp_tab;
