@@ -5,6 +5,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="../resources/logo.png">
     <title>SiteName Here</title>
     <link rel="preload" href="stylesheets/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="stylesheets/style.css"></noscript>
@@ -64,7 +65,7 @@
 <?php function drawFooter() { ?>
     </main>
     <footer>
-      Projeto LTW . Turma 2 Grupo TBA . 2024/2025
+      Projeto LTW . Turma 02 Grupo 05 . 2024/2025
     </footer>
   </body>
 <?php } ?>
