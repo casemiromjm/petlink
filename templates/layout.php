@@ -29,7 +29,7 @@
           <div class="nav-right" style="display: flex; align-items: center; gap: 1.5em;">
             <ul style="display: flex; align-items: center; margin: 0;">
               <li>
-                <a href="../pages/mensagens.php">Mensagens
+                <a href="../pages/messages.php">Mensagens
                   <i class="fi fi-rr-envelope"></i>
                 </a>
               </li>

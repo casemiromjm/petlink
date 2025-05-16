@@ -55,7 +55,11 @@
       <div class="ad-info-header">
         <h1><?= htmlspecialchars($ad['title'] ?? 'Título não disponível') ?></h1>
         <span class="ad-price"><?= htmlspecialchars((string)($ad['price'] ?? '0.00')) ?>€ / <?= htmlspecialchars($ad['price_period'] ?? 'período não disponível') ?></span>
-        <button>Enviar mensagem</button>
+        <form action="../pages/messages.php" method="get" style="display:inline;">
+          <input type="hidden" name="ad" value="<?= htmlspecialchars((string)$ad['ad_id']) ?>">
+          <input type="hidden" name="to" value="<?= htmlspecialchars((string)$ad['user_id']) ?>">
+          <button type="submit" class="message-button">Enviar mensagem</button>
+        </form>
       </div>
       <p class="ad-description"><?= nl2br(htmlspecialchars($ad['description'] ?? 'Descrição não disponível')) ?></p>
     </div>

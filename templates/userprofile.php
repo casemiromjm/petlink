@@ -30,9 +30,6 @@
             <div class="profile-name-container">
               <h1 class="profile-name"><?= htmlspecialchars($user['name'] ?? 'Nome não disponível') ?></h1>
               <span class="profile-username">@<?= htmlspecialchars($user['username'] ?? 'Username não disponível') ?></span>
-              <a href="../pages/mensagens.php?to=<?= urlencode($user['username']) ?>" class="profile-link message-button">
-                <i class="fi fi-rr-envelope"></i> Enviar mensagem
-              </a>
             </div>
           </div>
         </div>

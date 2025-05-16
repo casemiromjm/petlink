@@ -141,6 +141,18 @@ CREATE TABLE user_animals (
     FOREIGN KEY (species) REFERENCES Animal_types(animal_id)
 );
 
+DROP TABLE IF EXISTS Messages;
+CREATE TABLE Messages (
+    message_id   INTEGER   PRIMARY KEY AUTOINCREMENT,
+    ad_id        INTEGER   NOT NULL,
+    from_user_id INTEGER   REFERENCES Users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    to_user_id   INTEGER   REFERENCES Users (user_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    text         TEXT      NOT NULL,
+    sent_at      TIMESTAMP DEFAULT (CURRENT_TIMESTAMP),
+    is_read      BOOLEAN   DEFAULT (0),
+    FOREIGN KEY (ad_id) REFERENCES Ads(ad_id) ON DELETE CASCADE
+);
+
 -- Populating db
 
 -- inserir roles

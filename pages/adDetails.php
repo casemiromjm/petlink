@@ -26,7 +26,6 @@
 
   // Desenhar o layout
   drawHeader();
-
-  drawAdDetails($ad, $success);
+  drawAdDetails($ad, $success); 
   drawFooter();
 ?>
