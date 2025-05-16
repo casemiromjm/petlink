@@ -33,7 +33,7 @@ CREATE TABLE User_Role (
 );
 
 DROP TABLE IF EXISTS Freelancers;
-CREATE TABLE Freelancer (
+CREATE TABLE Freelancers (
     freelancer_id INTEGER PRIMARY KEY,
     user_id INTEGER UNIQUE NOT NULL,
 
@@ -44,7 +44,7 @@ CREATE TABLE Freelancer (
 );
 
 DROP TABLE IF EXISTS Clients;
-CREATE TABLE Client (
+CREATE TABLE Clients (
     client_id INTEGER PRIMARY KEY,
     user_id INTEGER UNIQUE NOT NULL,
 
