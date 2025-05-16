@@ -1,15 +1,8 @@
-DROP TABLE IF EXISTS Users;
-DROP TABLE IF EXISTS Ads;
-DROP TABLE IF EXISTS Ad_animals;
-DROP TABLE IF EXISTS Animal_types;
-DROP TABLE IF EXISTS Services;
-DROP TABLE IF EXISTS Ad_services;
-DROP TABLE IF EXISTS Orders;
-DROP TABLE IF EXISTS Reviews;
-DROP TABLE IF EXISTS user_animals;
+PRAGMA foreign_keys=ON;      -- fazendo no .sql, remove comandos desnecessários
 
 -- Criar tables
 
+DROP TABLE IF EXISTS Users;
 CREATE TABLE Users (
     user_id INTEGER PRIMARY KEY,
     username NVARCHAR(40) UNIQUE NOT NULL,
@@ -23,6 +16,43 @@ CREATE TABLE Users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP TABLE IF EXISTS Roles;
+CREATE TABLE Roles (
+    role_id INTEGER PRIMARY KEY,
+    role_type TEXT NOT NULL CHECK (role_type IN ('freelancer', 'client', 'admin'))
+);
+
+DROP TABLE IF EXISTS User_Role;
+CREATE TABLE User_Role (
+    role_id INTEGER,
+    user_id INTEGER,
+
+    FOREIGN KEY (role_id) REFERENCES Roles(role_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES Users(users_id) ON DELETE CASCADE ON UPDATE CASCADE,
+
+    PRIMARY KEY (role_id, user_id)
+);
+
+DROP TABLE IF EXISTS Freelancers;
+CREATE TABLE Freelancer (
+    freelancer_id INTEGER PRIMARY KEY,
+    user_id INTEGER UNIQUE NOT NULL,
+
+    -- infos especificas
+    description TEXT,
+
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS Clients;
+CREATE TABLE Client (
+    client_id INTEGER PRIMARY KEY,
+    user_id INTEGER UNIQUE NOT NULL,
+
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS Ads;
 CREATE TABLE Ads (
     ad_id INTEGER PRIMARY KEY,
     username NVARCHAR(40) NOT NULL,
@@ -32,36 +62,46 @@ CREATE TABLE Ads (
     price DECIMAL(10,2) NOT NULL,
     price_period NVARCHAR(20) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
     FOREIGN KEY (username) REFERENCES Users(username) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+DROP TABLE IF EXISTS Animal_types;
 CREATE TABLE Animal_types (
     animal_id INTEGER PRIMARY KEY,
     animal_name VARCHAR(50) UNIQUE NOT NULL
 );
 
+DROP TABLE IF EXISTS Ad_animals;
 CREATE TABLE Ad_animals (
     ad_id INT,
     animal_id INT,
+
     PRIMARY KEY (ad_id, animal_id),
+
     FOREIGN KEY (ad_id) REFERENCES Ads(ad_id) ON DELETE CASCADE,
     FOREIGN KEY (animal_id) REFERENCES Animal_types(animal_id)
 );
 
+DROP TABLE IF EXISTS Services;
 CREATE TABLE Services (
     service_id  INTEGER PRIMARY KEY,
     service_name NVARCHAR(50) UNIQUE NOT NULL,
     description TEXT
 );
 
+DROP TABLE IF EXISTS Ad_services;
 CREATE TABLE Ad_services (
     ad_id INT,
     service_id INT,
+
     PRIMARY KEY (ad_id, service_id),
+
     FOREIGN KEY (ad_id) REFERENCES Ads(ad_id) ON DELETE CASCADE,
     FOREIGN KEY (service_id) REFERENCES Services(service_id)
 );
 
+DROP TABLE IF EXISTS Orders;
 CREATE TABLE Orders (
     order_id INTEGER PRIMARY KEY,
     client_username NVARCHAR(40) NOT NULL,
@@ -70,10 +110,12 @@ CREATE TABLE Orders (
     total_price DECIMAL(10, 2) NOT NULL,
     isPaid BOOLEAN DEFAULT FALSE,
     isCompleted BOOLEAN DEFAULT FALSE,
+
     FOREIGN KEY (client_username) REFERENCES Users(username) ON DELETE CASCADE,
     FOREIGN KEY (ad_id) REFERENCES Ads(ad_id) ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS Reviews;
 CREATE TABLE Reviews (
     review_id INTEGER PRIMARY KEY,
     order_id INT NOT NULL,
@@ -82,20 +124,30 @@ CREATE TABLE Reviews (
     rating INT NOT NULL CHECK (rating >= 1 AND rating <= 5),
     comment TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
     FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON DELETE CASCADE,
     FOREIGN KEY (freelancer_username) REFERENCES Users(username) ON DELETE CASCADE,
     FOREIGN KEY (client_username) REFERENCES Users(username) ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS user_animals;
 CREATE TABLE user_animals (
     user_id INT NOT NULL,
     name NVARCHAR(50) NOT NULL,
     age INT NOT NULL,
     species INT NOT NULL,
     animal_picture NVARCHAR(255),
+
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (species) REFERENCES Animal_types(animal_id)
 );
+
+-- Populating db
+
+-- inserir roles
+INSERT INTO Roles (role_type) VALUES ('admin');
+INSERT INTO Roles (role_type) VALUES ('client');
+INSERT INTO Roles (role_type) VALUES ('freelancer');
 
 -- Inserir animais
 INSERT INTO Animal_types (animal_name) VALUES ('Cães');
@@ -117,8 +169,12 @@ INSERT INTO Services (service_name, description) VALUES ('Veterinário', 'Servi�
 INSERT INTO Services (service_name, description) VALUES ('Transporte', 'Serviços de transporte de animais');
 
 -- Inserir utilizadores
-INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash, user_description) VALUES ('maria123', 'maria@example.com', 'Maria Silva', '../resources/woman1.png', '912345678', 'Lisboa','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Olá, sou a Maria e adoro animais. Tenho 10 anos de experiência profissional e seria um prazer tomar conta do seu bichinho.');
-INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash, user_description) VALUES ('joao_pets', 'joao@example.com', 'João Costa', '../resources/man1.png', '913456789', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou o João, apaixonado por todo o tipo de animais. Tenho experiência em cuidar de cães, gatos e outros pequenos animais.');
+INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('casemiro', 'casemiro@example.com', 'Casemiro', '../resources/man1.png', '912345678', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('francisca', 'francisca@example.com', 'Francisca', '../resources/woman1.png', '912345678', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('sara', 'sara@example.com', 'Sara', '../resources/woman1.png', '912345678', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+
+INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash, user_description) VALUES ('maria123', 'maria@example.com', 'Maria Silva', '../resources/woman1.png', '912345678', 'Lisboa','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash, user_description) VALUES ('joao_pets', 'joao@example.com', 'João Costa', '../resources/man1.png', '913456789', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
 INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash, user_description) VALUES ('rita_t', 'rita@example.com', 'Rita Teixeira', '../resources/woman2.png', '914567890', 'Coimbra','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Amo passar tempo com animais e tenho disponibilidade para ajudar com passeios e cuidados básicos.');
 INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash, user_description) VALUES ('tomas_vv3', 'tomasthebest@example.com', 'Tomás Ribeiro', '../resources/man2.png', '914191674', 'Setúbal','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Olá! Sou o Tomás, um estudante que adora animais e tem tempo livre para cuidar dos seus.');
 INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash, user_description) VALUES ('anasantos', 'ana.santos@example.com', 'Ana Santos', '../resources/woman2.png', 'Aveiro', '961122334','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou a Ana, tenho experiência com animais de estimação e ofereço serviços de babysitting de animais na zona de Aveiro.');
@@ -144,6 +200,30 @@ INSERT INTO Users (username, email, name, profile_photo, district, password_hash
 INSERT INTO Users (username, email, profile_photo, district, password_hash, user_description) VALUES ('luis_g', 'luis.g@example.com', '../resources/man2.png', 'Leiria','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou o Luís, um amante de animais pronto para ajudar na zona de Leiria.');
 INSERT INTO Users (username, email, profile_photo, district, password_hash, user_description) VALUES ('ines_f', 'ines.f@example.com', '../resources/woman3.png', 'Viseu','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Olá, sou a Inês e tenho disponibilidade para cuidar de animais em Viseu.');
 INSERT INTO Users (username, email, profile_photo, district, password_hash, user_description) VALUES ('isabel_m', 'isabel.m@example.com', '../resources/woman1.png', 'Guimarães','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou a Isabel, gosto muito de animais e estou disponível em Guimarães.');
+
+-- Inserir freelancers
+CREATE TEMP TABLE temp_tab AS SELECT role_id FROM Roles WHERE role_type = 'freelancer';
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'maria123'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ( ,'Olá, sou a Maria e adoro animais. Tenho 10 anos de experiência profissional e seria um prazer tomar conta do seu bichinho.');
+INSERT INTO User_Role (user_id, role_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'joao_pets'), (SELECT role_id FROM temp_tab), 'Sou o João, apaixonado por todo o tipo de animais. Tenho experiência em cuidar de cães, gatos e outros pequenos animais.');
+
+
+DROP TABLE temp_tab;
+
+-- Inserir clients
+CREATE TEMP TABLE temp_tab AS SELECT role_id FROM Roles WHERE role_type = 'client';
+
+DROP TABLE temp_tab;
+
+-- Inserir admins
+CREATE TEMP TABLE temp_tab AS SELECT role_id FROM Roles WHERE role_type = 'admin';
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'casemiro'), (SELECT role_id FROM temp_tab));
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'sara'), (SELECT role_id FROM temp_tab));
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'francisca'), (SELECT role_id FROM temp_tab));
+
+DROP TABLE temp_tab;
 
 -- Inserir anúncios
 INSERT INTO Ads (title, username, description, price, price_period, image_path) VALUES ('Passeios para o seu cão em Lisboa', 'maria123', 'Passeios diários no seu bairro com muito carinho.', 10.00, 'Hora', '../resources/passeio.png');
