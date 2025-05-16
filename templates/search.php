@@ -5,13 +5,13 @@
 <?php function drawSearch() { ?>
   <section class="pesquisa">
     <div class="input-wrapper">
-      <img src="../resources/search.png" alt="search" class="icon">
+    <i class="fi fi-rr-search"></i>
       <input type="text" placeholder="O que procuras?">
     </div>
 
     <div class="select-wrapper">
-      <img src="../resources/marker.png" alt="marker" class="icon">
-      <select id="location">
+    <i class="fi fi-rr-marker"></i>
+    <select id="location">
         <option value="">Todo o país</option>
         <option value="açores">Açores</option>
         <option value="aveiro">Aveiro</option>

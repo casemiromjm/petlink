@@ -8,8 +8,4 @@ document.addEventListener('DOMContentLoaded', () => {
       successMessage.style.display = 'none';
     }, 2000);
   }
-
-
-
-
 });

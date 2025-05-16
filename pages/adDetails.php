@@ -7,7 +7,7 @@
 
   require_once('../templates/layout.php');
   require_once('../templates/adDetails.php');
-  require_once('../database/connection.php');
+  require_once('../database/connection.db.php');
   require_once('../database/db.anuncios.php');
 
   $db = getDatabaseConnection();

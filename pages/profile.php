@@ -3,7 +3,21 @@
 
   require_once('../templates/layout.php');
   require_once('../templates/profile.php'); 
+  require_once('../templates/sidebar.php');
 
   drawHeader();
-  drawFooter();
+?>
+<body>
+    <div class="profile-container"> 
+        <aside class="side-nav">
+            <?php drawNavbar(); ?>
+        </aside>
+
+        <section class="profile-section"> 
+            <?php drawEditProfile(); ?>
+        </section>
+    </div>
+</body>
+<?php
+drawFooter();
 ?>
