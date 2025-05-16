@@ -1,83 +1,151 @@
-@startuml Database
+@startuml DatabaseDiagram
 
-title "Database Mockup"
+title Database Diagram
 
-hide methods
+' stereotypes
+skinparam stereotypeCBackgroundColor #F8F8F8
+skinparam stereotypeCBackgroundColor<<entity>> #F8F8F8
 
-' classes
-class User {
-    /'
-    PK - userId
-    '/
+hide empty members
 
-    userId
-    username
-    password
-    name
-    DOB
-    email
-    NIF
+' Entities
+entity "Users" <<entity>> {
+  * user_id : INTEGER <<PK>>
+  --
+  * username : NVARCHAR(40) <<unique>>
+  * email : NVARCHAR(60) <<unique>>
+  * password_hash : NVARCHAR(255)
+  name : NVARCHAR(60)
+  profile_photo : NVARCHAR(255)
+  phone : NVARCHAR(24)
+  * district : NVARCHAR(40)
+  created_at : TIMESTAMP
 }
 
-class Freelancer {
-    /'
-    PK - freelancerId
-    '/
-
-    freelancerId
-    
+entity "Roles" <<entity>> {
+  * role_id : INTEGER <<PK>>
+  --
+  * role_type : TEXT
 }
 
-class Client {
-    /'
-    PK - clientId
-    '/
-
-    clientId
+entity "User_Role" <<entity>> {
+  * role_id : INTEGER <<FK>>
+  * user_id : INTEGER <<FK>>
 }
 
-class Pet {
-    /'
-    PK - petId
-    FK - owner, aponta para Client
-    '/
-
-    petId
-    name
-    DOB
-    ownerId
+entity "Freelancers" <<entity>> {
+  * freelancer_id : INTEGER <<PK>>
+  --
+  * user_id : INTEGER <<FK>> <<unique>>
+  description : TEXT
 }
 
-class Service {
-    /'
-    PK - serviceId
-    '/
-
-    serviceId
-    name
+entity "Clients" <<entity>> {
+  * client_id : INTEGER <<PK>>
+  --
+  * user_id : INTEGER <<FK>> <<unique>>
 }
 
-class Animal {
-    /'
-    PK - animalId
-    '/
-
-    animalId
-    specie
+entity "Ads" <<entity>> {
+  * ad_id : INTEGER <<PK>>
+  --
+  * username : NVARCHAR(40) <<FK>>
+  * title : NVARCHAR(100)
+  * description : TEXT
+  image_path : NVARCHAR(255)
+  * price : DECIMAL(10,2)
+  * price_period : NVARCHAR(20)
+  created_at : TIMESTAMP
 }
 
-' Preicsa ter essa?
-' class Admin {
-' }
+entity "Animal_types" <<entity>> {
+  * animal_id : INTEGER <<PK>>
+  --
+  * animal_name : VARCHAR(50) <<unique>>
+}
 
-' associations
+entity "Ad_animals" <<entity>> {
+  * ad_id : INT <<FK>>
+  * animal_id : INT <<FK>>
+}
 
-User <|-- Freelancer
-User <|-- Client
+entity "Services" <<entity>> {
+  * service_id : INTEGER <<PK>>
+  --
+  * service_name : NVARCHAR(50) <<unique>>
+  description : TEXT
+}
 
-Client "1" -- "many" Pet : owns >
+entity "Ad_services" <<entity>> {
+  * ad_id : INT <<FK>>
+  * service_id : INT <<FK>>
+}
 
-Animal "many" -- "1" Pet
+entity "Orders" <<entity>> {
+  * order_id : INTEGER <<PK>>
+  --
+  * client_username : NVARCHAR(40) <<FK>>
+  * ad_id : INT <<FK>>
+  order_date : TIMESTAMP
+  * total_price : DECIMAL(10, 2)
+  isPaid : BOOLEAN
+  isCompleted : BOOLEAN
+}
 
+entity "Reviews" <<entity>> {
+  * review_id : INTEGER <<PK>>
+  --
+  * order_id : INT <<FK>>
+  * freelancer_username : NVARCHAR(40) <<FK>>
+  * client_username : NVARCHAR(40) <<FK>>
+  * rating : INT
+  comment : TEXT
+  created_at : TIMESTAMP
+}
+
+entity "user_animals" <<entity>> {
+  * user_id : INT <<FK>>
+  * name : NVARCHAR(50)
+  * age : INT
+  * species : INT <<FK>>
+  animal_picture : NVARCHAR(255)
+}
+
+' relations
+Users "1" -- "0..*" User_Role
+Roles "1" -- "0..*" User_Role
+
+Users ||--o{ Freelancers
+Users ||--o{ Clients
+
+Users "1" -- "0..*" Ads
+Users "1" -- "0..*" user_animals
+
+Ads "1" -- "0..*" Ad_animals
+Animal_types "1" -- "0..*" Ad_animals
+
+Ads "1" -- "0..*" Ad_services
+Services "1" -- "0..*" Ad_services
+
+Users "1" -- "0..*" Orders
+Ads "1" -- "0..*" Orders
+
+Orders "1" -- "0..1" Reviews
+
+Animal_types "1" -- "0..*" user_animals
+
+' Notes
+note top of Users
+  All platform users
+  (can be both freelancers and clients)
+end note
+
+note top of Ads
+  Services offered by freelancers
+end note
+
+note top of Orders
+  Client purchases of services
+end note
 
 @enduml

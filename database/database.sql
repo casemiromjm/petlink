@@ -12,7 +12,6 @@ CREATE TABLE Users (
     profile_photo NVARCHAR(255),
     phone NVARCHAR(24),
     district NVARCHAR(40) NOT NULL,
-    user_description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -34,7 +33,7 @@ CREATE TABLE User_Role (
 );
 
 DROP TABLE IF EXISTS Freelancers;
-CREATE TABLE Freelancer (
+CREATE TABLE Freelancers (
     freelancer_id INTEGER PRIMARY KEY,
     user_id INTEGER UNIQUE NOT NULL,
 
@@ -45,7 +44,7 @@ CREATE TABLE Freelancer (
 );
 
 DROP TABLE IF EXISTS Clients;
-CREATE TABLE Client (
+CREATE TABLE Clients (
     client_id INTEGER PRIMARY KEY,
     user_id INTEGER UNIQUE NOT NULL,
 
@@ -171,43 +170,118 @@ INSERT INTO Services (service_name, description) VALUES ('Transporte', 'Serviço
 -- Inserir utilizadores
 INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('casemiro', 'casemiro@example.com', 'Casemiro', '../resources/man1.png', '912345678', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
 INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('francisca', 'francisca@example.com', 'Francisca', '../resources/woman1.png', '912345678', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
-INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('sara', 'sara@example.com', 'Sara', '../resources/woman1.png', '912345678', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
 
-INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash, user_description) VALUES ('maria123', 'maria@example.com', 'Maria Silva', '../resources/woman1.png', '912345678', 'Lisboa','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
-INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash, user_description) VALUES ('joao_pets', 'joao@example.com', 'João Costa', '../resources/man1.png', '913456789', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
-INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash, user_description) VALUES ('rita_t', 'rita@example.com', 'Rita Teixeira', '../resources/woman2.png', '914567890', 'Coimbra','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Amo passar tempo com animais e tenho disponibilidade para ajudar com passeios e cuidados básicos.');
-INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash, user_description) VALUES ('tomas_vv3', 'tomasthebest@example.com', 'Tomás Ribeiro', '../resources/man2.png', '914191674', 'Setúbal','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Olá! Sou o Tomás, um estudante que adora animais e tem tempo livre para cuidar dos seus.');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash, user_description) VALUES ('anasantos', 'ana.santos@example.com', 'Ana Santos', '../resources/woman2.png', 'Aveiro', '961122334','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou a Ana, tenho experiência com animais de estimação e ofereço serviços de babysitting de animais na zona de Aveiro.');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash, user_description) VALUES ('carlosm', 'carlos.m@example.com', 'Carlos Martins', '../resources/man3.png', 'Braga' ,'923456789','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou o Carlos, gosto muito de animais e estou disponível para passeios e companhia.');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash, user_description) VALUES ('sofia_l', 'sofia.l@example.com', 'Sofia Lima', '../resources/woman1.png', 'Faro','935678901','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Olá, chamo-me Sofia e adoro cuidar de animais. Tenho experiência com cães e gatos.');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash, user_description) VALUES ('miguel_p', 'miguel.p@example.com', 'Miguel Pereira', '../resources/man1.png', 'Guarda','917890123','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou o Miguel, um amante de animais pronto para ajudar na sua ausência.');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash, user_description) VALUES ('margarida_p', 'margarida.p@example.com','Margarida Pacheco' , '../resources/woman3.png', 'Funchal', '927788990','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Olá, sou a Margarida e tenho muito carinho por animais. Disponível para cuidar do seu na zona do Funchal.');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash, user_description) VALUES ('joanam', 'joana.m@example.com', 'Joana Marta', '../resources/woman1.png', 'Beja', '939900112','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou a Joana, uma pessoa responsável e dedicada, pronta para cuidar do seu animal de estimação.');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash, user_description) VALUES ('helder_c', 'helder.c@example.com', 'Helder Carlo', '../resources/man2.png', 'Portalegre', '916611223','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou o Hélder, tenho experiência com diversos tipos de animais e estou disponível em Portalegre.');
-INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash, user_description) VALUES ('fernando_g', 'fernando.g@example.com', 'Fernando Gonçalves', '../resources/man3.png', '918899002', 'Bragança','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Chamo-me Fernando e sou um apaixonado por animais. Tenho disponibilidade para cuidar do seu em Bragança.');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash, user_description) VALUES ('tiagom', 'tiago.m@example.com', 'Tiago Mendes', '../resources/man1.png', 'Santarém', '969876543','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou o Tiago, gosto muito de animais e estou disponível para ajudar na zona de Santarém.');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash, user_description) VALUES ('patriciav', 'patricia.v@example.com', 'Patrícia Vicente', '../resources/woman2.png', 'Setúbal', '921234567','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Olá, sou a Patrícia e adoro animais. Tenho experiência em cuidar de cães e gatos em Setúbal.');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash, user_description) VALUES ('brunor', 'bruno.r@example.com', 'Bruno Ribeiro', '../resources/man2.png', 'Viana do Castelo', '967788990','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou o Bruno, um jovem responsável que adora animais e vive em Viana do Castelo.');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash, user_description) VALUES ('carla_s', 'carla.s@example.com', 'Carla Sousa', '../resources/woman3.png', 'Vila Real', '928899001','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Olá, sou a Carla e tenho muito prazer em cuidar de animais na zona de Vila Real.');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash, user_description) VALUES ('carlos_r', 'carlo.s@example.com', 'Carlos Ribeiro', '../resources/man3.png', 'Vila Real ', '928838001','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou o Carlos, um amante de animais com disponibilidade em Vila Real.');
-INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash, user_description) VALUES ('beatriz_c', 'beatriz.c@example.com', 'Beatriz Castro', '../resources/woman2.png', 'Aveiro', '936677889','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Olá, sou a Beatriz e adoro animais. Tenho experiência e disponibilidade em Aveiro.');
-INSERT INTO Users (username, email, profile_photo, district, phone, password_hash, user_description) VALUES ('ricardoj', 'ricardo.j@example.com', '../resources/man1.png', 'Faro', '933445566','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou o Ricardo, um apaixonado por animais pronto a ajudar no distrito de Faro.');
-INSERT INTO Users (username, email, profile_photo, district, phone, password_hash, user_description) VALUES ('andreia_p', 'andreia.p@example.com', '../resources/woman1.png', 'Porto', '915566778','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Olá, sou a Andreia e adoro animais. Tenho disponibilidade no Porto para cuidar dos seus.');
-INSERT INTO Users (username, email, profile_photo, district, phone, password_hash, user_description) VALUES ('jose_s', 'jose.s@example.com', '../resources/man2.png', 'Sines', '919900113','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou o José, gosto muito de animais e estou disponível para ajudar em Sines.');
-INSERT INTO Users (username, email, name, profile_photo, district, password_hash, user_description) VALUES ('pedror', 'pedro.r@example.com', 'Pedro Rodrigues', '../resources/man3.png', 'Évora','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Olá, sou o Pedro e tenho experiência com animais em Évora.');
-INSERT INTO Users (username, email, name, profile_photo, district, password_hash, user_description) VALUES ('sara_c', 'sara.c@example.com', 'Sara Costa', '../resources/woman2.png', 'Castelo Branco','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou a Sara, uma pessoa carinhosa com animais, disponível em Castelo Branco.');
-INSERT INTO Users (username, email, name, profile_photo, district, password_hash, user_description) VALUES ('manuel_a', 'manuel.a@example.com', 'Manuel Almeida', '../resources/man1.png', 'Leiria','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Olá, chamo-me Manuel e gosto muito de animais. Disponível em Leiria.');
-INSERT INTO Users (username, email, profile_photo, district, password_hash, user_description) VALUES ('luis_g', 'luis.g@example.com', '../resources/man2.png', 'Leiria','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou o Luís, um amante de animais pronto para ajudar na zona de Leiria.');
-INSERT INTO Users (username, email, profile_photo, district, password_hash, user_description) VALUES ('ines_f', 'ines.f@example.com', '../resources/woman3.png', 'Viseu','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Olá, sou a Inês e tenho disponibilidade para cuidar de animais em Viseu.');
-INSERT INTO Users (username, email, profile_photo, district, password_hash, user_description) VALUES ('isabel_m', 'isabel.m@example.com', '../resources/woman1.png', 'Guimarães','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', 'Sou a Isabel, gosto muito de animais e estou disponível em Guimarães.');
+INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('maria123', 'maria@example.com', 'Maria Silva', '../resources/woman1.png', '912345678', 'Lisboa','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('joao_pets', 'joao@example.com', 'João Costa', '../resources/man1.png', '913456789', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('rita_t', 'rita@example.com', 'Rita Teixeira', '../resources/woman2.png', '914567890', 'Coimbra','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('tomas_vv3', 'tomasthebest@example.com', 'Tomás Ribeiro', '../resources/man2.png', '914191674', 'Setúbal','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('anasantos', 'ana.santos@example.com', 'Ana Santos', '../resources/woman2.png', 'Aveiro', '961122334','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('carlosm', 'carlos.m@example.com', 'Carlos Martins', '../resources/man3.png', 'Braga' ,'923456789','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('sofia_l', 'sofia.l@example.com', 'Sofia Lima', '../resources/woman1.png', 'Faro','935678901','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('miguel_p', 'miguel.p@example.com', 'Miguel Pereira', '../resources/man1.png', 'Guarda','917890123','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('margarida_p', 'margarida.p@example.com','Margarida Pacheco' , '../resources/woman3.png', 'Funchal', '927788990','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('joanam', 'joana.m@example.com', 'Joana Marta', '../resources/woman1.png', 'Beja', '939900112','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('helder_c', 'helder.c@example.com', 'Helder Carlo', '../resources/man2.png', 'Portalegre', '916611223','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, phone, district, password_hash) VALUES ('fernando_g', 'fernando.g@example.com', 'Fernando Gonçalves', '../resources/man3.png', '918899002', 'Bragança','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('tiagom', 'tiago.m@example.com', 'Tiago Mendes', '../resources/man1.png', 'Santarém', '969876543','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('patriciav', 'patricia.v@example.com', 'Patrícia Vicente', '../resources/woman2.png', 'Setúbal', '921234567','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('brunor', 'bruno.r@example.com', 'Bruno Ribeiro', '../resources/man2.png', 'Viana do Castelo', '967788990','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('carla_s', 'carla.s@example.com', 'Carla Sousa', '../resources/woman3.png', 'Vila Real', '928899001','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('carlos_r', 'carlo.s@example.com', 'Carlos Ribeiro', '../resources/man3.png', 'Vila Real ', '928838001','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, phone, password_hash) VALUES ('beatriz_c', 'beatriz.c@example.com', 'Beatriz Castro', '../resources/woman2.png', 'Aveiro', '936677889','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, profile_photo, district, phone, password_hash) VALUES ('ricardoj', 'ricardo.j@example.com', '../resources/man1.png', 'Faro', '933445566','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, profile_photo, district, phone, password_hash) VALUES ('andreia_p', 'andreia.p@example.com', '../resources/woman1.png', 'Porto', '915566778','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, profile_photo, district, phone, password_hash) VALUES ('jose_s', 'jose.s@example.com', '../resources/man2.png', 'Sines', '919900113','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, password_hash) VALUES ('pedror', 'pedro.r@example.com', 'Pedro Rodrigues', '../resources/man3.png', 'Évora','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, password_hash) VALUES ('sara_c', 'sara.c@example.com', 'Sara Costa', '../resources/woman2.png', 'Castelo Branco','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, name, profile_photo, district, password_hash) VALUES ('manuel_a', 'manuel.a@example.com', 'Manuel Almeida', '../resources/man1.png', 'Leiria','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, profile_photo, district, password_hash) VALUES ('luis_g', 'luis.g@example.com', '../resources/man2.png', 'Leiria','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, profile_photo, district, password_hash) VALUES ('ines_f', 'ines.f@example.com', '../resources/woman3.png', 'Viseu','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
+INSERT INTO Users (username, email, profile_photo, district, password_hash) VALUES ('isabel_m', 'isabel.m@example.com', '../resources/woman1.png', 'Guimarães','7110eda4d09e062aa5e4a390b0a572ac0d2c0220');
 
 -- Inserir freelancers
 CREATE TEMP TABLE temp_tab AS SELECT role_id FROM Roles WHERE role_type = 'freelancer';
 
 INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'maria123'), (SELECT role_id FROM temp_tab));
-INSERT INTO Freelancers (user_id, description) VALUES ( ,'Olá, sou a Maria e adoro animais. Tenho 10 anos de experiência profissional e seria um prazer tomar conta do seu bichinho.');
-INSERT INTO User_Role (user_id, role_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'joao_pets'), (SELECT role_id FROM temp_tab), 'Sou o João, apaixonado por todo o tipo de animais. Tenho experiência em cuidar de cães, gatos e outros pequenos animais.');
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'maria123'), 'Olá, sou a Maria e adoro animais. Tenho 10 anos de experiência profissional e seria um prazer tomar conta do seu bichinho.');
 
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'joao_pets'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'joao_pets'), 'Sou o João, apaixonado por todo o tipo de animais. Tenho experiência em cuidar de cães, gatos e outros pequenos animais.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'rita_t'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'rita_t'), 'Amo passar tempo com animais e tenho disponibilidade para ajudar com passeios e cuidados básicos.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'tomas_vv3'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'tomas_vv3'), 'Olá! Sou o Tomás, um estudante que adora animais e tem tempo livre para cuidar dos seus.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'anasantos'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'anasantos'), 'Sou a Ana, tenho experiência com animais de estimação e ofereço serviços de babysitting de animais na zona de Aveiro.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'carlosm'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'carlosm'), 'Sou o Carlos, gosto muito de animais e estou disponível para passeios e companhia.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'sofia_l'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'sofia_l'), 'Olá, chamo-me Sofia e adoro cuidar de animais. Tenho experiência com cães e gatos.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'miguel_p'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'miguel_p'), 'Sou o Miguel, um amante de animais pronto para ajudar na sua ausência.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'margarida_p'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'margarida_p'), 'Olá, sou a Margarida e tenho muito carinho por animais. Disponível para cuidar do seu na zona do Funchal.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'joanam'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'joanam'), 'Sou a Joana, uma pessoa responsável e dedicada, pronta para cuidar do seu animal de estimação.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'helder_c'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'helder_c'), 'Sou o Hélder, tenho experiência com diversos tipos de animais e estou disponível em Portalegre.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'fernando_g'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'fernando_g'), 'Chamo-me Fernando e sou um apaixonado por animais. Tenho disponibilidade para cuidar do seu em Bragança.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'tiagom'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'tiagom'), 'Sou o Tiago, gosto muito de animais e estou disponível para ajudar na zona de Santarém.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'patriciav'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'patriciav'), 'Olá, sou a Patrícia e adoro animais. Tenho experiência em cuidar de cães e gatos em Setúbal.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'brunor'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'brunor'), 'Sou o Bruno, um jovem responsável que adora animais e vive em Viana do Castelo.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'carla_s'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'carla_s'), 'Olá, sou a Carla e tenho muito prazer em cuidar de animais na zona de Vila Real.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'carlos_r'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'carlos_r'), 'Sou o Carlos, um amante de animais com disponibilidade em Vila Real.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'beatriz_c'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'beatriz_c'), 'Olá, sou a Beatriz e adoro animais. Tenho experiência e disponibilidade em Aveiro.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'ricardoj'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'ricardoj'), 'Sou o Ricardo, um apaixonado por animais pronto a ajudar no distrito de Faro.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'andreia_p'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'andreia_p'), 'Olá, sou a Andreia e adoro animais. Tenho disponibilidade no Porto para cuidar dos seus.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'jose_s'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'jose_s'), 'Sou o José, gosto muito de animais e estou disponível para ajudar em Sines.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'pedror'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'pedror'), 'Olá, sou o Pedro e tenho experiência com animais em Évora.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'sara_c'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'sara_c'), 'Sou a Sara, uma pessoa carinhosa com animais, disponível em Castelo Branco.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'manuel_a'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'manuel_a'), 'Olá, chamo-me Manuel e gosto muito de animais. Disponível em Leiria.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'luis_g'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'luis_g'), 'Sou o Luís, um amante de animais pronto para ajudar na zona de Leiria.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'ines_f'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'ines_f'), 'Olá, sou a Inês e tenho disponibilidade para cuidar de animais em Viseu.');
+
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'isabel_m'), (SELECT role_id FROM temp_tab));
+INSERT INTO Freelancers (user_id, description) VALUES ((SELECT user_id FROM Users WHERE username = 'isabel_m'), 'Sou a Isabel, gosto muito de animais e estou disponível em Guimarães.');
 
 DROP TABLE temp_tab;
 
@@ -220,7 +294,7 @@ DROP TABLE temp_tab;
 CREATE TEMP TABLE temp_tab AS SELECT role_id FROM Roles WHERE role_type = 'admin';
 
 INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'casemiro'), (SELECT role_id FROM temp_tab));
-INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'sara'), (SELECT role_id FROM temp_tab));
+INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'staragarica'), (SELECT role_id FROM temp_tab));
 INSERT INTO User_Role (user_id, role_id) VALUES ((SELECT user_id FROM Users WHERE username = 'francisca'), (SELECT role_id FROM temp_tab));
 
 DROP TABLE temp_tab;
