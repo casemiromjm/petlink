@@ -1,3 +1,79 @@
+/* ==========================================================
+                        CORES DO SITE
+   ==========================================================
+
+#81B29A  - Verde principal
+    - Botões principais (background)
+    - Mensagens enviadas no chat (background)
+    - Bordas das fotos de perfil
+    - Links ativos e hover (ex: .profile-link:hover)
+    - Ícones de preço e animais nos anúncios
+    - Header do site (navbar)
+    - Destaque de username no chat
+
+#568870  - Verde escuro (hover/ativo)
+    - Hover de botões
+    - Hover do botão de enviar mensagem no chat
+    - Cor do título do anúncio na lista de conversas
+
+#e3e7e5  - Cinzento esverdeado claro
+    - Fundo da lista de conversas do chat
+    - Mensagens recebidas no chat (background)
+    - Fundo de cabeçalhos de utilizador em anúncios
+
+#c0cac5  - Cinzento esverdeado médio
+    - Bordas e fundo da lista de conversas
+    - Fundo do sidebar do perfil
+    - Fundo de secções e cabeçalhos de informação
+    - Bordas responsivas do chat
+
+#f7f7f7  - Cinzento muito claro
+    - Fundo do input de mensagem no chat
+    - Fundo do container do chat
+
+#fff / #ffffff  - Branco
+    - Fundo principal (cartões, chat, perfil, detalhes de anúncios, etc.)
+    - Texto de mensagens enviadas
+    - Texto de botões
+
+#2b4d43  - Verde azulado escuro
+    - Texto principal da lista de conversas
+    - Títulos de secções
+    - Texto do navbar
+
+#888 / #6c757d / #555 / #666 / #333 / #404040 / #474747 / #999 / #dee2e6 / #e0e0e0 / #d1d1d1
+    - Vários tons de cinzento usados para:
+        - Bordas
+        - Texto secundário (usernames, timestamps, avaliações)
+        - Estados desativados
+        - Fundos de cartões, formulários e containers
+        - Sombreamentos e elementos subtis de UI
+
+#FFD700  - Dourado
+    - Estrelas de avaliação (ratings)
+
+#E63946  - Vermelho
+    - Mensagens de erro
+
+#a5e76b  - Verde claro
+    - Mensagens de sucesso
+
+#f4eee9  - Bege muito claro
+    - Fundo do body
+
+#f4f4f4 / #ececec / #e9ecef / #ddd / #dee2e6 / #e0e0e0 / #d1d1d1
+    - Fundos, bordas e elementos subtis de interface
+
+#7c968b / #1f3934
+    - Hover e seleção no sidebar e menus
+
+#f9fafb
+    - Texto claro em menus e ícones
+
+========================================================== */
+
+
+
 html {
     overflow-y: scroll;
     height: 100%;
@@ -222,7 +298,7 @@ nav .profile-icon {
     transform: rotate(90deg);
 }
 
-/* Dropdown Options */
+/* Opçoes */
 .hamburger-menu .menu-options {
     display: none;
     position: absolute;
@@ -720,8 +796,8 @@ body.profile-page {
 .ad-header .user-photo {
     width: 40px;
     height: 40px;
-    border-radius: 50%; /* Makes the image circular */
-    object-fit: cover;  /* Ensures the image fills the circle while maintaining aspect ratio */
+    border-radius: 50%; 
+    object-fit: cover; 
     display: block;
     margin-right: 10px;
 }
@@ -1379,7 +1455,7 @@ main {
   line-height: 1.6;
   color: #495057;
   margin: 0;
-  max-height: 180px;      /* Ajuste este valor conforme necessário */
+  max-height: 180px;   
   overflow-y: auto;
 }
 
@@ -1801,36 +1877,69 @@ main {
 }
 
 .chat-list li {
-  border-bottom: 1px solid #d3d8d6;
+  border-bottom: 1px solid #c0cac5;
+  margin: 0;
+  padding: 0;
+  background: #e3e7e5;
+  min-height: 54px;
 }
 
 .chat-list li.active,
 .chat-list li:hover {
-  background: #c0cac5;
+  background: #c0cac5; 
 }
 
 .chat-list a.profile-link {
   display: block;
-  padding: 1rem 1.5rem;
+  padding: 0.7rem 1.1rem;
   color: #2b4d43;
   text-decoration: none;
   transition: background 0.2s;
+  margin: 0;
 }
 
+/* Título do anúncio */
+.chat-list .ad-title,
+.chat-list strong {
+  font-size: 0.97em;
+  font-weight: 600;
+  color: #568870;
+  margin-bottom: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+  display: block;
+}
+
+/* Nome e username */
+.chat-list .chat-user-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  font-size: 0.93em;
+  color: #2b4d43;
+}
+
+/* Última mensagem */
 .chat-list .chat-last-message {
-  font-size: 0.95em;
+  font-size: 0.85em;
   color: #555;
-  margin-top: 0.2em;
+  margin-top: 0.1em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
+/* Data/hora da última mensagem */
 .chat-list .chat-last-time {
-  font-size: 0.8em;
+  font-size: 0.75em;
   color: #888;
-  margin-top: 0.1em;
+  margin-top: 0.05em;
   text-align: right;
+  margin-left: auto;
+  min-width: 48px;
 }
 
 /* Right: Chat Messages */
@@ -1878,10 +1987,36 @@ main {
 }
 
 .message-time {
-  font-size: 0.8em;
-  color: #6c757d;
-  margin-top: 0.3em;
+  font-size: 0.55em;
+  opacity: 0.8;
+  margin-top: 0.4em;
+  display: block;
+  clear: both;
+}
+
+.message.sent .message-time {
+  color: #fff;
   text-align: right;
+  float: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.message.received .message-time {
+  color: #888;
+  text-align: left;
+  float: none;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.message-date-header {
+  text-align: center;
+  font-size: 0.85em;
+  color: #888;
+  margin: 1.2em 0 0.5em 0;
+  font-weight: normal;
+  letter-spacing: 1px;
 }
 
 .send-message-form {
