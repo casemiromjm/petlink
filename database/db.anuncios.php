@@ -12,6 +12,7 @@ function getAnuncios(PDO $db, int $page = 1, int $limit = 16): array {
             ads.image_path,
             users.username,
             users.name,
+            users.district,
             users.profile_photo
         FROM ads
         JOIN users ON ads.username = users.username
@@ -27,18 +28,18 @@ function getAnuncios(PDO $db, int $page = 1, int $limit = 16): array {
 }
 
 function getTotalAdCount(PDO $db): int {
-    $query = 'SELECT COUNT(*) FROM ads';
+    $query = 'SELECT COUNT(*) FROM Ads';
     $stmt = $db->prepare($query);
     $stmt->execute();
     return $stmt->fetchColumn();
 }
 
-function getAnuncio(PDO $db, int $id): array {
+function getAnuncio(PDO $db, int $ad_id): array {
     $stmt = $db->prepare('
-        SELECT ads.ad_id, ads.title, ads.description, ads.price, ads.price_period, ads.username
-        FROM ads
-        JOIN users ON ads.username = Users.username
-        WHERE ads.ad_id = ?
+        SELECT Ads.ad_id, Ads.title, Ads.description, Ads.price, Ads.price_period, Ads.username
+        FROM Ads
+        JOIN Users ON Ads.username = Users.username
+        WHERE Ads.ad_id = ?
     ');
     $stmt->execute([$ad_id]);
 
@@ -48,7 +49,7 @@ function getAnuncio(PDO $db, int $id): array {
         throw new Exception('Anúncio não encontrado.');
     }
 
-    return array(
+    return [
         'id' => $anuncio['ad_id'],
         'title' => $anuncio['title'],
         'description' => $anuncio['description'],
@@ -57,8 +58,9 @@ function getAnuncio(PDO $db, int $id): array {
         'price_period' => $anuncio['price_period'],
         'username' => $anuncio['username'],
         'animals' => getAnuncioAnimals($db, $anuncio['ad_id'])
-    );
+    ];
 }
+
 function getAnuncioAnimals(PDO $db, int $adId): array {
     $stmt = $db->prepare('
         SELECT at.animal_name
@@ -78,10 +80,18 @@ function getAnuncioAnimals(PDO $db, int $adId): array {
 
 function getAdById(PDO $db, int $id): ?array {
     $stmt = $db->prepare('
-        SELECT ads.*, users.name, users.username, users.description AS user_description
-        FROM ads
-        JOIN users ON ads.username = users.username
-        WHERE ads.id = ?
+      SELECT
+        ads.*,
+        ads.image_path,
+        users.username,
+        users.user_id,
+        users.name,
+        users.district,
+        users.profile_photo,
+        users.created_at
+      FROM ads
+      JOIN users ON ads.username = users.username
+      WHERE ads.ad_id = ?
     ');
     $stmt->execute([$id]);
     $ad = $stmt->fetch(PDO::FETCH_ASSOC);

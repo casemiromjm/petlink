@@ -3,9 +3,9 @@
 
   require_once('../templates/layout.php'); 
   require_once('../templates/sidebar.php'); 
-  require_once('../templates/animals.php');
+  require_once('../templates/addAnimal.php');
 
   drawHeader();
-  drawNavbar();
-  drawFooter();
+  drawAddAnimal();
+  drawFooter(); 
 ?>
