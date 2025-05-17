@@ -1866,14 +1866,17 @@ main {
   margin: 0;
   font-size: 1.2rem;
   color: #2b4d43;
-  background: #e3e7e5;
+  background: #c0cac5;
   border-bottom: 1px solid #c0cac5;
 }
 
 .chat-list ul {
   list-style: none;
-  margin: 0;
+  margin: 3px 0 0 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .chat-list li {
@@ -1882,11 +1885,7 @@ main {
   padding: 0;
   background: #e3e7e5;
   min-height: 54px;
-}
-
-.chat-list li.active,
-.chat-list li:hover {
-  background: #c0cac5; 
+  border-radius: 6px; /* opcional: arredonda os cantos para destacar o gap */
 }
 
 .chat-list a.profile-link {
@@ -2062,24 +2061,25 @@ main {
   background: #fff;
 }
 
-/* Responsive */
-@media (max-width: 900px) {
-  .chat-container {
-    flex-direction: column;
-    height: auto;
-    max-height: none;
-  }
-  .chat-list {
-    width: 100%;
-    min-height: 120px;
-    border-right: none;
-    border-bottom: 1px solid #c0cac5;
-  }
-  .chat-messages {
-    min-height: 350px;
-  }
-  .messages-list, .send-message-form {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+.message-status {
+  font-size: 0.75em;
+  color: #888;
+  text-align: right;
+  position: relative;
+  top: -10px;
+}
+.message-status.seen {
+  color: #81B29A; 
+}
+
+.nav-messages-notification-dot {
+  position: absolute;
+  right: 12px;
+  width: 7px;
+  height: 7px;
+  background: #E63946;
+  border-radius: 50%;
+  z-index: 14;
+  display: inline-block;
+  pointer-events: none;
 }

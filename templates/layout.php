@@ -1,7 +1,18 @@
 <?php declare(strict_types = 1); ?>
-<?php session_start(); // Ensure session is started ?>
+<?php
+session_start();
 
-<?php function drawHeader() { ?>
+// Ver se há mensagens nao vistas
+$hasUnreadMessages = false;
+if (isset($_SESSION['user_id'])) {
+  require_once(__DIR__ . '/../database/connection.db.php');
+  $db = getDatabaseConnection();
+  $stmt = $db->prepare('SELECT COUNT(*) FROM Messages WHERE to_user_id = ? AND is_read = 0');
+  $stmt->execute([$_SESSION['user_id']]);
+  $hasUnreadMessages = $stmt->fetchColumn() > 0;
+}
+?>
+<?php function drawHeader() { global $hasUnreadMessages; ?>
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,9 +39,14 @@
           </div>
           <div class="nav-right" style="display: flex; align-items: center; gap: 1.5em;">
             <ul style="display: flex; align-items: center; margin: 0;">
-              <li>
+              <li style="position:relative;">
                 <a href="../pages/messages.php">Mensagens
-                  <i class="fi fi-rr-envelope"></i>
+                  <span class="envelope-icon-wrapper" style="position:relative; display:inline-block;">
+                    <i class="fi fi-rr-envelope"></i>
+                    <?php if ($hasUnreadMessages): ?>
+                      <span class="nav-messages-notification-dot"></span>
+                    <?php endif; ?>
+                  </span>
                 </a>
               </li>
               <li style="padding:0;">

@@ -32,20 +32,33 @@
       <div class="messages-list">
         <?php
           $lastDate = null;
-          foreach ($messages as $msg):
-            $msgDate = (new DateTime($msg['sent_at']))->format('d/m/Y');
-            $msgHour = (new DateTime($msg['sent_at']))->format('H:i');
-            if ($msgDate !== $lastDate):
+          $lastSentIndex = null;
+          $lastMessageIndex = count($messages) - 1;
+          foreach ($messages as $i => $msg) {
+            if ($msg['from_user_id'] == $_SESSION['user_id']) {
+              $lastSentIndex = $i;
+            }
+          }
+        ?>
+        <?php foreach ($messages as $i => $msg):
+          $msgDate = (new DateTime($msg['sent_at']))->format('d/m/Y');
+          $msgHour = (new DateTime($msg['sent_at']))->format('H:i');
+          if ($msgDate !== $lastDate):
         ?>
           <div class="message-date-header"><?= htmlspecialchars($msgDate) ?></div>
         <?php
             $lastDate = $msgDate;
-            endif;
+          endif;
         ?>
           <div class="message <?= $msg['from_user_id'] == $_SESSION['user_id'] ? 'sent' : 'received' ?>">
             <span><?= htmlspecialchars($msg['text']) ?></span>
             <div class="message-time"><?= htmlspecialchars($msgHour) ?></div>
           </div>
+          <?php if ($i === $lastSentIndex && $i === $lastMessageIndex): ?>
+            <div class="message-status <?= $msg['is_read'] ? 'seen' : 'sent' ?> message-status-right">
+              <?= $msg['is_read'] ? 'seen' : 'sent' ?>
+            </div>
+          <?php endif; ?>
         <?php endforeach; ?>
       </div>
       <form class="send-message-form" action="../actions/action_sendMessage.php" method="post">
