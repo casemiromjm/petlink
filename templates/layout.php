@@ -39,6 +39,7 @@ if (isset($_SESSION['user_id'])) {
           </div>
           <div class="nav-right" style="display: flex; align-items: center; gap: 1.5em;">
             <ul style="display: flex; align-items: center; margin: 0;">
+              <?php if (isset($_SESSION['user_id'])): ?>
               <li style="position:relative;">
                 <a href="../pages/messages.php">Mensagens
                   <span class="envelope-icon-wrapper" style="position:relative; display:inline-block;">
@@ -49,6 +50,7 @@ if (isset($_SESSION['user_id'])) {
                   </span>
                 </a>
               </li>
+              <?php endif; ?>
               <li style="padding:0;">
                 <?php if (isset($_SESSION['user_id'])): ?>
                   <div class="hamburger-menu">

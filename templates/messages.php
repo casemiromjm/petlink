@@ -19,7 +19,14 @@
                   <?= htmlspecialchars($chat['name']) ?> <span style="color:#81B29A;"></span>
                 </div>
                 <div class="chat-last-message"><?= htmlspecialchars($chat['last_message']) ?></div>
-                <div class="chat-last-time"><?= htmlspecialchars($chat['last_time']) ?></div>
+                <div class="chat-last-time">
+                  <?php
+                    if (!empty($chat['last_time'])) {
+                      $dt = new DateTime($chat['last_time']);
+                      echo htmlspecialchars($dt->format('H:i d/m/Y'));
+                    }
+                  ?>
+                </div>
               </div>
             </div>
           </a>
@@ -29,7 +36,7 @@
   </aside>
   <section class="chat-messages">
     <?php if ($selectedAdId && $selectedUserId): ?>
-      <div class="messages-list">
+      <div class="messages-list" id="messagesContainer">
         <?php
           $lastDate = null;
           $lastSentIndex = null;
@@ -72,4 +79,12 @@
     <?php endif; ?>
   </section>
 </div>
+<script>
+  window.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('messagesContainer');
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
+  });
+</script>
 <?php } ?>
