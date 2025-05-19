@@ -17,7 +17,7 @@ if (isset($_SESSION['user_id'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="../resources/logo.png">
-    <title>SiteName Here</title>
+    <title>PetLink</title>
     <link rel="preload" href="stylesheets/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="stylesheets/style.css"></noscript>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
@@ -26,7 +26,7 @@ if (isset($_SESSION['user_id'])) {
     <header>
       <div class="logo">
         <img src="../resources/logo.png" alt="logo">
-        <h1><a href="../index.php">Nome do site</a></h1>
+        <h1><a href="../index.php">PetLink</a></h1>
       </div>
       <nav style="width:100%;">
         <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
@@ -83,7 +83,7 @@ if (isset($_SESSION['user_id'])) {
 <?php function drawFooter() { ?>
     </main>
     <footer>
-      Projeto LTW . Turma 02 Grupo 05 . 2024/2025
+      PetLink™ • Projeto LTW • T02G05 • 2025
     </footer>
   </body>
 <?php } ?>

@@ -18,6 +18,6 @@
 
       <button type="submit">Login</button>
     </form>
-    <p>Ainda não se juntou à [nome do site lol]? <a href="signup.php">Crie uma conta</a>!</p>
+    <p>Ainda não se juntou à Petlink? <a href="signup.php">Crie uma conta</a>!</p>
   </section>
 <?php } ?>

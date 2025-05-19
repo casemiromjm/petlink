@@ -35,7 +35,26 @@
     </ul>
   </aside>
   <section class="chat-messages">
-    <?php if ($selectedAdId && $selectedUserId): ?>
+    <?php if ($selectedAdId && $selectedUserId):
+      $currentChat = null;
+      foreach ($chats as $chat) {
+        if ($chat['ad_id'] == $selectedAdId && $chat['user_id'] == $selectedUserId) {
+          $currentChat = $chat;
+          break;
+        }
+      }
+    ?>
+      <?php if ($currentChat): ?>
+        <div class="chat-header-bar" style="display:flex;align-items:center;gap:16px;padding:1.2rem 2rem 1rem 2rem;border-bottom:1px solid #e3e7e5;background:#fff;">
+          <a href="../pages/userprofile.php?username=<?= urlencode($currentChat['username']) ?>" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;">
+            <img src="<?= htmlspecialchars(str_replace('./', '../', $currentChat['profile_photo'] ?? '../resources/default_profile.png')) ?>" alt="Foto de perfil" style="width:48px;height:48px;border-radius:50%;object-fit:cover;background:#e0e0e0;">
+            <div>
+              <div style="font-weight:600;font-size:1.1em;"><?= htmlspecialchars($currentChat['ad_title']) ?></div>
+              <div style="font-size:0.97em;color:#2b4d43;"><?= htmlspecialchars($currentChat['name']) ?></div>
+            </div>
+          </a>
+        </div>
+      <?php endif; ?>
       <div class="messages-list" id="messagesContainer">
         <?php
           $lastDate = null;
