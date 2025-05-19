@@ -9,13 +9,15 @@ function getAnuncios(PDO $db, int $page = 1, int $limit = 16): array {
             ads.description,
             ads.price,
             ads.price_period,
-            ads.image_path,
+            users.user_id,
             users.username,
             users.name,
             users.district,
-            users.profile_photo
+            users.photo_id,
+            ad_media.media_id
         FROM ads
-        JOIN users ON ads.username = users.username
+        JOIN users ON ads.freelancer_id = users.user_id
+        JOIN ad_media ON ad_media.ad_id = id
         ORDER BY ads.ad_id DESC
         LIMIT :limit OFFSET :offset
     ';
@@ -80,18 +82,19 @@ function getAnuncioAnimals(PDO $db, int $adId): array {
 
 function getAdById(PDO $db, int $id): ?array {
     $stmt = $db->prepare('
-      SELECT
+    SELECT
         ads.*,
-        ads.image_path,
+        ad_media.media_id,
         users.username,
         users.user_id,
         users.name,
         users.district,
-        users.profile_photo,
+        users.photo_id,
         users.created_at
-      FROM ads
-      JOIN users ON ads.username = users.username
-      WHERE ads.ad_id = ?
+    FROM ads
+    JOIN ad_media ON ad_media.ad_id = ads.ad_id
+    JOIN users ON ads.freelancer_id = users.user_id
+    WHERE ads.ad_id = ?
     ');
     $stmt->execute([$id]);
     $ad = $stmt->fetch(PDO::FETCH_ASSOC);

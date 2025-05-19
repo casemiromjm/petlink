@@ -10,11 +10,18 @@
   <section class="ad-details">
     <div class="ad-user">
       <div class="ad-user-header">
-        <img
-          src="<?= htmlspecialchars(str_replace('./', '../', $ad['profile_photo'] ?? '../resources/default_profile.png')) ?>"
-          alt="Foto de perfil"
-          class="ad-user-photo"
-        >
+        <?php
+          $profilePhotoId = $ad['photo_id'] ?? 'default';
+
+          if ($profilePhotoId === 'default') {
+              $src = '../resources/profilePics/0.png';
+          } else {
+              $src = "../resources/profilePics/" . $profilePhotoId . ".png";
+          }
+          ?>
+
+          <img src="<?= htmlspecialchars($src) ?>" alt="Profile Photo" class="ad-user-photo">
+
         <div class="ad-user-info">
           <strong><?= htmlspecialchars($ad['name'] ?? 'Nome não disponível') ?></strong>
           <span class="username"><?= htmlspecialchars($ad['username'] ?? 'Usuário não disponível') ?></span>

@@ -1,7 +1,5 @@
 <?php declare(strict_types = 1); ?>
 
-<link rel="stylesheet" href="stylesheets/search.css">
-
 <?php function drawSearch() { ?>
   <section class="pesquisa">
     <div class="input-wrapper">
