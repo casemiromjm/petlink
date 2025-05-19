@@ -113,6 +113,10 @@ a:hover {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.form-container textarea {
+    font-family: inherit;
+}
+
 .form-container h2 {
     text-align: center;
     margin-bottom: 1em;
@@ -2015,8 +2019,11 @@ main {
   display: flex;
   gap: 0.7em;
   padding: 1.2rem 2.5rem;
+  padding-bottom: 0.1rem;
   border-top: 1px solid #e3e7e5;
   background: #fff;
+  align-items: center; 
+  height:45px;
 }
 
 .send-message-form input[type="text"] {
@@ -2027,6 +2034,8 @@ main {
   font-size: 1em;
   outline: none;
   background: #f7f7f7;
+  height: 45px;
+  margin-bottom: 0;
 }
 
 .send-message-form button {
@@ -2038,10 +2047,8 @@ main {
   font-size: 1em;
   cursor: pointer;
   transition: background 0.2s;
-}
-
-.send-message-form button:hover {
-  background: #568870;
+  height: 45px;
+  margin-top: 0; 
 }
 
 .no-chat-selected {
