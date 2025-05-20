@@ -562,6 +562,7 @@ form .animal-checkboxes {
 
 form .animal-checkboxes label {
     width: 24%;
+    font-weight: lighter;
 }
 
 /* Página do perfil (layout) */

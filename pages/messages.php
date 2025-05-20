@@ -19,7 +19,11 @@ $currentUserId = $_SESSION['user_id'];
 $selectedAdId = isset($_GET['ad']) ? intval($_GET['ad']) : null;
 $selectedUserId = isset($_GET['to']) ? intval($_GET['to']) : null;
 
-// Fetch chats for the current user
+if ($selectedUserId && $selectedUserId === $currentUserId) {
+    $selectedAdId = null;
+    $selectedUserId = null;
+}
+
 $stmt = $db->prepare('
     SELECT DISTINCT
         CASE
