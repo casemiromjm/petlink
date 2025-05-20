@@ -15,8 +15,10 @@
 
   $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
   $limit = 16;
-  $anuncios = getAnuncios($db, $page, $limit);
-  $totalAds = getTotalAdCount($db);
+  $location = isset($_GET['location']) ? $_GET['location'] : '';
+
+  $anuncios = getAnuncios($db, $page, $limit, $location);
+  $totalAds = getTotalAdCount($db, $location);
   $totalPages = ceil($totalAds / $limit);
 
   drawHeader();

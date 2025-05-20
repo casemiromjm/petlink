@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-function getAnuncios(PDO $db, int $page = 1, int $limit = 16): array {
+function getAnuncios(PDO $db, int $page = 1, int $limit = 16, string $location = ''): array {
     $offset = ($page - 1) * $limit;
     $query = '
         SELECT
@@ -16,20 +16,35 @@ function getAnuncios(PDO $db, int $page = 1, int $limit = 16): array {
             users.profile_photo
         FROM ads
         JOIN users ON ads.username = users.username
-        ORDER BY ads.ad_id DESC
-        LIMIT :limit OFFSET :offset
     ';
+    $params = [];
+    if ($location !== '') {
+        $query .= ' WHERE LOWER(users.district) = LOWER(:location) ';
+        $params[':location'] = $location;
+    }
+    $query .= ' ORDER BY ads.ad_id DESC LIMIT :limit OFFSET :offset';
 
     $stmt = $db->prepare($query);
+    foreach ($params as $key => $value) {
+        $stmt->bindValue($key, $value);
+    }
     $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
     $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetchAll();
 }
 
-function getTotalAdCount(PDO $db): int {
-    $query = 'SELECT COUNT(*) FROM Ads';
+function getTotalAdCount(PDO $db, string $location = ''): int {
+    $query = 'SELECT COUNT(*) FROM Ads JOIN Users ON Ads.username = Users.username';
+    $params = [];
+    if ($location !== '') {
+        $query .= ' WHERE LOWER(Users.district) = LOWER(:location)';
+        $params[':location'] = $location;
+    }
     $stmt = $db->prepare($query);
+    foreach ($params as $key => $value) {
+        $stmt->bindValue($key, $value);
+    }
     $stmt->execute();
     return $stmt->fetchColumn();
 }

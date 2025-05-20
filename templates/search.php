@@ -1,42 +1,46 @@
 <?php declare(strict_types = 1); ?>
 
 <link rel="stylesheet" href="stylesheets/search.css">
+<script src="javascript/script.js"></script>
 
-<?php function drawSearch() { ?>
+<?php function drawSearch() { 
+  $search = $_GET['search'] ?? '';
+  $location = $_GET['location'] ?? '';
+?>
   <section class="pesquisa">
     <div class="input-wrapper">
-    <i class="fi fi-rr-search"></i>
-      <input type="text" placeholder="O que procuras?">
+      <i class="fi fi-rr-search"></i>
+      <input type="text" placeholder="O que procuras?" value="<?= htmlspecialchars($search) ?>">
     </div>
 
     <div class="select-wrapper">
-    <i class="fi fi-rr-marker"></i>
-    <select id="location">
-        <option value="">Todo o país</option>
-        <option value="açores">Açores</option>
-        <option value="aveiro">Aveiro</option>
-        <option value="beja">Beja</option>
-        <option value="braga">Braga</option>
-        <option value="bragança">Bragança</option>
-        <option value="castelo branco">Castelo Branco</option>
-        <option value="coimbra">Coimbra</option>
-        <option value="evora">Évora</option>
-        <option value="faro">Faro</option>
-        <option value="guarda">Guarda</option>
-        <option value="leiria">Leiria</option>
-        <option value="lisboa">Lisboa</option>
-        <option value="madeira">Madeira</option>
-        <option value="portalegre">Portalegre</option>
-        <option value="porto">Porto</option>
-        <option value="santarem">Santarém</option>
-        <option value="setubal">Setúbal</option>
-        <option value="viana do castelo">Viana do Castelo</option>
-        <option value="vila real">Vila Real</option>
-        <option value="viseu">Viseu</option>
+      <i class="fi fi-rr-marker"></i>
+      <select id="location">
+        <option value="" <?= $location === '' ? 'selected' : '' ?>>Todo o país</option>
+        <option value="açores" <?= $location === 'açores' ? 'selected' : '' ?>>Açores</option>
+        <option value="aveiro" <?= $location === 'aveiro' ? 'selected' : '' ?>>Aveiro</option>
+        <option value="beja" <?= $location === 'beja' ? 'selected' : '' ?>>Beja</option>
+        <option value="braga" <?= $location === 'braga' ? 'selected' : '' ?>>Braga</option>
+        <option value="bragança" <?= $location === 'bragança' ? 'selected' : '' ?>>Bragança</option>
+        <option value="castelo branco" <?= $location === 'castelo branco' ? 'selected' : '' ?>>Castelo Branco</option>
+        <option value="coimbra" <?= $location === 'coimbra' ? 'selected' : '' ?>>Coimbra</option>
+        <option value="evora" <?= $location === 'evora' ? 'selected' : '' ?>>Évora</option>
+        <option value="faro" <?= $location === 'faro' ? 'selected' : '' ?>>Faro</option>
+        <option value="guarda" <?= $location === 'guarda' ? 'selected' : '' ?>>Guarda</option>
+        <option value="leiria" <?= $location === 'leiria' ? 'selected' : '' ?>>Leiria</option>
+        <option value="lisboa" <?= $location === 'lisboa' ? 'selected' : '' ?>>Lisboa</option>
+        <option value="madeira" <?= $location === 'madeira' ? 'selected' : '' ?>>Madeira</option>
+        <option value="portalegre" <?= $location === 'portalegre' ? 'selected' : '' ?>>Portalegre</option>
+        <option value="porto" <?= $location === 'porto' ? 'selected' : '' ?>>Porto</option>
+        <option value="santarem" <?= $location === 'santarem' ? 'selected' : '' ?>>Santarém</option>
+        <option value="setubal" <?= $location === 'setubal' ? 'selected' : '' ?>>Setúbal</option>
+        <option value="viana do castelo" <?= $location === 'viana do castelo' ? 'selected' : '' ?>>Viana do Castelo</option>
+        <option value="vila real" <?= $location === 'vila real' ? 'selected' : '' ?>>Vila Real</option>
+        <option value="viseu" <?= $location === 'viseu' ? 'selected' : '' ?>>Viseu</option>
       </select>
     </div>
 
-    <button onclick="pesquisar()">Pesquisar</button>
+    <button type="button" onclick="pesquisar()">Pesquisar</button>
   </section>
 
   <section class="filtros">
@@ -48,9 +52,11 @@
     </div>
     <label for="duracao"></label>
     <select>
-      <option>Curto Prazo</option>
-      <option>Médio Prazo</option>
-      <option>Longo Prazo</option>
+      <option>Qualquer</option>
+      <option>Hora</option>
+      <option>Dia</option>
+      <option>Semana</option>
+      <option>Mês</option>
     </select>
     <label for="animais"></label>
     <select>
