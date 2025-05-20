@@ -15,13 +15,13 @@
 
   $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
   $limit = 16;
-  $anuncios = getAnuncios($db, $page, $limit);
+  $ads = getAnuncios($db, $page, $limit);
   $totalAds = getTotalAdCount($db);
   $totalPages = ceil($totalAds / $limit);
 
   drawHeader();
   drawSearch();
-  drawAds($anuncios, $totalAds, $db);
+  drawAds($ads, $totalAds, $db);
 
   if ($totalPages > 1) {
     echo '<div class="pagination">';

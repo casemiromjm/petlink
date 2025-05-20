@@ -14,9 +14,9 @@
           $profilePhotoId = $ad['photo_id'] ?? 'default';
 
           if ($profilePhotoId === 'default') {
-              $src = '../resources/profilePics/0.png';
+              $src = '/resources/profilePics/0.png';
           } else {
-              $src = "../resources/profilePics/" . $profilePhotoId . ".png";
+              $src = "/resources/profilePics/" . $profilePhotoId . ".png";
           }
           ?>
 

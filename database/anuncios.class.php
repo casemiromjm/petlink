@@ -4,21 +4,21 @@ function getAnuncios(PDO $db, int $page = 1, int $limit = 16): array {
     $offset = ($page - 1) * $limit;
     $query = '
         SELECT
-            ads.ad_id as id,
-            ads.title,
-            ads.description,
-            ads.price,
-            ads.price_period,
-            users.user_id,
-            users.username,
-            users.name,
-            users.district,
-            users.photo_id,
-            ad_media.media_id
-        FROM ads
-        JOIN users ON ads.freelancer_id = users.user_id
-        JOIN ad_media ON ad_media.ad_id = id
-        ORDER BY ads.ad_id DESC
+            Ads.ad_id as id,
+            Ads.title,
+            Ads.description,
+            Ads.price,
+            Ads.price_period,
+            Users.user_id,
+            Users.username,
+            Users.name,
+            Users.district,
+            Users.photo_id,
+            Ad_media.media_id
+        FROM Ads
+        JOIN Users ON Ads.freelancer_id = Users.user_id
+        LEFT JOIN Ad_media ON Ad_media.ad_id = id
+        ORDER BY Ads.ad_id DESC
         LIMIT :limit OFFSET :offset
     ';
 
@@ -38,28 +38,28 @@ function getTotalAdCount(PDO $db): int {
 
 function getAnuncio(PDO $db, int $ad_id): array {
     $stmt = $db->prepare('
-        SELECT Ads.ad_id, Ads.title, Ads.description, Ads.price, Ads.price_period, Ads.username
+        SELECT Ads.ad_id, Ads.service_id, Ads.freelancer_id, Ads.title, Ads.description, Ads.price, Ads.price_period
         FROM Ads
-        JOIN Users ON Ads.username = Users.username
+        JOIN Users ON Ads.freelancer_id = Users.user_id
         WHERE Ads.ad_id = ?
     ');
     $stmt->execute([$ad_id]);
 
-    $anuncio = $stmt->fetch();
+    $add = $stmt->fetch();
 
-    if (!$anuncio) {
+    if (!$ad) {
         throw new Exception('Anúncio não encontrado.');
     }
 
     return [
-        'id' => $anuncio['ad_id'],
-        'title' => $anuncio['title'],
-        'description' => $anuncio['description'],
-        'service_type' => $anuncio['service_type'],
-        'price' => $anuncio['price'],
-        'price_period' => $anuncio['price_period'],
-        'username' => $anuncio['username'],
-        'animals' => getAnuncioAnimals($db, $anuncio['ad_id'])
+        'id' => $ad['ad_id'],
+        'title' => $ad['title'],
+        'description' => $ad['description'],
+        'service_id' => $ad['service_id'],
+        'price' => $ad['price'],
+        'price_period' => $ad['price_period'],
+        'freelancer_id' => $ad['freelancer_id'],
+        'animals' => getAnuncioAnimals($db, $ad['ad_id'])
     ];
 }
 
@@ -82,19 +82,18 @@ function getAnuncioAnimals(PDO $db, int $adId): array {
 
 function getAdById(PDO $db, int $id): ?array {
     $stmt = $db->prepare('
-    SELECT
-        ads.*,
-        ad_media.media_id,
-        users.username,
-        users.user_id,
-        users.name,
-        users.district,
-        users.photo_id,
-        users.created_at
-    FROM ads
-    JOIN ad_media ON ad_media.ad_id = ads.ad_id
-    JOIN users ON ads.freelancer_id = users.user_id
-    WHERE ads.ad_id = ?
+        SELECT
+            Ads.*,
+            Users.username,
+            Users.user_id,
+            Users.name,
+            Users.district,
+            Users.photo_id,
+            Ad_media.media_id
+        FROM Ads
+        JOIN Ad_media ON Ad_media.ad_id = Ads.ad_id
+        JOIN Users ON Ads.freelancer_id = Users.user_id
+        WHERE Ads.ad_id = ?
     ');
     $stmt->execute([$id]);
     $ad = $stmt->fetch(PDO::FETCH_ASSOC);
