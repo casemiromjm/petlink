@@ -477,10 +477,11 @@ footer {
 }
 
 .filtros a {
-    margin-left: 1.2em;
     text-decoration: underline;
     color: #404040;
     font-size: 0.97em;
+    display: flex;
+    align-items: center;
 }
 
 /* Sort */
@@ -501,7 +502,8 @@ footer {
     padding: 8px;
     font-size: 0.9em;
     width: 180px;
-    height: 35px;
+    height: 45px; /* Match .filtros select */
+    box-sizing: border-box;
 }
 
 /* Criar anúncio */

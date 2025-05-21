@@ -43,56 +43,56 @@
     <button type="button" onclick="pesquisar()">Pesquisar</button>
   </section>
 
-  <section class="filtros">
-    <h2>Filtros</h2>
-    <div id="titles">
-      <h3>Duração</h3>
-      <h3>Animais</h3>
-      <h3>Serviço</h3>
+  <section class="filtros" style="display: flex; align-items: flex-end; justify-content: space-between;">
+    <div class="filtros-left" style="display: flex; gap: 2em;">
+      <div>
+        <h3>Duração</h3>
+        <select>
+          <option>Qualquer</option>
+          <option>Hora</option>
+          <option>Dia</option>
+          <option>Semana</option>
+          <option>Mês</option>
+        </select>
+      </div>
+      <div>
+        <h3>Animais</h3>
+        <select>
+          <option>Todos</option>
+          <option>Cães</option>
+          <option>Gatos</option>
+          <option>Pássaros</option>
+          <option>Furões</option>
+          <option>Coelhos</option>
+          <option>Peixes</option>
+          <option>Roedores</option>
+          <option>Répteis</option>
+        </select>
+      </div>
+      <div>
+        <h3>Serviço</h3>
+        <select>
+          <option>Todos</option>
+          <option>Passeio</option>
+          <option>Pet Sitting</option>
+          <option>Tosquia</option>
+          <option>Treino</option>
+          <option>Alojamento</option>
+          <option>Veterinário</option>
+        </select>
+      </div>
+      <a href="#" onclick="limparFiltros()">Limpar Filtros</a>
     </div>
-    <label for="duracao"></label>
-    <select>
-      <option>Qualquer</option>
-      <option>Hora</option>
-      <option>Dia</option>
-      <option>Semana</option>
-      <option>Mês</option>
-    </select>
-    <label for="animais"></label>
-    <select>
-      <option>Todos</option>
-      <option>Cães</option>
-      <option>Gatos</option>
-      <option>Pássaros</option>
-      <option>Furões</option>
-      <option>Coelhos</option>
-      <option>Peixes</option>
-      <option>Roedores</option>
-      <option>Répteis</option>
-    </select>
-    <label for="serviço"></label>
-    <select>
-      <option>Todos</option>
-      <option>Passeio</option>
-      <option>Pet Sitting</option>
-      <option>Tosquia</option>
-      <option>Treino</option>
-      <option>Alojamento</option>
-      <option>Veterinário</option>
-    </select>
-    <a href="#" onclick="limparFiltros()">Limpar Filtros</a>
-  </section>
-
-  <section class="sort">
-    <h3>Sort by:</h3>
-    <label for="sort"></label>
-    <select>
-      <option>Recomendados</option>
-      <option>Avaliações</option>
-      <option>Preço: baixo para alto</option>
-      <option>Preço: alto para baixo</option>
-      <option>Mais recentes</option>
-    </select>
+    <div class="sort">
+      <h3 style="display:inline; margin-right: 0.5em;">Ordenar por:</h3>
+      <select>
+        <option>Recomendados</option>
+        <option>Avaliações</option>
+        <option>Preço: baixo para alto</option>
+        <option>Preço: alto para baixo</option>
+        <option>Mais recentes</option>
+      </select>
+    </div>
   </section>
 
   <section class="results">
