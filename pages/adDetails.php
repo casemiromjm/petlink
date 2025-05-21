@@ -18,7 +18,7 @@
     die('Anúncio não encontrado.');
   }
 
-  $ad = getAdById($db, $adId);
+  $ad = Ad::getById($db, $adId);
 
   if (!$ad) {
     die('Anúncio não encontrado.');

@@ -3,33 +3,32 @@
 <link rel="stylesheet" href="../stylesheets/style.css">
 <script src="../javascript/script.js"></script>
 
-<?php function drawAdDetails(array $ad, int $success): void { ?>
+<?php function drawAdDetails(Ad $ad, int $success): void { ?>
   <?php if ($success === 1): ?>
     <div id="success-message" class="success-message">Anúncio criado com sucesso</div>
   <?php endif; ?>
+
   <section class="ad-details">
     <div class="ad-user">
       <div class="ad-user-header">
         <?php
-          $profilePhotoId = $ad['photo_id'] ?? 'default';
+        $profilePhotoId = $ad->getPhotoId();
 
-          if ($profilePhotoId === 'default') {
-              $src = '/resources/profilePics/0.png';
-          } else {
-              $src = "/resources/profilePics/" . $profilePhotoId . ".png";
-          }
-          ?>
-
-          <img src="<?= htmlspecialchars($src) ?>" alt="Profile Photo" class="ad-user-photo">
-
+        if (empty($profilePhotoId)) {
+            $src = '/resources/profilePics/0.png';
+        } else {
+            $src = "/resources/profilePics/" . htmlspecialchars((string)$profilePhotoId) . ".png";
+        }
+    ?>
+<img src="<?= htmlspecialchars($src) ?>" alt="Profile Photo" class="ad-user-photo">
         <div class="ad-user-info">
-          <strong><?= htmlspecialchars($ad['name'] ?? 'Nome não disponível') ?></strong>
-          <span class="username"><?= htmlspecialchars($ad['username'] ?? 'Usuário não disponível') ?></span>
+          <strong><?= htmlspecialchars(($ad->getName()) ?? 'Nome não disponível') ?></strong>
+          <span class="username"><?= htmlspecialchars($ad->getUsername()?? 'Usuário não disponível') ?></span>
         </div>
       </div>
       <?php
-        if (!empty($ad['created_at'])) {
-          $date = new DateTime($ad['created_at']);
+        if (!empty($ad->getCreatedAt())) {
+          $date = new DateTime;
           $monthNum = (int)$date->format('n');
           $year = $date->format('Y');
           $meses = [
@@ -42,17 +41,17 @@
           $membroDesde = "Data de registo desconhecida";
         }
       ?>
-      <p><i class="fi fi-rr-marker"></i> <?= htmlspecialchars($ad['district'] ?? 'Localização não disponível') ?></p>
+      <p><i class="fi fi-rr-marker"></i> <?= htmlspecialchars($ad->getDistrict() ?? 'Localização não disponível') ?></p>
       <p><i class="fi fi-rr-star"></i> 4.7/5 (32 avaliações)</p>
       <p><i class="fi fi-rr-calendar"></i> Membro desde <?= htmlspecialchars($membroDesde) ?></p>
       <div style="text-align:center; margin-top: 10px;">
-        <a href="../pages/userprofile.php?username=<?= urlencode($ad['username']) ?>" class="profile-link">Ver perfil</a>
+        <a href="../pages/userprofile.php?username=<?= urlencode($ad->getUsername()) ?>" class="profile-link">Ver perfil</a>
       </div>
     </div>
     <div class="ad-images"><div class="ad-images carousel-container">
     <div class="carousel-track">
         <?php
-          $adMediaIds = $ad['mediaIds'] ?? [];
+          $adMediaIds = $ad->getMediaIds() ?? [];
 
         if (empty($adMediaIds)) {
             $src = '/resources/adPics/8.png';
@@ -84,15 +83,15 @@
 
     <div class="ad-info">
       <div class="ad-info-header">
-        <h1><?= htmlspecialchars($ad['title'] ?? 'Título não disponível') ?></h1>
-        <span class="ad-price"><?= htmlspecialchars((string)($ad['price'] ?? '0.00')) ?>€ / <?= htmlspecialchars($ad['price_period'] ?? 'período não disponível') ?></span>
+        <h1><?= htmlspecialchars($ad->getTitle() ?? 'Título não disponível') ?></h1>
+        <span class="ad-price"><?= htmlspecialchars((string)($ad->getPrice() ?? '0.00')) ?>€ / <?= htmlspecialchars($ad->getPricePeriod() ?? 'período não disponível') ?></span>
         <form action="../pages/messages.php" method="get" style="display:inline;">
-          <input type="hidden" name="ad" value="<?= htmlspecialchars((string)$ad['id']) ?>">
-          <input type="hidden" name="to" value="<?= htmlspecialchars((string)$ad['user_id']) ?>">
+          <input type="hidden" name="ad" value="<?= htmlspecialchars((string)$ad->getId()) ?>">
+          <input type="hidden" name="to" value="<?= htmlspecialchars((string)$ad->getUserId()) ?>">
           <button type="submit" class="message-button">Enviar mensagem</button>
         </form>
       </div>
-      <p class="ad-description"><?= nl2br(htmlspecialchars($ad['description'] ?? 'Descrição não disponível')) ?></p>
+      <p class="ad-description"><?= nl2br(htmlspecialchars($ad->getDescription() ?? 'Descrição não disponível')) ?></p>
     </div>
   </section>
   <script src="/javascript/carrouselButtons.js"></script> </body>

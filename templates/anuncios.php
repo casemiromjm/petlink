@@ -22,13 +22,13 @@
         </div>
         <div class="ad-list">
           <?php foreach ($ads as $ad): ?>
-            <a href="pages/adDetails.php?id=<?= htmlspecialchars((string)$ad['id']) ?>" class="ad">
+            <a href="pages/adDetails.php?id=<?= htmlspecialchars((string)$ad->getId()) ?>" class="ad">
                     <div class="ad-image">
                     <?php
                             $adPhotoId = 'default';
 
-                            if (isset($ad['media_ids']) && is_array($ad['media_ids']) && !empty($ad['media_ids'])) {
-                                $adPhotoId = $ad['media_ids'][0];
+                            if (!empty($ad->getMediaIds())) {
+                                $adPhotoId = $ad->getMediaIds()[0];
                             }
 
                             if ($adPhotoId === 'default') {
@@ -36,38 +36,37 @@
                             } else {
                                 $src = "/resources/adPics/" . htmlspecialchars((string)$adPhotoId) . ".png";
                             }
+                            ?>
 
-                                ?>
-
-                                <img src="<?= htmlspecialchars($src) ?>"  alt="Imagem do anúncio" >
-                            </div>
+                            <img src="<?= htmlspecialchars($src) ?>" alt="Imagem do anúncio" >
+                        </div>
                     <div class="ad-content">
                         <div class="ad-header">
                             <div class="user-photo-container">
                             <?php
-                                $profilePhotoId = $ad['photo_id'] ?? 'default';
+                                $profilePhotoId = $ad->getPhotoId();
 
-                                if ($profilePhotoId === 'default') {
+                                if (empty($profilePhotoId)) {
                                     $src = '/resources/profilePics/0.png';
                                 } else {
-                                    $src = "/resources/profilePics/" . $profilePhotoId . ".png";
+                                    $src = "/resources/profilePics/" . htmlspecialchars((string)$profilePhotoId) . ".png";
                                 }
                                 ?>
 
-                                <img src="<?= htmlspecialchars($src) ?>"  alt="Foto do utilizador" class="user-photo">
+                                <img src="<?= htmlspecialchars($src) ?>" alt="Foto do utilizador" class="user-photo">
                             </div>
                             <span class="username">
-                                <strong><?= htmlspecialchars($ad['username'] ?? '') ?></strong>
+                                <strong><?= htmlspecialchars($ad->getUsername()) ?></strong>
                             </span>
-                          </div>
-                          <?php $animals = getAnuncioAnimals($db, $ad['id']); ?>
-                        <h2 class="ad-title"><?= htmlspecialchars($ad['title'] ?? '') ?></h2>
-                        <p class="ad-animals"><i class="fi fi-rr-paw"></i> <?= htmlspecialchars(implode(', ', $animals)) ?></p>
-                        <p class="ad-location"><i class="fi fi-rr-marker"></i> <?= htmlspecialchars($ad['district']) ?></p>
-                        <p class="ad-price"><i class="fi fi-rr-euro"></i> <?= htmlspecialchars((string)($ad['price'] ?? '')) ?>€ / <?= htmlspecialchars($ad['price_period'] ?? '') ?></p>
+                        </div>
+
+                        <h2 class="ad-title"><?= htmlspecialchars($ad->getTitle()) ?></h2>
+                        <p class="ad-animals"><i class="fi fi-rr-paw"></i> <?= htmlspecialchars(implode(', ', $ad->getAnimals())) ?></p>
+                        <p class="ad-location"><i class="fi fi-rr-marker"></i> <?= htmlspecialchars($ad->getDistrict()) ?></p>
+                        <p class="ad-price"><i class="fi fi-rr-euro"></i> <?= htmlspecialchars((string)$ad->getPrice()) ?>€ / <?= htmlspecialchars($ad->getPricePeriod()) ?></p>
                         <p class="ad-rating"><i class="fi fi-rr-star"></i> 4.7/5 (32 avaliações)</p>
                     </div>
-                  </a>
+                </a>
                     <?php endforeach; ?>
         </div>
     </section>

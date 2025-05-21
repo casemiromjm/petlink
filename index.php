@@ -15,8 +15,8 @@
 
   $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
   $limit = 16;
-  $ads = getAnuncios($db, $page, $limit);
-  $totalAds = getTotalAdCount($db);
+  $ads = Ad::getAll($db, $page, $limit);
+  $totalAds = Ad::getTotalCount($db);
   $totalPages = ceil($totalAds / $limit);
 
   drawHeader();
@@ -26,7 +26,6 @@
   if ($totalPages > 1) {
     echo '<div class="pagination">';
 
-    // Left arrow (disabled if on the first page)
     if ($page > 1) {
         echo '<a href="?page=' . ($page - 1) . '" class="arrow">&laquo;</a>';
     } else {
