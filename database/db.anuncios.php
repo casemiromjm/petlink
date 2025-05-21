@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-function getAnuncios(PDO $db, int $page = 1, int $limit = 16, string $location = '', string $search = '', string $duracao = '', string $animal = '', string $servico = ''): array {
+function getAnuncios(PDO $db, int $page = 1, int $limit = 16, string $location = '', string $search = '', string $duracao = '', string $animal = '', string $servico = '', string $sort = 'recomendados'): array {
     $offset = ($page - 1) * $limit;
     $query = '
         SELECT
@@ -58,26 +58,53 @@ function getAnuncios(PDO $db, int $page = 1, int $limit = 16, string $location =
     if (count($conditions) > 0) {
         $query .= ' WHERE ' . implode(' AND ', $conditions);
     }
-    $query .= ' ORDER BY ads.ad_id DESC LIMIT :limit OFFSET :offset';
+
+    // Add sorting
+    switch ($sort) {
+        case 'preco_asc':
+            $orderBy = 'ads.price ASC';
+            break;
+        case 'preco_desc':
+            $orderBy = 'ads.price DESC';
+            break;
+        case 'recentes':
+            $orderBy = 'ads.created_at DESC';
+            break;
+        case 'avaliacoes':
+            $orderBy = 'ads.rating DESC, ads.created_at DESC';
+            break;
+        case 'recomendados':
+        default:
+            $orderBy = 'ads.created_at DESC';
+            break;
+    }
+
+    $query .= ' ORDER BY ' . $orderBy . ' LIMIT :limit OFFSET :offset';
+    $params[':limit'] = $limit;
+    $params[':offset'] = ($page - 1) * $limit;
 
     $stmt = $db->prepare($query);
     foreach ($params as $key => $value) {
-        $stmt->bindValue($key, $value);
+        if ($key === ':limit' || $key === ':offset') {
+            $stmt->bindValue($key, $value, PDO::PARAM_INT);
+        } else {
+            $stmt->bindValue($key, $value);
+        }
     }
-    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
-function getTotalAdCount(PDO $db, string $location = '', string $search = ''): int {
+function getTotalAdCount(PDO $db, string $location = '', string $search = '', string $duracao = '', string $animal = '', string $servico = ''): int {
     $query = 'SELECT COUNT(*) FROM ads JOIN users ON ads.username = users.username';
     $params = [];
     $conditions = [];
+
     if ($location !== '') {
         $conditions[] = 'LOWER(users.district) = LOWER(:location)';
         $params[':location'] = $location;
     }
+
     if ($search !== '') {
         $words = preg_split('/\s+/', trim($search));
         $wordConds = [];
@@ -94,9 +121,28 @@ function getTotalAdCount(PDO $db, string $location = '', string $search = ''): i
             $conditions[] = '(' . implode(' OR ', $wordConds) . ')';
         }
     }
+
+    if ($duracao !== '') {
+        $conditions[] = 'ads.price_period = :duracao';
+        $params[':duracao'] = $duracao;
+    }
+
+    if ($animal !== '') {
+        $query .= ' JOIN Ad_animals aa ON ads.ad_id = aa.ad_id JOIN Animal_types at ON aa.animal_id = at.animal_id ';
+        $conditions[] = 'at.animal_name = :animal';
+        $params[':animal'] = $animal;
+    }
+
+    if ($servico !== '') {
+        $query .= ' JOIN Ad_services asv ON ads.ad_id = asv.ad_id JOIN Services st ON asv.service_id = st.service_id ';
+        $conditions[] = 'st.service_name = :servico';
+        $params[':servico'] = $servico;
+    }
+
     if (count($conditions) > 0) {
         $query .= ' WHERE ' . implode(' AND ', $conditions);
     }
+
     $stmt = $db->prepare($query);
     foreach ($params as $key => $value) {
         $stmt->bindValue($key, $value);

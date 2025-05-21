@@ -34,8 +34,8 @@ function fetchResults() {
   const duracao = document.getElementById('duracao').value;
   const animal = document.getElementById('animal').value;
   const servico = document.getElementById('servico').value;
+  const sort = document.getElementById('sort') ? document.getElementById('sort').value : 'recomendados';
 
-  // Tratar "Qualquer" e "Todos" como vazio
   const duracaoParam = (duracao === 'Qualquer') ? '' : duracao;
   const animalParam = (animal === 'Todos') ? '' : animal;
   const servicoParam = (servico === 'Todos') ? '' : servico;
@@ -46,6 +46,7 @@ function fetchResults() {
     duracao: duracaoParam,
     animal: animalParam,
     servico: servicoParam,
+    sort,
     ajax: 1
   });
 
@@ -71,3 +72,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   fetchResults();
 });
+
+function limparFiltros() {
+  document.getElementById('duracao').value = 'Qualquer';
+  document.getElementById('animal').value = 'Todos';
+  document.getElementById('servico').value = 'Todos';
+  fetchResults();
+}

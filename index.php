@@ -22,7 +22,10 @@
 $animal = ($_GET['animal'] ?? '') !== '' && $_GET['animal'] !== 'Todos' ? $_GET['animal'] : '';
 $servico = ($_GET['servico'] ?? '') !== '' && $_GET['servico'] !== 'Todos' ? $_GET['servico'] : '';
 
-  $anuncios = getAnuncios($db, $page, $limit, $location, $search, $duracao, $animal, $servico);
+$userId = isset($_GET['user_id']) ? intval($_GET['user_id']) : null;
+$sort = $_GET['sort'] ?? 'recentes';
+
+$anuncios = getAnuncios($db, $page, $limit, $location, $search, $duracao, $animal, $servico, $sort, $userId);
   $totalAds = getTotalAdCount($db, $location, $search, $duracao, $animal, $servico);
   $totalPages = ceil($totalAds / $limit);
 

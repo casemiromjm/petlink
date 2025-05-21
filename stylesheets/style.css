@@ -395,6 +395,14 @@ footer {
     font-size: 1.2em;
 }
 
+
+.pesquisa input[type="text"],
+.pesquisa select,
+.sort select,
+.filtros select {
+    border-radius: 6px !important;
+}
+
 .pesquisa input[type="text"],
 .pesquisa select,
 .pesquisa button {
@@ -437,6 +445,7 @@ footer {
     height: 60px;
     align-self: center;
     min-width: 120px;
+    border-radius: 6px;
 }
 
 .pesquisa button:hover {

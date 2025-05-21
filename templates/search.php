@@ -85,12 +85,11 @@
     </div>
     <div class="sort">
       <h3 style="display:inline; margin-right: 0.5em;">Ordenar por:</h3>
-      <select>
-        <option>Recomendados</option>
-        <option>Avaliações</option>
-        <option>Preço: baixo para alto</option>
-        <option>Preço: alto para baixo</option>
-        <option>Mais recentes</option>
+      <select id="sort" onchange="fetchResults()">
+        <option value="recentes">Mais recentes</option>
+        <option value="avaliacoes">Avaliações</option>
+        <option value="preco_asc">Preço: baixo para alto</option>
+        <option value="preco_desc">Preço: alto para baixo</option>
       </select>
     </div>
   </section>
