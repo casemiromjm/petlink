@@ -24,8 +24,18 @@
           <?php foreach ($ads as $ad): ?>
             <a href="pages/adDetails.php?id=<?= htmlspecialchars((string)$ad['id']) ?>" class="ad">
                     <div class="ad-image">
-                        <img src="<?= htmlspecialchars($ad['image_path'] ?? 'https://via.placeholder.com/600') ?>" alt="Imagem do anúncio">
-                    </div>
+                    <?php
+                                $adPhotoId = $ad['media_ids'] ?? 'default';
+
+                                if ($adPhotoId === 'default') {
+                                    $src = '/resources/adPics/7.png';
+                                } else {
+                                    $src = "/resources/adPics/" . $adPhotoId . ".png";
+                                }
+                                ?>
+
+                                <img src="<?= htmlspecialchars($src) ?>"  alt="Imagem do anúncio" >
+                            </div>
                     <div class="ad-content">
                         <div class="ad-header">
                             <div class="user-photo-container">

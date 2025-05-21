@@ -13,11 +13,9 @@ function getAnuncios(PDO $db, int $page = 1, int $limit = 16): array {
             Users.username,
             Users.name,
             Users.district,
-            Users.photo_id,
-            Ad_media.media_id
+            Users.photo_id
         FROM Ads
         JOIN Users ON Ads.freelancer_id = Users.user_id
-        LEFT JOIN Ad_media ON Ad_media.ad_id = id
         ORDER BY Ads.ad_id DESC
         LIMIT :limit OFFSET :offset
     ';
@@ -26,7 +24,38 @@ function getAnuncios(PDO $db, int $page = 1, int $limit = 16): array {
     $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
     $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();
-    return $stmt->fetchAll();
+    $ads = $stmt->fetchAll();
+    $adIds = array_column($ads, 'id');
+        $mediaQuery = '
+            SELECT
+                am.ad_id,
+                am.media_id
+            FROM Ad_media am
+            WHERE am.ad_id IN (' . implode(',', array_fill(0, count($adIds), '?')) . ')
+            ORDER BY am.ad_id, am.media_id
+        ';
+
+        $mediaStmt = $db->prepare($mediaQuery);
+        $mediaStmt->execute($adIds);
+        $adMedia = $mediaStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if ($adMedia === false)
+        {
+            return $ads;
+        }
+
+        $mediaByAdId = [];
+        foreach ($adMedia as $media) {
+            $adId = $media['ad_id'];
+            $mediaByAdId[$adId][] = $media['media_id'];
+        }
+
+        foreach ($ads as &$ad) {
+            $ad['media_ids'] = $mediaByAdId[$ad['id']] ?? [];
+        }
+        unset($ad);
+
+        return $ads;
 }
 
 function getTotalAdCount(PDO $db): int {
@@ -45,7 +74,7 @@ function getAnuncio(PDO $db, int $ad_id): array {
     ');
     $stmt->execute([$ad_id]);
 
-    $add = $stmt->fetch();
+    $ad = $stmt->fetch();
 
     if (!$ad) {
         throw new Exception('Anúncio não encontrado.');
@@ -86,12 +115,11 @@ function getAdById(PDO $db, int $id): ?array {
             Ads.*,
             Users.username,
             Users.user_id,
-            Users.name,
             Users.district,
             Users.photo_id,
             Ad_media.media_id
         FROM Ads
-        JOIN Ad_media ON Ad_media.ad_id = Ads.ad_id
+        LEFT JOIN Ad_media ON Ad_media.ad_id = Ads.ad_id
         JOIN Users ON Ads.freelancer_id = Users.user_id
         WHERE Ads.ad_id = ?
     ');

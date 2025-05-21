@@ -162,13 +162,13 @@ INSERT INTO Media (file_name, media_type) VALUES ('3', 'image');
 INSERT INTO Media (file_name, media_type) VALUES ('4', 'image');
 INSERT INTO Media (file_name, media_type) VALUES ('5', 'image');
 INSERT INTO Media (file_name, media_type) VALUES ('6', 'image');
-INSERT INTO Media (file_name, media_type) VALUES ('eg', 'image');
-INSERT INTO Media (file_name, media_type) VALUES ('fg', 'image');
-INSERT INTO Media (file_name, media_type) VALUES ('gg', 'image');
-INSERT INTO Media (file_name, media_type) VALUES ('hg', 'image');
-INSERT INTO Media (file_name, media_type) VALUES ('ie', 'image');
-INSERT INTO Media (file_name, media_type) VALUES ('jh', 'image');
-INSERT INTO Media (file_name, media_type) VALUES ('kn', 'image');
+INSERT INTO Media (file_name, media_type) VALUES ('7', 'image');
+INSERT INTO Media (file_name, media_type) VALUES ('8', 'image');
+INSERT INTO Media (file_name, media_type) VALUES ('9', 'image');
+INSERT INTO Media (file_name, media_type) VALUES ('10', 'image');
+INSERT INTO Media (file_name, media_type) VALUES ('11', 'image');
+INSERT INTO Media (file_name, media_type) VALUES ('12', 'image');
+INSERT INTO Media (file_name, media_type) VALUES ('13', 'image');
 INSERT INTO Media (file_name, media_type) VALUES ('ln', 'image');
 INSERT INTO Media (file_name, media_type) VALUES ('mn', 'image');
 INSERT INTO Media (file_name, media_type) VALUES ('nn', 'image');
@@ -312,29 +312,29 @@ INSERT INTO Ad_animals (ad_id, animal_id) VALUES (29, 6); -- Peixes
 
 
 -- Associar media aos anúncios
-INSERT INTO Ad_media (ad_id, media_id) VALUES (1, 31);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (2, 32);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (3, 33);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (3, 34);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (3, 35);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (3, 36);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (4, 37);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (5, 38);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (6, 39);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (7, 40);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (7, 41);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (8, 42);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (9, 43);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (10, 44);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (11, 45);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (11, 46);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (21, 31);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (22, 32);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (23, 35);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (24, 43);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (26, 41);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (27, 46);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (29, 35);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (1, 8);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (2, 7);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (3, 7);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (3, 9);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (3, 13);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (3, 8);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (4, 7);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (5, 8);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (6, 9);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (7, 12);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (7, 13);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (8, 12);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (9, 13);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (10, 14);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (11, 15);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (11, 16);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (21, 11);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (22, 12);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (23, 15);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (24, 13);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (26, 11);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (27, 16);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (29, 15);
 
 -- Associar tipos de serviço aos anúncios
 INSERT INTO Ad_services(ad_id, service_id) VALUES (1, 1); -- Passeio
