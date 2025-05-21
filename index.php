@@ -9,7 +9,7 @@
   require_once('templates/search.php');
   require_once('templates/anuncios.php');
   require_once('database/connection.db.php');
-  require_once('database/db.anuncios.php');
+  require_once('database/anuncios.class.php');
 
   $db = getDatabaseConnection();
 

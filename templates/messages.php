@@ -12,7 +12,21 @@
           <a class="profile-link<?= ($selectedAdId == $chat['ad_id'] && $selectedUserId == $chat['user_id']) ? ' active' : '' ?>"
              href="../pages/messages.php?ad=<?= htmlspecialchars((string)$chat['ad_id']) ?>&to=<?= htmlspecialchars((string)$chat['user_id']) ?>">
             <div style="display: flex; align-items: center; gap: 12px;">
-              <img src="<?= htmlspecialchars(str_replace('./', '../', $chat['profile_photo'] ?? '../resources/default_profile.png')) ?>" alt="Foto de perfil" style="width:40px; height:40px; border-radius:50%; object-fit:cover; background:#e0e0e0;">
+              <img src="<?php
+  $profilePhotoId = $chat['photo_id'] ?? 'default'; // <-- change 'profile_photo' to 'photo_id'
+  if (
+    !$profilePhotoId ||
+    $profilePhotoId === 'default' ||
+    $profilePhotoId === '../resources/default_profile.png'
+  ) {
+    $src = '/resources/profilePics/0.png';
+  } elseif (is_numeric($profilePhotoId)) {
+    $src = "/resources/profilePics/" . $profilePhotoId . ".png";
+  } else {
+    $src = "/resources/profilePics/" . basename((string)$profilePhotoId);
+  }
+  echo htmlspecialchars($src);
+?>" alt="Foto de perfil" style="width:40px; height:40px; border-radius:50%; object-fit:cover; background:#e0e0e0;">
               <div style="flex:1;">
                 <strong><?= htmlspecialchars($chat['ad_title']) ?></strong>
                 <div style="font-size:0.97em; color:#333;">
@@ -47,7 +61,21 @@
       <?php if ($currentChat): ?>
         <div class="chat-header-bar" style="display:flex;align-items:center;gap:16px;padding:1.2rem 2rem 1rem 2rem;border-bottom:1px solid #e3e7e5;background:#fff;">
           <a href="../pages/userprofile.php?username=<?= urlencode($currentChat['username']) ?>" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;">
-            <img src="<?= htmlspecialchars(str_replace('./', '../', $currentChat['profile_photo'] ?? '../resources/default_profile.png')) ?>" alt="Foto de perfil" style="width:48px;height:48px;border-radius:50%;object-fit:cover;background:#e0e0e0;">
+            <img src="<?php
+  $profilePhotoId = $currentChat['photo_id'] ?? 'default'; // <-- use 'photo_id' here
+  if (
+    !$profilePhotoId ||
+    $profilePhotoId === 'default' ||
+    $profilePhotoId === '../resources/default_profile.png'
+  ) {
+    $src = '/resources/profilePics/0.png';
+  } elseif (is_numeric($profilePhotoId)) {
+    $src = "/resources/profilePics/" . $profilePhotoId . ".png";
+  } else {
+    $src = "/resources/profilePics/" . basename((string)$profilePhotoId);
+  }
+  echo htmlspecialchars($src);
+?>" alt="Foto de perfil" style="width:48px;height:48px;border-radius:50%;object-fit:cover;background:#e0e0e0;">
             <div>
               <div style="font-weight:600;font-size:1.1em;"><?= htmlspecialchars($currentChat['ad_title']) ?></div>
               <div style="font-size:0.97em;color:#2b4d43;"><?= htmlspecialchars($currentChat['name']) ?></div>

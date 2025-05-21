@@ -8,7 +8,7 @@
   require_once('../templates/layout.php');
   require_once('../templates/adDetails.php');
   require_once('../database/connection.db.php');
-  require_once('../database/db.anuncios.php');
+  require_once('../database/anuncios.class.php');
 
   $db = getDatabaseConnection();
   $adId = isset($_GET['id']) ? intval($_GET['id']) : null;
@@ -26,6 +26,6 @@
 
   // Desenhar o layout
   drawHeader();
-  drawAdDetails($ad, $success); 
+  drawAdDetails($ad, $success);
   drawFooter();
 ?>

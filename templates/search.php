@@ -48,11 +48,11 @@
       <div>
         <h3>Duração</h3>
         <select id="duracao" name="duracao">
-          <option>Qualquer</option>
-          <option>Hora</option>
-          <option>Dia</option>
-          <option>Semana</option>
-          <option>Mês</option>
+          <option value="">Qualquer</option>
+          <option value="hora">Hora</option>
+          <option value="dia">Dia</option>
+          <option value="semana">Semana</option>
+          <option value="mês">Mês</option>
         </select>
       </div>
       <div>

@@ -10,11 +10,27 @@
   <section class="ad-details">
     <div class="ad-user">
       <div class="ad-user-header">
-        <img
-          src="<?= htmlspecialchars(str_replace('./', '../', $ad['profile_photo'] ?? '../resources/default_profile.png')) ?>"
-          alt="Foto de perfil"
-          class="ad-user-photo"
-        >
+        <?php
+          $profilePhotoId = $ad['photo_id'] ?? 'default';
+
+          if (
+              !$profilePhotoId ||
+              $profilePhotoId === 'default' ||
+              $profilePhotoId === '../resources/default_profile.png'
+          ) {
+              $src = '/resources/profilePics/0.png';
+          } elseif (is_numeric($profilePhotoId)) {
+              // Old style: just an id (int or numeric string)
+              $src = "/resources/profilePics/" . $profilePhotoId . ".png";
+          } else {
+              // New style: filename
+              $basename = basename((string)$profilePhotoId);
+              $src = "/resources/profilePics/" . $basename;
+          }
+          ?>
+
+          <img src="<?= htmlspecialchars($src) ?>" alt="Profile Photo" class="ad-user-photo">
+
         <div class="ad-user-info">
           <strong><?= htmlspecialchars($ad['name'] ?? 'Nome não disponível') ?></strong>
           <span class="username"><?= htmlspecialchars($ad['username'] ?? 'Usuário não disponível') ?></span>
@@ -42,9 +58,33 @@
         <a href="../pages/userprofile.php?username=<?= urlencode($ad['username']) ?>" class="profile-link">Ver perfil</a>
       </div>
     </div>
-    <div class="ad-images">
-      <img src="<?= htmlspecialchars(str_replace('./', '../', $ad['image_path'] ?? '../resources/default_ad.png')) ?>" alt="Imagem do anúncio">
+    <div class="ad-images"><div class="ad-images carousel-container">
+    <div class="carousel-track">
+        <?php
+          $adMediaIds = $ad['mediaIds'] ?? [];
+
+        if (empty($adMediaIds)) {
+            $src = '/resources/adPics/8.png';
+            ?>
+            <img src="<?= htmlspecialchars($src) ?>" alt="Imagem do anúncio" class="carousel-slide active">
+            <?php
+        } else {
+
+          $isFirstSlide = true;
+            foreach ($adMediaIds as $mediaId) {
+                $src = '/resources/adPics/' . htmlspecialchars((string)$mediaId) . '.png';
+                ?>
+                <img src="<?= htmlspecialchars($src) ?>" alt="Imagem do anúncio" class="carousel-slide <?= $isFirstSlide ? 'active' : '' ?>">
+                <?php
+                $isFirstSlide = false;
+            }
+        }
+        ?>
     </div>
+    <?php if (count($adMediaIds) > 1):  ?>
+    <button class="carousel-button prev">&#10094;</button> <button class="carousel-button next">&#10095;</button> <?php endif; ?>
+
+    </div></div>
 
     <div class="ad-reviews">
       <h3>Avaliações recentes</h3>
@@ -57,11 +97,11 @@
         <span class="ad-price"><?= htmlspecialchars((string)($ad['price'] ?? '0.00')) ?>€ / <?= htmlspecialchars($ad['price_period'] ?? 'período não disponível') ?></span>
         <?php if (isset($_SESSION['user_id']) && isset($ad['user_id']) && $_SESSION['user_id'] == $ad['user_id']): ?>
           <form action="#" method="get" style="display:inline;">
-            <button type="button" class="edit-ad-button" onclick="window.location.href='../pages/editAd.php?id=<?= htmlspecialchars((string)$ad['ad_id']) ?>'">Editar anúncio</button>
+            <button type="button" class="edit-ad-button" onclick="window.location.href='../pages/editAd.php?id=<?= htmlspecialchars((string)$ad['id']) ?>'">Editar anúncio</button>
           </form>
         <?php else: ?>
           <form action="../pages/messages.php" method="get" style="display:inline;">
-            <input type="hidden" name="ad" value="<?= htmlspecialchars((string)$ad['ad_id']) ?>">
+            <input type="hidden" name="ad" value="<?= htmlspecialchars((string)$ad['id']) ?>">
             <input type="hidden" name="to" value="<?= htmlspecialchars((string)$ad['user_id']) ?>">
             <button type="submit" class="message-button">Enviar mensagem</button>
           </form>
@@ -70,4 +110,5 @@
       <p class="ad-description"><?= nl2br(htmlspecialchars($ad['description'] ?? 'Descrição não disponível')) ?></p>
     </div>
   </section>
+  <script src="/javascript/carrouselButtons.js"></script> </body>
 <?php } ?>
