@@ -18,11 +18,14 @@
   $location = isset($_GET['location']) ? $_GET['location'] : '';
   $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-  $anuncios = getAnuncios($db, $page, $limit, $location, $search);
-  $totalAds = getTotalAdCount($db, $location, $search);
+  $duracao = ($_GET['duracao'] ?? '') !== '' && $_GET['duracao'] !== 'Qualquer' ? $_GET['duracao'] : '';
+$animal = ($_GET['animal'] ?? '') !== '' && $_GET['animal'] !== 'Todos' ? $_GET['animal'] : '';
+$servico = ($_GET['servico'] ?? '') !== '' && $_GET['servico'] !== 'Todos' ? $_GET['servico'] : '';
+
+  $anuncios = getAnuncios($db, $page, $limit, $location, $search, $duracao, $animal, $servico);
+  $totalAds = getTotalAdCount($db, $location, $search, $duracao, $animal, $servico);
   $totalPages = ceil($totalAds / $limit);
 
-  // AJAX handler: only output ads, nothing else
   if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
     drawAds($anuncios, $totalAds, $db);
     exit;
@@ -54,7 +57,6 @@
         echo '<a href="?page=' . $i . '" class="' . $activeClass . '">' . $i . '</a>';
     }
 
-    // Show the last page
     if ($page < $totalPages - $range) {
         if ($page < $totalPages - $range - 1) {
             echo '<span>...</span>';

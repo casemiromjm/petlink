@@ -14,31 +14,60 @@ document.addEventListener('DOMContentLoaded', () => {
 function pesquisar() {
   const search = document.querySelector('.input-wrapper input').value;
   const location = document.getElementById('location').value;
-  // Add more filters if needed
+  const duracao = document.getElementById('duracao').value;
+  const animal = document.getElementById('animal').value;
+  const servico = document.getElementById('servico').value;
+
   let params = new URLSearchParams(window.location.search);
   params.set('search', search);
   params.set('location', location);
+  params.set('duracao', duracao);
+  params.set('animal', animal);
+  params.set('servico', servico);
+
   window.location.search = params.toString();
+}
+
+function fetchResults() {
+  const search = document.getElementById('search-input').value;
+  const location = document.getElementById('location').value;
+  const duracao = document.getElementById('duracao').value;
+  const animal = document.getElementById('animal').value;
+  const servico = document.getElementById('servico').value;
+
+  // Tratar "Qualquer" e "Todos" como vazio
+  const duracaoParam = (duracao === 'Qualquer') ? '' : duracao;
+  const animalParam = (animal === 'Todos') ? '' : animal;
+  const servicoParam = (servico === 'Todos') ? '' : servico;
+
+  const params = new URLSearchParams({
+    search,
+    location,
+    duracao: duracaoParam,
+    animal: animalParam,
+    servico: servicoParam,
+    ajax: 1
+  });
+
+  fetch(`index.php?${params.toString()}`)
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('search-results').innerHTML = html;
+    });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
   const searchInput = document.getElementById('search-input');
   const locationSelect = document.getElementById('location');
-  const resultsDiv = document.getElementById('search-results');
+  const duracaoSelect = document.getElementById('duracao');
+  const animalSelect = document.getElementById('animal');
+  const servicoSelect = document.getElementById('servico');
 
-  function fetchResults() {
-    const search = searchInput.value;
-    const location = locationSelect.value;
-    fetch(`index.php?search=${encodeURIComponent(search)}&location=${encodeURIComponent(location)}&ajax=1`)
-      .then(response => response.text())
-      .then(html => {
-        resultsDiv.innerHTML = html;
-      });
-  }
+  if (searchInput) searchInput.addEventListener('input', fetchResults);
+  if (locationSelect) locationSelect.addEventListener('change', fetchResults);
+  if (duracaoSelect) duracaoSelect.addEventListener('change', fetchResults);
+  if (animalSelect) animalSelect.addEventListener('change', fetchResults);
+  if (servicoSelect) servicoSelect.addEventListener('change', fetchResults);
 
-  if (searchInput && resultsDiv) {
-    searchInput.addEventListener('input', fetchResults);
-    locationSelect.addEventListener('change', fetchResults);
-    fetchResults(); // <-- Add this line to trigger filtering on page load
-  }
+  fetchResults();
 });

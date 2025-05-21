@@ -47,7 +47,7 @@
     <div class="filtros-left" style="display: flex; gap: 2em;">
       <div>
         <h3>Duração</h3>
-        <select>
+        <select id="duracao" name="duracao">
           <option>Qualquer</option>
           <option>Hora</option>
           <option>Dia</option>
@@ -57,7 +57,7 @@
       </div>
       <div>
         <h3>Animais</h3>
-        <select>
+        <select id="animal" name="animal">
           <option>Todos</option>
           <option>Cães</option>
           <option>Gatos</option>
@@ -71,7 +71,7 @@
       </div>
       <div>
         <h3>Serviço</h3>
-        <select>
+        <select id="servico" name="servico">
           <option>Todos</option>
           <option>Passeio</option>
           <option>Pet Sitting</option>

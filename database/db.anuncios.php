@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-function getAnuncios(PDO $db, int $page = 1, int $limit = 16, string $location = '', string $search = ''): array {
+function getAnuncios(PDO $db, int $page = 1, int $limit = 16, string $location = '', string $search = '', string $duracao = '', string $animal = '', string $servico = ''): array {
     $offset = ($page - 1) * $limit;
     $query = '
         SELECT
@@ -41,6 +41,20 @@ function getAnuncios(PDO $db, int $page = 1, int $limit = 16, string $location =
             $conditions[] = '(' . implode(' OR ', $wordConds) . ')';
         }
     }
+    if ($duracao !== '') {
+        $conditions[] = 'ads.price_period = :duracao';
+        $params[':duracao'] = $duracao;
+    }
+    if ($animal !== '') {
+        $query .= ' JOIN Ad_animals aa ON ads.ad_id = aa.ad_id JOIN Animal_types at ON aa.animal_id = at.animal_id ';
+        $conditions[] = 'at.animal_name = :animal';
+        $params[':animal'] = $animal;
+    }
+    if ($servico !== '') {
+        $query .= ' JOIN Ad_services asv ON ads.ad_id = asv.ad_id JOIN Services st ON asv.service_id = st.service_id ';
+        $conditions[] = 'st.service_name = :servico';
+        $params[':servico'] = $servico;
+    }
     if (count($conditions) > 0) {
         $query .= ' WHERE ' . implode(' AND ', $conditions);
     }
@@ -53,7 +67,7 @@ function getAnuncios(PDO $db, int $page = 1, int $limit = 16, string $location =
     $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
     $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
     $stmt->execute();
-    return $stmt->fetchAll();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function getTotalAdCount(PDO $db, string $location = '', string $search = ''): int {
