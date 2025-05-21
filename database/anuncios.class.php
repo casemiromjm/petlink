@@ -65,22 +65,41 @@ function getTotalAdCount(PDO $db): int {
     return $stmt->fetchColumn();
 }
 
+
 function getAnuncio(PDO $db, int $ad_id): array {
     $stmt = $db->prepare('
-        SELECT Ads.ad_id, Ads.service_id, Ads.freelancer_id, Ads.title, Ads.description, Ads.price, Ads.price_period
+        SELECT
+            Ads.ad_id,
+            Ads.service_id,
+            Ads.freelancer_id,
+            Ads.title,
+            Ads.description,
+            Ads.price,
+            Ads.price_period
         FROM Ads
         JOIN Users ON Ads.freelancer_id = Users.user_id
         WHERE Ads.ad_id = ?
     ');
     $stmt->execute([$ad_id]);
-
-    $ad = $stmt->fetch();
-
+    $ad = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$ad) {
         throw new Exception('Anúncio não encontrado.');
     }
 
-    return [
+    $mediaIds = []; $mediaQuery = '
+        SELECT media_id
+        FROM Ad_media
+        WHERE ad_id = ?
+        ORDER BY media_id
+    ';
+    $mediaStmt = $db->prepare($mediaQuery);
+    $mediaStmt->execute([$ad_id]);
+    $adMedia = $mediaStmt->fetchAll(PDO::FETCH_COLUMN);
+    if ($adMedia !== false) {
+        $mediaIds = $adMedia;
+
+    }
+    $ad= [
         'id' => $ad['ad_id'],
         'title' => $ad['title'],
         'description' => $ad['description'],
@@ -88,9 +107,11 @@ function getAnuncio(PDO $db, int $ad_id): array {
         'price' => $ad['price'],
         'price_period' => $ad['price_period'],
         'freelancer_id' => $ad['freelancer_id'],
-        'animals' => getAnuncioAnimals($db, $ad['ad_id'])
+        'animals' =>getAnuncioAnimals($db, $ad['ad_id']),
+        'mediaIds' => $mediaIds
     ];
-}
+    return $ad;
+    }
 
 function getAnuncioAnimals(PDO $db, int $adId): array {
     $stmt = $db->prepare('
@@ -109,22 +130,59 @@ function getAnuncioAnimals(PDO $db, int $adId): array {
     return $animals;
 }
 
+
 function getAdById(PDO $db, int $id): ?array {
     $stmt = $db->prepare('
         SELECT
             Ads.*,
+            Ads.ad_id as id,
             Users.username,
             Users.user_id,
             Users.district,
-            Users.photo_id,
-            Ad_media.media_id
+            Users.photo_id
         FROM Ads
-        LEFT JOIN Ad_media ON Ad_media.ad_id = Ads.ad_id
         JOIN Users ON Ads.freelancer_id = Users.user_id
         WHERE Ads.ad_id = ?
     ');
     $stmt->execute([$id]);
-    $ad = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $ad ?: null;
+    $adData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($adData === false) {
+        return null;
+    }
+
+    $mediaIds = [];
+
+    $mediaQuery = '
+        SELECT
+        AM.media_id
+        FROM Ad_media AM
+        WHERE AM.ad_id = ?
+    ';
+    $mediaStmt = $db->prepare($mediaQuery);
+    $mediaStmt->execute([$id]);
+
+    $adMedia = $mediaStmt->fetchAll(PDO::FETCH_COLUMN);
+    if ($adMedia !== false) {
+        $mediaIds = $adMedia;
+    }
+
+    $ad = [
+        'id' => $adData['ad_id'],
+        'title' => $adData['title'] ?? '',
+        'description' => $adData['description'] ?? '',
+        'service_id' => $adData['service_id'],
+        'price' => $adData['price'],
+        'price_period' => $adData['price_period'] ?? '',
+        'freelancer_id' => $adData['freelancer_id'],
+        'animals' => getAnuncioAnimals($db, $adData['ad_id']),
+        'mediaIds' => $mediaIds,
+        'username' => $adData['username'] ?? '',
+        'user_id' => $adData['user_id'],
+        'district' => $adData['district'] ?? '',
+        'photo_id' => $adData['photo_id'] ?? ''
+    ];
+
+    return $ad;
 }
 ?>
