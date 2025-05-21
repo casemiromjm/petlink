@@ -25,13 +25,18 @@
             <a href="pages/adDetails.php?id=<?= htmlspecialchars((string)$ad['id']) ?>" class="ad">
                     <div class="ad-image">
                     <?php
-                                $adPhotoId = $ad['media_ids'] ?? 'default';
+                            $adPhotoId = 'default';
 
-                                if ($adPhotoId === 'default') {
-                                    $src = '/resources/adPics/7.png';
-                                } else {
-                                    $src = "/resources/adPics/" . $adPhotoId . ".png";
-                                }
+                            if (isset($ad['media_ids']) && is_array($ad['media_ids']) && !empty($ad['media_ids'])) {
+                                $adPhotoId = $ad['media_ids'][0];
+                            }
+
+                            if ($adPhotoId === 'default') {
+                                $src = '/resources/adPics/8.png';
+                            } else {
+                                $src = "/resources/adPics/" . htmlspecialchars((string)$adPhotoId) . ".png";
+                            }
+
                                 ?>
 
                                 <img src="<?= htmlspecialchars($src) ?>"  alt="Imagem do anúncio" >

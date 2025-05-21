@@ -325,16 +325,25 @@ INSERT INTO Ad_media (ad_id, media_id) VALUES (7, 12);
 INSERT INTO Ad_media (ad_id, media_id) VALUES (7, 13);
 INSERT INTO Ad_media (ad_id, media_id) VALUES (8, 12);
 INSERT INTO Ad_media (ad_id, media_id) VALUES (9, 13);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (10, 14);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (11, 15);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (11, 16);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (10, 11);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (11, 12);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (12, 13);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (13, 11);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (14, 12);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (15, 10);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (16, 13);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (17, 11);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (18, 11);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (19, 11);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (20, 11);
 INSERT INTO Ad_media (ad_id, media_id) VALUES (21, 11);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (22, 12);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (23, 15);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (24, 13);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (22, 11);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (23, 11);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (24, 11);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (25, 11);
 INSERT INTO Ad_media (ad_id, media_id) VALUES (26, 11);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (27, 16);
-INSERT INTO Ad_media (ad_id, media_id) VALUES (29, 15);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (27, 10);
+INSERT INTO Ad_media (ad_id, media_id) VALUES (29, 10);
 
 -- Associar tipos de serviço aos anúncios
 INSERT INTO Ad_services(ad_id, service_id) VALUES (1, 1); -- Passeio
