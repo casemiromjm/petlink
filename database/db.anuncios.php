@@ -1,6 +1,6 @@
 <?php
 declare(strict_types = 1);
-function getAnuncios(PDO $db, int $page = 1, int $limit = 16, string $location = ''): array {
+function getAnuncios(PDO $db, int $page = 1, int $limit = 16, string $location = '', string $search = ''): array {
     $offset = ($page - 1) * $limit;
     $query = '
         SELECT
@@ -18,9 +18,31 @@ function getAnuncios(PDO $db, int $page = 1, int $limit = 16, string $location =
         JOIN users ON ads.username = users.username
     ';
     $params = [];
+    $conditions = [];
     if ($location !== '') {
-        $query .= ' WHERE LOWER(users.district) = LOWER(:location) ';
+        $conditions[] = 'LOWER(users.district) = LOWER(:location)';
         $params[':location'] = $location;
+    }
+    if ($search !== '') {
+        $words = preg_split('/\s+/', trim($search));
+        $wordConds = [];
+        $i = 0;
+        foreach ($words as $word) {
+            if (strlen($word) > 2) {
+                $param = ":search_word_$i";
+                $wordConds[] = "(ads.title LIKE $param OR ads.description LIKE $param)";
+                $params[$param] = '%' . $word . '%';
+                $i++;
+            }
+            // Sao mostrados todos os posts que tenham pelo menos uma das palavras escritas na search bar, mas estas têm de ser maiores que
+            // 2 caracteres, para não incluir palavras como "de" "em" etc que iam dar muitos resultados irrelevantes
+        }
+        if (count($wordConds) > 0) {
+            $conditions[] = '(' . implode(' OR ', $wordConds) . ')';
+        }
+    }
+    if (count($conditions) > 0) {
+        $query .= ' WHERE ' . implode(' AND ', $conditions);
     }
     $query .= ' ORDER BY ads.ad_id DESC LIMIT :limit OFFSET :offset';
 
@@ -34,12 +56,32 @@ function getAnuncios(PDO $db, int $page = 1, int $limit = 16, string $location =
     return $stmt->fetchAll();
 }
 
-function getTotalAdCount(PDO $db, string $location = ''): int {
-    $query = 'SELECT COUNT(*) FROM Ads JOIN Users ON Ads.username = Users.username';
+function getTotalAdCount(PDO $db, string $location = '', string $search = ''): int {
+    $query = 'SELECT COUNT(*) FROM ads JOIN users ON ads.username = users.username';
     $params = [];
+    $conditions = [];
     if ($location !== '') {
-        $query .= ' WHERE LOWER(Users.district) = LOWER(:location)';
+        $conditions[] = 'LOWER(users.district) = LOWER(:location)';
         $params[':location'] = $location;
+    }
+    if ($search !== '') {
+        $words = preg_split('/\s+/', trim($search));
+        $wordConds = [];
+        $i = 0;
+        foreach ($words as $word) {
+            if (strlen($word) > 2) {
+                $param = ":search_word_$i";
+                $wordConds[] = "(ads.title LIKE $param OR ads.description LIKE $param)";
+                $params[$param] = '%' . $word . '%';
+                $i++;
+            }
+        }
+        if (count($wordConds) > 0) {
+            $conditions[] = '(' . implode(' OR ', $wordConds) . ')';
+        }
+    }
+    if (count($conditions) > 0) {
+        $query .= ' WHERE ' . implode(' AND ', $conditions);
     }
     $stmt = $db->prepare($query);
     foreach ($params as $key => $value) {

@@ -20,3 +20,25 @@ function pesquisar() {
   params.set('location', location);
   window.location.search = params.toString();
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  const searchInput = document.getElementById('search-input');
+  const locationSelect = document.getElementById('location');
+  const resultsDiv = document.getElementById('search-results');
+
+  function fetchResults() {
+    const search = searchInput.value;
+    const location = locationSelect.value;
+    fetch(`index.php?search=${encodeURIComponent(search)}&location=${encodeURIComponent(location)}&ajax=1`)
+      .then(response => response.text())
+      .then(html => {
+        resultsDiv.innerHTML = html;
+      });
+  }
+
+  if (searchInput && resultsDiv) {
+    searchInput.addEventListener('input', fetchResults);
+    locationSelect.addEventListener('change', fetchResults);
+    fetchResults(); // <-- Add this line to trigger filtering on page load
+  }
+});

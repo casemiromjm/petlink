@@ -10,7 +10,7 @@
   <section class="pesquisa">
     <div class="input-wrapper">
       <i class="fi fi-rr-search"></i>
-      <input type="text" placeholder="O que procuras?" value="<?= htmlspecialchars($search) ?>">
+      <input type="text" id="search-input" placeholder="O que procuras?" value="<?= htmlspecialchars($search) ?>">
     </div>
 
     <div class="select-wrapper">
@@ -97,5 +97,6 @@
 
   <section class="results">
     <h3 id="resultado-contador"></h3>
+    <div id="search-results"></div>
   </section>
 <?php } ?>

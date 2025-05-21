@@ -16,35 +16,39 @@
   $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
   $limit = 16;
   $location = isset($_GET['location']) ? $_GET['location'] : '';
+  $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-  $anuncios = getAnuncios($db, $page, $limit, $location);
-  $totalAds = getTotalAdCount($db, $location);
+  $anuncios = getAnuncios($db, $page, $limit, $location, $search);
+  $totalAds = getTotalAdCount($db, $location, $search);
   $totalPages = ceil($totalAds / $limit);
+
+  // AJAX handler: only output ads, nothing else
+  if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
+    drawAds($anuncios, $totalAds, $db);
+    exit;
+}
 
   drawHeader();
   drawSearch();
-  drawAds($anuncios, $totalAds, $db);
 
   if ($totalPages > 1) {
     echo '<div class="pagination">';
 
-    // Left arrow (disabled if on the first page)
     if ($page > 1) {
         echo '<a href="?page=' . ($page - 1) . '" class="arrow">&laquo;</a>';
     } else {
         echo '<span class="arrow disabled">&laquo;</span>';
     }
 
-    $range = 2; // Number of pages to show before and after the current page
+    $range = 2;
 
     if ($page > $range + 1) {
         echo '<a href="?page=1">1</a>';
         if ($page > $range + 2) {
-            echo '<span>...</span>'; // Ellipsis
+            echo '<span>...</span>';
         }
     }
 
-    // Show pages around the current page
     for ($i = max(1, $page - $range); $i <= min($totalPages, $page + $range); $i++) {
         $activeClass = ($i === $page) ? 'active' : '';
         echo '<a href="?page=' . $i . '" class="' . $activeClass . '">' . $i . '</a>';
@@ -53,12 +57,11 @@
     // Show the last page
     if ($page < $totalPages - $range) {
         if ($page < $totalPages - $range - 1) {
-            echo '<span>...</span>'; // Ellipsis
+            echo '<span>...</span>';
         }
         echo '<a href="?page=' . $totalPages . '">' . $totalPages . '</a>';
     }
 
-    // Right arrow (disabled if on the last page)
     if ($page < $totalPages) {
         echo '<a href="?page=' . ($page + 1) . '" class="arrow">&raquo;</a>';
     } else {
