@@ -1604,6 +1604,10 @@ main {
   .message-button {
     align-self: center;
   }
+
+  .edit-button {
+    align-self: center;
+  }
   
   .profile-meta {
     flex-direction: column;

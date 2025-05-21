@@ -55,11 +55,24 @@
       <div class="ad-info-header">
         <h1><?= htmlspecialchars($ad['title'] ?? 'Título não disponível') ?></h1>
         <span class="ad-price"><?= htmlspecialchars((string)($ad['price'] ?? '0.00')) ?>€ / <?= htmlspecialchars($ad['price_period'] ?? 'período não disponível') ?></span>
+
+        <?php if (isset($_SESSION['username']) && $ad['username'] === $_SESSION['username']): ?>
+        <!-- owner see edit options -->
+        <div style="display:inline;">
+            <form action="../pages/edit_ad.php?id=">
+              <input type="hidden" name="ad" value="<?= htmlspecialchars((string)($ad['ad_id'])) ?>">
+              <button type="submit" class="edit-button">Editar Anúncio</button>
+            </form>
+        </div>
+
+        <?php else: ?>
+        <!-- other users see message button-->
         <form action="../pages/messages.php" method="get" style="display:inline;">
           <input type="hidden" name="ad" value="<?= htmlspecialchars((string)$ad['ad_id']) ?>">
           <input type="hidden" name="to" value="<?= htmlspecialchars((string)$ad['user_id']) ?>">
           <button type="submit" class="message-button">Enviar mensagem</button>
         </form>
+        <?php endif; ?>
       </div>
       <p class="ad-description"><?= nl2br(htmlspecialchars($ad['description'] ?? 'Descrição não disponível')) ?></p>
     </div>
