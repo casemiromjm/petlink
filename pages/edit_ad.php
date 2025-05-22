@@ -13,28 +13,24 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $db = getDatabaseConnection();
-$userId = $_SESSION['user_id'];
+$user = $_SESSION['user_id'];
 $adId = isset($_GET['id']) ? intval($_GET['id']) : null;
 
+// ta morrendo aqui 1o
 if (!$adId) {
     die('Anúncio não especificado.');
 }
 
-// as queries estão mal feitas. so tomei como base o q tinha em outro ficheiro
-
-$stmt = $db->prepare('SELECT rowid, * FROM Ads WHERE user_id = ? AND rowid = ?');
-$stmt->execute([$userId, $animalId]);
+$stmt = $db->prepare('SELECT * FROM Ads WHERE ad_id = ? AND freelancer_id = ?');
+$stmt->execute([$adId, $user]);
 $ad = $stmt->fetch();
 
 if (!$ad) {
     die('Anúncio não encontrado.');
 }
 
-$stmt = $db->query('SELECT animal_id, animal_name FROM Animal_types');
-$speciesList = $stmt->fetchAll();
-
 drawHeader();
-drawEditAd($animal, $speciesList);
+drawEditAd();
 drawFooter();
 
 ?>
