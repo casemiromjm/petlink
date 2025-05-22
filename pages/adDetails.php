@@ -28,9 +28,11 @@
   }
 
   $reviews = Reviews::getByAdId($db, (int)$adId);
+  $averageRating = Reviews::getAverageRatingForAd($db, (int)$adId);
+  $reviewCount = Reviews::getReviewCountForAd($db, (int)$adId);
 
   // Desenhar o layout
   drawHeader();
-  drawAdDetails($ad, $reviews, $success);
+  drawAdDetails($ad, $reviews,$averageRating, $reviewCount, $success);
   drawFooter();
 ?>

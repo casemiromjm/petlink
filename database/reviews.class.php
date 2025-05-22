@@ -186,10 +186,21 @@ class Reviews {
         return $stmt->execute([':id' => $this->id]);
     }
 
+    static public function getAverageRatingForAd(PDO $db, int $adId): float {
+        $stmt = $db->prepare('
+            SELECT AVG(rating) AS avg_rating
+            FROM reviews WHERE ad_id = ?');
+        $stmt->execute([$adId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return (float)($result['avg_rating'] ?? 0.0);
+    }
 
-    public static function hasReviewsedService(PDO $db, int $client_idId, int $ad_idId): bool {
-        $stmt = $db->prepare("SELECT 1 FROM reviews WHERE client_id = :client_id AND ad_id = :ad_id");
-        $stmt->execute([':client_id' => $client_idId, ':ad_id' => $ad_idId]);
-        return (bool)$stmt->fetchColumn();
+    static public function getReviewCountForAd(PDO $db, int $adId): int {
+        $stmt = $db->prepare('
+        SELECT COUNT(*) AS review_count
+        FROM reviews WHERE ad_id = ?');
+        $stmt->execute([$adId]);
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return (int)($result['review_count'] ?? 0);
     }
 }

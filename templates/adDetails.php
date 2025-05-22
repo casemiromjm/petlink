@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="../stylesheets/style.css">
 <script src="../javascript/script.js"></script>
 
-<?php function drawAdDetails(Ad $ad, array $reviews, int $success): void { ?>
+<?php function drawAdDetails(Ad $ad, array $reviews,float $averageRating, int $reviewCount, int $success): void { ?>
   <?php if ($success === 1): ?>
     <div id="success-message" class="success-message">Anúncio criado com sucesso</div>
   <?php endif; ?>
@@ -42,7 +42,9 @@
         }
       ?>
       <p><i class="fi fi-rr-marker"></i> <?= htmlspecialchars($ad->getDistrict() ?? 'Localização não disponível') ?></p>
-      <p><i class="fi fi-rr-star"></i> 4.7/5 (32 avaliações)</p>
+
+    <p><i class="fi fi-rr-star"></i> <?= number_format($averageRating, 1) ?>/5 (<?= $reviewCount ?> avaliações)</p>
+
       <p><i class="fi fi-rr-calendar"></i> Membro desde <?= htmlspecialchars($membroDesde) ?></p>
       <div style="text-align:center; margin-top: 10px;">
         <a href="../pages/userprofile.php?username=<?= urlencode($ad->getUsername()) ?>" class="profile-link">Ver perfil</a>
