@@ -9,8 +9,8 @@ function drawReviews(array $reviews): void {
         <?php else: ?>
             <?php foreach ($reviews as $review):
                 $client = $review->getUserObject();
-                $clientName = $client ? htmlspecialchars($client->getName()) : 'Utilizador Desconhecido';
-                $clientUsername = $client ? htmlspecialchars($client->getUsername()) : 'desconhecido';
+                $clientName = $client ? htmlspecialchars($client->getUsername()) : 'Utilizador Desconhecido';
+                $clientUsername = $client ? htmlspecialchars($client->getName()) : 'desconhecido';
                 $clientPhotoId = $client ? $client->getPhotoId() : 0;
 
                 $profilePhotoSrc = ($clientPhotoId === 0) ? '/resources/profilePics/0.png' : "/resources/profilePics/" . htmlspecialchars((string)$clientPhotoId) . ".png";
