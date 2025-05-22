@@ -4,7 +4,7 @@ declare(strict_types = 1);
 require_once('../templates/layout.php');
 require_once('../templates/userprofile.php');
 require_once('../database/connection.db.php');
-require_once(__DIR__ . '/../database/db.anuncios.php');
+require_once(__DIR__ . '/../database/anuncios.class.php');
 
 $db = getDatabaseConnection();
 
