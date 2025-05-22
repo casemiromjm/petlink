@@ -1794,6 +1794,10 @@ main {
     align-self: center;
   }
 
+  .edit-button {
+    align-self: center;
+  }
+  
   .profile-meta {
     flex-direction: column;
     gap: 0.5rem;
