@@ -5,11 +5,12 @@
   ini_set('display_startup_errors', 1);
   error_reporting(E_ALL);
 
-  require_once('templates/layout.php');
-  require_once('templates/search.php');
-  require_once('templates/anuncios.php');
-  require_once('database/connection.db.php');
-  require_once('database/anuncios.class.php');
+  require_once(__DIR__.'/templates/layout.php');
+  require_once(__DIR__.'/templates/search.php');
+  require_once(__DIR__.'/templates/anuncios.php');
+  require_once(__DIR__.'/templates/reviews.php');
+  require_once(__DIR__.'/database/connection.db.php');
+  require_once(__DIR__.'/database/anuncios.class.php');
 
   $db = getDatabaseConnection();
 

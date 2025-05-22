@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-session_start(); 
+session_start();
 require_once('../database/connection.db.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $animalPicture = null;
         if (isset($_FILES['animal-picture']) && $_FILES['animal-picture']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = '../resources/'; 
+            $uploadDir = '../resources/';
             $fileName = uniqid() . '_' . basename($_FILES['animal-picture']['name']);
             $targetPath = $uploadDir . $fileName;
 
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if (move_uploaded_file($_FILES['animal-picture']['tmp_name'], $targetPath)) {
-                $animalPicture = './resources/' . $fileName; 
+                $animalPicture = './resources/' . $fileName;
             }
         }
 

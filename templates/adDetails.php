@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="../stylesheets/style.css">
 <script src="../javascript/script.js"></script>
 
-<?php function drawAdDetails(Ad $ad, int $success): void { ?>
+<?php function drawAdDetails(Ad $ad, array $reviews, int $success): void { ?>
   <?php if ($success === 1): ?>
     <div id="success-message" class="success-message">Anúncio criado com sucesso</div>
   <?php endif; ?>
@@ -74,11 +74,13 @@
     <?php if (count($adMediaIds) > 1):  ?>
     <button class="carousel-button prev">&#10094;</button> <button class="carousel-button next">&#10095;</button> <?php endif; ?>
 
-    </div></div>
+    </div>
+  </div>
 
-    <div class="ad-reviews">
-      <h3>Avaliações recentes</h3>
-      <p>Espaço reservado para avaliações futuras.</p>
+  <div class="reviews">
+  <?php
+    drawReviews($reviews);
+  ?>
     </div>
 
     <div class="ad-info">

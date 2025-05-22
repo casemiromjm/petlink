@@ -379,8 +379,180 @@ INSERT INTO Ad_services(ad_id, service_id) VALUES (29, 3); -- Petsitting
 -- Inserir orders
 
 -- Inserir reviews
---INSERT INTO Reviews (order_id, freelancer_username, client_username, rating, comment) VALUES
---INSERT INTO Reviews (order_id, freelancer_username, client_username, rating) VALUES
+INSERT INTO Reviews (ad_id, client_id, rating, comment) VALUES
+(1, 1, 5, 'Excelente serviço! Meu cachorro voltou muito feliz do treino.'),
+(1, 2, 4, 'Treinador muito paciente e eficaz. Recomendo!'),
+(1, 3, 4, 'Meu cachorro aprendeu muito rápido. Ótimo trabalho!'),
+(1, 9, 5, 'Profissionalismo e carinho com os animais. Perfeito!'),
+(1, 10, 4, 'Bom custo-benefício. O cão obedece mais.'),
+
+(2, 1, 5, 'Cuidaram muito bem do meu gato. Serviço impecável!'),
+(2, 2, 4, 'Confiável e atencioso. Meu pet ficou super bem.'),
+(2, 3, 5, 'Profissionalismo e amor pelos animais. Recomendo demais!'),
+(2, 11, 2, 'Serviço ok, mas o preço é um pouco alto.'),
+(2, 12, 5, 'Meu cão adorou o petsitting. Muito carinho e atenção.'),
+
+(3, 1, 5, 'Banho e tosquia perfeitos! Minha poodle ficou linda.'),
+(3, 2, 4, 'Ótimo serviço, mas demorou um pouco mais do que o esperado.'),
+(3, 3, 5, 'Profissional muito cuidadoso e atencioso. Super recomendo!'),
+(3, 13, 5, 'Excelente! Meu pet ficou cheiroso e bem tosado.'),
+(3, 14, 4, 'Bom trabalho, mas a comunicação poderia ser melhor.'),
+
+(4, 1, 5, 'Passeios maravilhosos! Meu cão voltou exausto e feliz.'),
+(4, 2, 5, 'Passeador muito responsável e pontual. Adorei!'),
+(4, 3, 4, 'Meu cão se divertiu muito. Ótimo serviço!'),
+(4, 15, 5, 'Passeios com muita energia e carinho. Recomendo!'),
+(4, 16, 4, 'Bom para o dia a dia, mas a rota é sempre a mesma.'),
+
+(5, 1, 5, 'Passeios incríveis! Meu cachorro adorou a experiência.'),
+(5, 2, 5, 'Profissional atencioso e dedicado. Meu pet voltou muito feliz!'),
+(5, 3, 4, 'Bom serviço, mas o preço é um pouco elevado.'),
+(5, 17, 5, 'Passeios com muita atenção e segurança. Recomendo!'),
+(5, 18, 4, 'Pontual e profissional. Meu cão se adaptou bem.'),
+
+(6, 1, 5, 'Treino eficaz! Meu cachorro está mais obediente.'),
+(6, 2, 5, 'Treinador paciente e com ótimas técnicas. Recomendo!'),
+(6, 3, 4, 'Bom para comandos básicos, mas esperava mais progresso.'),
+(6, 19, 5, 'Resultados visíveis em pouco tempo. Excelente!'),
+(6, 20, 4, 'Profissionalismo e dedicação. Meu cão está melhorando.'),
+
+(7, 1, 5, 'Serviços de tosquia e banhos excelentes. Minha gata ficou linda!'),
+(7, 2, 4, 'Bom trabalho, mas o agendamento foi um pouco complicado.'),
+(7, 3, 5, 'Profissional muito cuidadoso e atencioso. Recomendo!'),
+(7, 4, 5, 'Meu pet ficou impecável. Ótimo serviço!'),
+(7, 5, 4, 'Qualidade boa, mas o local é um pouco barulhento.'),
+
+(8, 1, 5, 'Cuidaram muito bem dos meus pássaros. Super recomendo!'),
+(8, 2, 5, 'Profissional atencioso e com conhecimento sobre aves.'),
+(8, 3, 4, 'Bom para viagens curtas, mas o preço é um pouco alto.'),
+(8, 6, 5, 'Meus pássaros estavam muito bem cuidados. Excelente!'),
+(8, 7, 4, 'Confiável, mas a comunicação poderia ser mais frequente.'),
+
+(9, 1, 5, 'Alojamento seguro e confortável. Meus pequenos animais adoraram!'),
+(9, 2, 5, 'Ótimo lugar para deixar seus pets. Recomendo!'),
+(9, 3, 4, 'Bom para pequenos animais, mas o espaço é um pouco limitado.'),
+(9, 8, 5, 'Meus roedores ficaram muito bem cuidados. Excelente!'),
+(9, 9, 4, 'Confiável, mas a localização é um pouco distante.'),
+
+(10, 1, 5, 'Treinador experiente e com ótimas dicas. Meu cão melhorou muito!'),
+(10, 2, 5, 'Profissionalismo e paixão pelos animais. Recomendo!'),
+(10, 3, 4, 'Bom para problemas de comportamento, mas o preço é um pouco alto.'),
+(10, 10, 5, 'Resultados impressionantes. Muito satisfeito!'),
+(10, 11, 4, 'Eficaz, mas o tempo de resposta é um pouco lento.'),
+
+(11, 1, 5, 'Cuidados ao domicílio excelentes. Meus pets ficaram muito bem!'),
+(11, 2, 5, 'Profissional atencioso e dedicado. Recomendo!'),
+(11, 3, 4, 'Bom para cuidados básicos, mas esperava mais interação.'),
+(11, 12, 5, 'Meus animais receberam muito carinho. Excelente!'),
+(11, 13, 4, 'Confiável, mas a disponibilidade é um pouco limitada.'),
+
+(12, 1, 5, 'Cuidados especializados para coelhos. Meu coelho adorou!'),
+(12, 2, 5, 'Profissional com conhecimento sobre roedores. Recomendo!'),
+(12, 3, 4, 'Bom para coelhos, mas o preço é um pouco alto.'),
+(12, 14, 5, 'Meus roedores ficaram muito bem cuidados. Excelente!'),
+(12, 15, 4, 'Atencioso, mas a comunicação poderia ser mais frequente.'),
+
+(13, 1, 5, 'Serviços de tosquia e cuidados excelentes. Meu cão ficou lindo!'),
+(13, 2, 4, 'Bom trabalho, mas o agendamento foi um pouco complicado.'),
+(13, 3, 5, 'Profissional muito cuidadoso e atencioso. Recomendo!'),
+(13, 16, 5, 'Meu pet ficou impecável. Ótimo serviço!'),
+(13, 17, 4, 'Qualidade boa, mas o local é um pouco barulhento.'),
+
+(14, 1, 5, 'Babysitting excelente! Meu animal ficou muito bem cuidado.'),
+(14, 2, 5, 'Profissional atencioso e dedicado. Recomendo!'),
+(14, 3, 4, 'Bom para viagens curtas, mas o preço é um pouco alto.'),
+(14, 18, 5, 'Meus pets estavam muito bem cuidados. Excelente!'),
+(14, 19, 4, 'Confiável, mas a comunicação poderia ser mais frequente.'),
+
+(15, 1, 5, 'Tosquia móvel muito conveniente. Meu cão ficou lindo!'),
+(15, 2, 4, 'Bom trabalho, mas o agendamento foi um pouco complicado.'),
+(15, 3, 5, 'Profissional muito cuidadoso e atencioso. Recomendo!'),
+(15, 20, 5, 'Meu pet ficou impecável. Ótimo serviço!'),
+(15, 21, 4, 'Qualidade boa, mas o tempo de espera foi um pouco longo.'),
+
+(16, 1, 5, 'Especialista em tosquia de gatos. Minha gata ficou linda!'),
+(16, 2, 4, 'Bom trabalho, mas o agendamento foi um pouco complicado.'),
+(16, 3, 5, 'Profissional muito cuidadoso e atencioso. Recomendo!'),
+(16, 1, 5, 'Minha gata ficou impecável. Ótimo serviço!'),
+(16, 2, 4, 'Qualidade boa, mas o preço é um pouco alto.'),
+
+(17, 3, 5, 'Babysitting de gatos de confiança. Meus gatos adoraram!'),
+(17, 4, 5, 'Profissional atencioso e dedicado. Recomendo!'),
+(17, 5, 4, 'Bom para gatos, mas o preço é um pouco alto.'),
+(17, 6, 5, 'Meus gatos estavam muito bem cuidados. Excelente!'),
+(17, 7, 4, 'Confiável, mas a comunicação poderia ser mais frequente.'),
+
+(18, 8, 5, 'Passeios energéticos e divertidos. Meu cão adorou!'),
+(18, 9, 5, 'Profissional atencioso e dedicado. Recomendo!'),
+(18, 10, 4, 'Bom para cães ativos, mas o preço é um pouco alto.'),
+(18, 11, 5, 'Meu cão voltou exausto e feliz. Excelente!'),
+(18, 12, 4, 'Confiável, mas a disponibilidade é um pouco limitada.'),
+
+(19, 13, 5, 'Babysitting em casa muito conveniente. Meus animais adoraram!'),
+(19, 14, 5, 'Profissional atencioso e dedicado. Recomendo!'),
+(19, 15, 4, 'Bom para viagens, mas o preço é um pouco alto.'),
+(19, 16, 5, 'Meus animais estavam muito bem cuidados. Excelente!'),
+(19, 17, 4, 'Confiável, mas a comunicação poderia ser mais frequente.'),
+
+(20, 18, 5, 'Cuidados especializados para animais exóticos. Meu réptil adorou!'),
+(20, 19, 5, 'Profissional com conhecimento sobre animais exóticos. Recomendo!'),
+(20, 20, 4, 'Bom para animais exóticos, mas o preço é um pouco alto.'),
+(20, 21, 5, 'Meus animais exóticos ficaram muito bem cuidados. Excelente!'),
+(20, 1, 4, 'Atencioso, mas a disponibilidade é um pouco limitada.'),
+
+(21, 2, 5, 'Treino eficaz para problemas de comportamento. Meu cão melhorou muito!'),
+(21, 3, 5, 'Profissionalismo e paixão pelos animais. Recomendo!'),
+(21, 4, 4, 'Bom para problemas de comportamento, mas o preço é um pouco alto.'),
+(21, 5, 5, 'Resultados impressionantes. Muito satisfeito!'),
+(21, 6, 4, 'Eficaz, mas o tempo de resposta é um pouco lento.'),
+
+(22, 7, 5, 'Babysitting de pequenos animais muito carinhoso. Meus hamsters adoraram!'),
+(22, 8, 5, 'Profissional atencioso e dedicado. Recomendo!'),
+(22, 9, 4, 'Bom para pequenos animais, mas o preço é um pouco alto.'),
+(22, 10, 5, 'Meus roedores ficaram muito bem cuidados. Excelente!'),
+(22, 11, 4, 'Confiável, mas a comunicação poderia ser mais frequente.'),
+
+(23, 12, 5, 'Banhos profissionais para cães. Meu cão ficou lindo!'),
+(23, 13, 4, 'Bom trabalho, mas o agendamento foi um pouco complicado.'),
+(23, 14, 5, 'Profissional muito cuidadoso e atencioso. Recomendo!'),
+(23, 15, 5, 'Meu pet ficou impecável. Ótimo serviço!'),
+(23, 16, 4, 'Qualidade boa, mas o local é um pouco barulhento.'),
+
+(24, 17, 5, 'Táxi para animais muito seguro e confortável. Recomendo!'),
+(24, 18, 5, 'Profissional atencioso e pontual. Meu pet viajou tranquilo!'),
+(24, 19, 4, 'Bom para transporte, mas o preço é um pouco alto.'),
+(24, 20, 5, 'Meu pet chegou em segurança. Excelente!'),
+(24, 21, 4, 'Confiável, mas a disponibilidade é um pouco limitada.'),
+
+(25, 1, 5, 'Aventuras de passeio muito divertidas. Meu cão adorou!'),
+(25, 2, 5, 'Profissional atencioso e dedicado. Recomendo!'),
+(25, 3, 4, 'Bom para cães ativos, mas o preço é um pouco alto.'),
+(25, 4, 5, 'Meu cão voltou exausto e feliz. Excelente!'),
+(25, 5, 4, 'Confiável, mas a comunicação poderia ser mais frequente.'),
+
+(26, 6, 5, 'Babysitting noturno muito seguro. Meus animais ficaram muito bem!'),
+(26, 7, 5, 'Profissional atencioso e dedicado. Recomendo!'),
+(26, 8, 4, 'Bom para cuidados 24 horas, mas o preço é um pouco alto.'),
+(26, 9, 5, 'Meus animais estavam muito bem cuidados. Excelente!'),
+(26, 10, 4, 'Confiável, mas a disponibilidade é um pouco limitada.'),
+
+(27, 11, 5, 'Aulas de socialização excelentes. Meu cachorro está mais sociável!'),
+(27, 12, 5, 'Profissionalismo e paixão pelos animais. Recomendo!'),
+(27, 13, 4, 'Bom para socialização, mas o preço é um pouco alto.'),
+(27, 14, 5, 'Resultados impressionantes. Muito satisfeito!'),
+(27, 15, 4, 'Eficaz, mas o tempo de resposta é um pouco lento.'),
+
+(28, 16, 5, 'Alimentação de gatos e limpeza de caixa de areia. Serviço impecável!'),
+(28, 17, 5, 'Profissional atencioso e dedicado. Recomendo!'),
+(28, 18, 4, 'Bom para gatos, mas o preço é um pouco alto.'),
+(28, 19, 5, 'Meus gatos estavam muito bem cuidados. Excelente!'),
+(28, 20, 4, 'Confiável, mas a comunicação poderia ser mais frequente.'),
+
+(29, 21, 5, 'Babysitting na ilha muito conveniente. Meus animais adoraram!'),
+(29, 1, 5, 'Profissional atencioso e dedicado. Recomendo!'),
+(29, 2, 4, 'Bom para viagens, mas o preço é um pouco alto.'),
+(29, 3, 5, 'Meus animais estavam muito bem cuidados. Excelente!'),
+(29, 4, 4, 'Confiável, mas a comunicação poderia ser mais frequente.');
 
 -- Query para obter nome e foto de animais de um utilizador específico
 SELECT name, animal_picture FROM user_animals WHERE user_id = 1;
