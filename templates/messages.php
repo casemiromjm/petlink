@@ -130,23 +130,28 @@
             <span>Pedido de Serviço</span>
             <?php
               $status = $latestOrder['status'] ?? 'pending';
-              $statusText = [
-                'pending' => 'A aguardar confirmação',
-                'accepted' => 'Aceite',
-                'rejected' => 'Rejeitado'
-              ][$status] ?? ucfirst($status);
-
+              $isPaid = !empty($latestOrder['is_paid']);
+              // New: If paid and not completed, show "Serviço em progresso"
+              if ($isPaid && !in_array($status, ['completed', 'rejected'])) {
+                $status = 'in_progress';
+                $statusText = 'Serviço em progresso';
+              } else {
+                $statusText = [
+                  'pending' => 'A aguardar confirmação',
+                  'accepted' => 'Aceite',
+                  'accepted_awaiting_payment' => 'Aceite... a aguardar pagamento',
+                  'rejected' => 'Rejeitado',
+                  'completed' => 'Concluído'
+                ][$status] ?? ucfirst($status);
+              }
               $statusClass = 'order-status';
               if ($status === 'pending') $statusClass .= ' order-status-pending';
-              if ($status === 'accepted_awaiting_payment') $statusClass .= ' order-status-accepted';
-              if ($status === 'accepted') $statusClass .= ' order-status-accepted';
+              if ($status === 'accepted_awaiting_payment' || $status === 'accepted') $statusClass .= ' order-status-accepted';
               if ($status === 'rejected') $statusClass .= ' order-status-rejected';
+              if ($status === 'in_progress') $statusClass .= ' order-status-in-progress';
             ?>
             <span class="<?= $statusClass ?>">
-              <?php
-                if ($status === 'accepted_awaiting_payment') echo 'Aceite... a aguardar pagamento';
-                else echo htmlspecialchars($statusText);
-              ?>
+              <?= htmlspecialchars($statusText) ?>
             </span>
           </div>
           <div><strong>Animais:</strong>
@@ -287,6 +292,11 @@
       <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
       <button type="submit" class="cancel-order-btn">Cancelar pedido</button>
     </form>
+  <?php elseif ($status === 'in_progress' && $_SESSION['user_id'] == $latestOrder['freelancer_id']): ?>
+  <form action="../actions/action_completeService.php" method="post" class="cancel-order-form" style="margin-top:1em;">
+    <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
+    <button type="submit" class="accept-order-btn" style="background:#81B29A;">Completar serviço</button>
+  </form>
   <?php endif; ?>
         </div>
       <?php endif; ?>

@@ -17,14 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SESSION['user_id'], $_POST[
         $stmt = $db->prepare('UPDATE ServiceRequests SET is_paid = 1 WHERE request_id = ?');
         $stmt->execute([$orderId]);
 
-        // Create order in Orders table
-        $stmt = $db->prepare('INSERT INTO Orders (client_id, ad_id, total_price, isPaid) VALUES (?, ?, ?, 1)');
-        $stmt->execute([
-            $order['client_id'],
-            $order['ad_id'],
-            $order['price'] * $order['amount']
-        ]);
-
         echo json_encode(['success' => true]);
         exit;
     }
