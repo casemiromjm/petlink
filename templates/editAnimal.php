@@ -12,7 +12,7 @@
         <div class="form-container">
             <h2>Editar Animal</h2>
             <form action="../actions/action_editAnimal.php" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="animal_id" value="<?= htmlspecialchars((string)$animal['rowid']) ?>">
+                <input type="hidden" name="animal_id" value="<?= htmlspecialchars((string)$animal['animal_id']) ?>">
                 <label for="animal-picture">Fotografia</label>
                 <div class="upload-box">
                     <input type="file" id="animal-picture" name="animal-picture" accept="image/*">
@@ -38,6 +38,9 @@
                 <input type="number" id="age" name="age" value="<?= htmlspecialchars((string)$animal['age']) ?>" required>
 
                 <button type="submit">Salvar Alterações</button>
+            </form>
+            <form action="../actions/action_deleteAnimal.php" method="POST" onsubmit="return confirm('Tem certeza que deseja apagar este animal? Esta ação é irreversível.');" class="delete-animal-form">
+                <input type="hidden" name="animal_id" value="<?= htmlspecialchars((string)$animal['animal_id']) ?>"> <button type="submit" id="erase-animal">Apagar Animal</button>
             </form>
         </div>
     </section>

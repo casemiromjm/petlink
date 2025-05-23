@@ -456,6 +456,15 @@ footer {
   background-color: #568870;
 }
 
+#error-message{
+  color: red;
+  border: 1px solid red;
+  padding: 10px;
+  margin:0;
+  margin-bottom: 15px;
+  background-color: #ffb6b6;
+}
+
 /* Filtros */
 .filtros {
   margin-left: 75px;
@@ -1813,7 +1822,7 @@ main {
   .edit-button {
     align-self: center;
   }
-  
+
   .profile-meta {
     flex-direction: column;
     gap: 0.5rem;
@@ -2141,8 +2150,8 @@ main {
 
 /* Data/hora da última mensagem */
 .chat-list .chat-last-time {
-  font-size: 0.7em; 
-  color: #ffffff;          
+  font-size: 0.7em;
+  color: #ffffff;
   margin-top: 0.05em;
   text-align: right;
   margin-left: auto;
@@ -2235,7 +2244,7 @@ main {
   padding-bottom: 0.1rem;
   border-top: 1px solid #e3e7e5;
   background: #fff;
-  align-items: center; 
+  align-items: center;
   height:45px;
 }
 
@@ -2261,7 +2270,7 @@ main {
   cursor: pointer;
   transition: background 0.2s;
   height: 45px;
-  margin-top: 0; 
+  margin-top: 0;
 }
 
 .no-chat-selected {
@@ -2296,4 +2305,7 @@ main {
   z-index: 14;
   display: inline-block;
   pointer-events: none;
+}
+#erase-animal{
+  background-color: #b15050;
 }

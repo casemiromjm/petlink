@@ -18,6 +18,9 @@ class Ad {
     private string $district;
     private int $photoId;
     private ?string $createdAt;
+    private ?float $averageRating;
+    private ?int $reviewCount;
+
 
     private function __construct(
         int $id,
@@ -34,7 +37,9 @@ class Ad {
         int $userId,
         string $district,
         int $photoId,
-        ?string $createdAt
+        ?string $createdAt,
+        ?float $averageRating = null,
+        ?int $reviewCount = null
     ) {
         $this->id = $id;
         $this->serviceId = $serviceId;
@@ -51,6 +56,8 @@ class Ad {
         $this->district = $district;
         $this->photoId = $photoId;
         $this->createdAt = $createdAt;
+        $this->averageRating = $averageRating;
+        $this->reviewCount = $reviewCount;
     }
 
     public function getId(): int {
@@ -113,6 +120,14 @@ class Ad {
         return $this->createdAt;
     }
 
+    public function getAverageRating(): ?float {
+        return $this->averageRating;
+    }
+
+    public function getReviewCount(): ?int {
+        return $this->reviewCount;
+    }
+
     private static function getAnimalsForAd(PDO $db, int $adId): array {
         $stmt = $db->prepare('
             SELECT at.animal_name
@@ -171,6 +186,8 @@ class Ad {
         if ($adMedia !== false) {
             $mediaIds = $adMedia;
         }
+        $averageRating = Reviews::getAverageRatingForAd($db, (int)$adData['id']);
+        $reviewCount = Reviews::getReviewCountForAd($db, (int)$adData['id']);
 
         return new Ad(
             (int)$adData['id'],
@@ -187,7 +204,9 @@ class Ad {
             (int)$adData['user_id'],
             $adData['district'] ?? '',
             (int)($adData['photo_id'] ?? 0),
-            $adData['created_at'] ?? null
+            $adData['created_at'] ?? null,
+            $averageRating,
+            $reviewCount
         );
     }
 
@@ -231,6 +250,8 @@ class Ad {
         if ($adMedia !== false) {
             $mediaIds = $adMedia;
         }
+        $averageRating = Reviews::getAverageRatingForAd($db, (int)$adData['id']);
+        $reviewCount = Reviews::getReviewCountForAd($db, (int)$adData['id']);
 
         return new Ad(
             (int)$adData['ad_id'],
@@ -247,7 +268,9 @@ class Ad {
             (int)$adData['user_id'],
             $adData['district'] ?? '',
             (int)($adData['photo_id'] ?? 0),
-            $adData['created_at'] ?? null
+            $adData['created_at'] ?? null,
+            $averageRating,
+            $reviewCount
         );
     }
 
@@ -285,6 +308,28 @@ class Ad {
         }
 
         $adIds = array_column($adsData, 'id');
+
+        $ratingsQuery = '
+            SELECT
+                ad_id,
+                AVG(rating) AS average_rating,
+                COUNT(rating) AS review_count
+            FROM Reviews
+            WHERE ad_id IN (' . implode(',', array_fill(0, count($adIds), '?')) . ')
+            GROUP BY ad_id
+        ';
+        $ratingsStmt = $db->prepare($ratingsQuery);
+        $ratingsStmt->execute($adIds);
+        $adRatings = $ratingsStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $ratingsByAdId = [];
+        foreach ($adRatings as $rating) {
+                $ratingsByAdId[(int)$rating['ad_id']] = [
+                'average_rating' => (float)$rating['average_rating'],
+                'review_count' => (int)$rating['review_count']
+            ];
+        }
+
         $mediaQuery = '
             SELECT
                 am.ad_id,
@@ -306,7 +351,10 @@ class Ad {
 
         $ads = [];
         foreach ($adsData as $adData) {
-            $adAnimals = self::getAnimalsForAd($db, (int)$adData['id']);
+            $currentAdId = (int)$adData['id'];
+            $adAnimals = self::getAnimalsForAd($db,  $currentAdId);
+            $averageRating = $ratingsByAdId[$currentAdId]['average_rating'] ?? null;
+            $reviewCount = $ratingsByAdId[$currentAdId]['review_count'] ?? null;
             $ads[] = new Ad(
                 (int)$adData['id'],
                 (int)($adData['service_id'] ?? 0),
@@ -322,7 +370,10 @@ class Ad {
                 (int)$adData['user_id'],
                 $adData['district'] ?? '',
                 (int)($adData['photo_id'] ?? 0),
-                $adData['created_at'] ?? null
+                $adData['created_at'] ?? null,
+                $averageRating,
+                $reviewCount
+
             );
         }
 
@@ -340,7 +391,7 @@ class Ad {
         $where = [];
         $params = [];
 
-        
+
         if (!empty($filters['search'])) {
             $where[] = '(Ads.title LIKE ? OR Ads.description LIKE ?)';
             $params[] = '%' . $filters['search'] . '%';
@@ -371,12 +422,10 @@ class Ad {
 
         $whereSql = $where ? 'WHERE ' . implode(' AND ', $where) : '';
 
-        // Sorting
         $orderBy = 'Ads.ad_id DESC';
         if (!empty($filters['sort'])) {
             if ($filters['sort'] === 'preco_asc') $orderBy = 'Ads.price ASC, Ads.ad_id ASC';
             elseif ($filters['sort'] === 'preco_desc') $orderBy = 'Ads.price DESC, Ads.ad_id DESC';
-            // Add more sort options as needed
         }
 
         $offset = ($page - 1) * $limit;
@@ -409,7 +458,6 @@ class Ad {
             $stmt->bindValue($paramIndex++, $param);
         }
 
-        // Agora, adicione LIMIT e OFFSET como os últimos parâmetros posicionais
         $stmt->bindValue($paramIndex++, $limit, PDO::PARAM_INT);
         $stmt->bindValue($paramIndex++, $offset, PDO::PARAM_INT);
         $stmt->execute();
@@ -420,6 +468,28 @@ class Ad {
         }
 
         $adIds = array_column($adsData, 'id');
+
+        $ratingsQuery = '
+            SELECT
+                ad_id,
+                AVG(rating) AS average_rating,
+                COUNT(rating) AS review_count
+            FROM Reviews
+            WHERE ad_id IN (' . implode(',', array_fill(0, count($adIds), '?')) . ')
+            GROUP BY ad_id
+        ';
+        $ratingsStmt = $db->prepare($ratingsQuery);
+        $ratingsStmt->execute($adIds);
+        $adRatings = $ratingsStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $ratingsByAdId = [];
+        foreach ($adRatings as $rating) {
+            $ratingsByAdId[(int)$rating['ad_id']] = [
+                'average_rating' => (float)$rating['average_rating'],
+                'review_count' => (int)$rating['review_count']
+            ];
+        }
+
         $mediaQuery = '
             SELECT
                 am.ad_id,
@@ -441,7 +511,11 @@ class Ad {
 
         $ads = [];
         foreach ($adsData as $adData) {
-            $adAnimals = self::getAnimalsForAd($db, (int)$adData['id']);
+            $currentAdId = (int)$adData['id'];
+            $adAnimals = self::getAnimalsForAd($db, $currentAdId);
+            $averageRating = $ratingsByAdId[$currentAdId]['average_rating'] ?? null;
+            $reviewCount = $ratingsByAdId[$currentAdId]['review_count'] ?? null;
+
             $ads[] = new Ad(
                 (int)$adData['id'],
                 (int)($adData['service_id'] ?? 0),
@@ -457,7 +531,9 @@ class Ad {
                 (int)$adData['user_id'],
                 $adData['district'] ?? '',
                 (int)($adData['photo_id'] ?? 0),
-                $adData['created_at'] ?? null
+                $adData['created_at'] ?? null,
+                $averageRating,
+                $reviewCount
             );
         }
 

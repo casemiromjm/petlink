@@ -64,7 +64,19 @@
                         <p class="ad-animals"><i class="fi fi-rr-paw"></i> <?= htmlspecialchars(implode(', ', $ad->getAnimals())) ?></p>
                         <p class="ad-location"><i class="fi fi-rr-marker"></i> <?= htmlspecialchars($ad->getDistrict()) ?></p>
                         <p class="ad-price"><i class="fi fi-rr-euro"></i> <?= htmlspecialchars((string)$ad->getPrice()) ?>€ / <?= htmlspecialchars($ad->getPricePeriod()) ?></p>
-                        <p class="ad-rating"><i class="fi fi-rr-star"></i> 4.7/5 (32 avaliações)</p>
+                        <p class="ad-rating">
+                            <i class="fi fi-rr-star"></i>
+                            <?php
+                                $averageRating = $ad->getAverageRating();
+                                $reviewCount = $ad->getReviewCount();
+
+                                if ($averageRating !== null && $reviewCount !== null) {
+                                    echo number_format($averageRating, 1) . ' (' . $reviewCount . ' avaliaç' . ($reviewCount === 1 ? 'ão' : 'ões') . ')';
+                                } else {
+                                    echo 'Sem avaliações';
+                                }
+                            ?>
+                        </p>
                     </div>
                 </a>
                     <?php endforeach; ?>
