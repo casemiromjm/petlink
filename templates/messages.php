@@ -205,13 +205,13 @@
           <?php if ($status === 'pending'): ?>
   <?php if ($_SESSION['user_id'] == $latestOrder['freelancer_id']): ?>
     <form class="cancel-order-form" action="" method="post">
-      <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
+      <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
       <button type="submit" name="accept_order" class="accept-order-btn" formaction="../actions/action_acceptOrder.php">Aceitar</button>
       <button type="submit" name="reject_order" class="reject-order-btn" formaction="../actions/action_rejectOrder.php">Rejeitar</button>
     </form>
   <?php elseif ($_SESSION['user_id'] == $latestOrder['client_id']): ?>
-    <form action="../actions/action_cancelOrder.php" method="post" class="cancel-order-form">
-      <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
+    <form action="../actions/action_cancelRequest.php" method="post" class="cancel-order-form">
+      <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
       <button type="submit" class="cancel-order-btn">Cancelar pedido</button>
     </form>
   <?php endif; ?>
