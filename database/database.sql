@@ -240,9 +240,9 @@ INSERT INTO Users (username, email, name, photo_id, district, phone, password_ha
 INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('pedror', 'pedro.r@example.com', 'Pedro Rodrigues', 5, 'Évora','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
 INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('sara_c', 'sara.c@example.com', 'Sara Costa', 6, 'Castelo Branco','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
 INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('manuel_a', 'manuel.a@example.com', 'Manuel Almeida',1, 'Leiria','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('luis_g', 'luis.g@example.com', 'Luis Sousa', 2, 'Leiria','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('ines_f', 'ines.f@example.com', 'Ines Fagundes',3, 'Viseu','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('isabel_m', 'isabel.m@example.com', 'Isabel Moreira',4, 'Guimarães','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('luis_g', 'luis.g@example.com', 'Luis Sousa', 2, 'Leiria','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('ines_f', 'ines.f@example.com', 'Ines Fagundes',3, 'Viseu','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('isabel_m', 'isabel.m@example.com', 'Isabel Moreira',4, 'Guimarães','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
 
 -- Inserir admins
 
@@ -565,3 +565,13 @@ INSERT INTO Reviews (ad_id, client_id, rating, comment) VALUES
 
 -- Query para obter nome e foto de animais de um utilizador específico
 SELECT name, animal_picture FROM user_animals WHERE user_id = 1;
+
+INSERT INTO User_animals (user_id, species, name, age, animal_picture) VALUES (1, 1, 'Bobby', 3, './resources/bobby.png');
+INSERT INTO User_animals (user_id, species, name, age, animal_picture) VALUES (1, 2, 'Mimi', 2, './resources/mimi.png');
+INSERT INTO User_animals (user_id, species, name, age, animal_picture) VALUES (2, 1, 'Thor', 5, './resources/thor.png');
+INSERT INTO User_animals (user_id, species, name, age, animal_picture) VALUES (3, 3, 'PiuPiu', 1, './resources/piupiu.png');
+INSERT INTO User_animals (user_id, species, name, age, animal_picture) VALUES (4, 4, 'Jerry', 2, './resources/jerry.png');
+INSERT INTO User_animals (user_id, species, name, age, animal_picture) VALUES (5, 5, 'Rex', 4, './resources/rex.png');
+INSERT INTO User_animals (user_id, species, name, age, animal_picture) VALUES (6, 6, 'Nemo', 1, './resources/nemo.png');
+INSERT INTO User_animals (user_id, species, name, age, animal_picture) VALUES (7, 7, 'Furãozinho', 2, './resources/furaozinho.png');
+INSERT INTO User_animals (user_id, species, name, age, animal_picture) VALUES (8, 8, 'Coelhinho', 3, './resources/coelhinho.png');

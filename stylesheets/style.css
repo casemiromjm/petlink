@@ -2297,3 +2297,65 @@ main {
   display: inline-block;
   pointer-events: none;
 }
+
+
+/* MODAL DO COMPRAR SERVIÇO */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.4);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-content {
+    background: #fff;
+    padding: 2em;
+    border-radius: 10px;
+    min-width: 320px;
+    max-width: 90vw;
+    position: relative;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  }
+  .modal-close {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #888;
+  }
+  .modal-close:hover {
+    color: #E63946;
+  }
+
+/* Animal checkboxes in modal */
+#animalCheckboxes {
+  border: none !important;
+  padding: 0.5em 0 0.5em 0.5em !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0.4em !important;
+  margin-bottom: 1em !important;
+}
+
+#animalCheckboxes label {
+  margin: 0.1em 0 0.1em 0 !important;
+  padding: 0.2em 0.5em !important;
+  width: auto !important;
+  text-align: left !important;
+  background: none !important;
+  border: none !important;
+  font-weight: 500;
+  color: #333;
+  border-radius: 4px;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+#animalCheckboxes label:hover {
+  background: #f4f4f4;
+}
