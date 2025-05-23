@@ -89,35 +89,61 @@
       <?php endif; ?>
       <div class="messages-list" id="messagesContainer">
         <?php
+          // Buscar pedidos de serviço relacionados a este chat
+          $stmt = $db->prepare('SELECT *, created_at as sent_at, "order" as type FROM ServiceRequests WHERE ad_id = ? AND (client_id = ? OR freelancer_id = ?) ORDER BY created_at ASC');
+          $stmt->execute([$selectedAdId, $_SESSION['user_id'], $selectedUserId]);
+          $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+          // Marcar mensagens como type = 'message'
+          foreach ($messages as &$msg) $msg['type'] = 'message';
+          unset($msg);
+
+          // Mesclar e ordenar por data/hora
+          $allItems = array_merge($messages, $orders);
+          usort($allItems, function($a, $b) {
+            return strtotime($a['sent_at']) <=> strtotime($b['sent_at']);
+          });
+
           $lastDate = null;
-          $lastSentIndex = null;
-          $lastMessageIndex = count($messages) - 1;
-          foreach ($messages as $i => $msg) {
-            if ($msg['from_user_id'] == $_SESSION['user_id']) {
-              $lastSentIndex = $i;
-            }
-          }
-        ?>
-        <?php foreach ($messages as $i => $msg):
-          $msgDate = (new DateTime($msg['sent_at']))->format('d/m/Y');
-          $msgHour = (new DateTime($msg['sent_at']))->format('H:i');
-          if ($msgDate !== $lastDate):
+          foreach ($allItems as $item):
+            $msgDate = (new DateTime($item['sent_at']))->format('d/m/Y');
+            $msgHour = (new DateTime($item['sent_at']))->format('H:i');
+            if ($msgDate !== $lastDate):
         ?>
           <div class="message-date-header"><?= htmlspecialchars($msgDate) ?></div>
         <?php
-            $lastDate = $msgDate;
-          endif;
+              $lastDate = $msgDate;
+            endif;
+
+            if ($item['type'] === 'message'):
         ?>
-          <div class="message <?= $msg['from_user_id'] == $_SESSION['user_id'] ? 'sent' : 'received' ?>">
-            <span><?= htmlspecialchars($msg['text']) ?></span>
+          <div class="message <?= $item['from_user_id'] == $_SESSION['user_id'] ? 'sent' : 'received' ?>">
+            <span><?= htmlspecialchars($item['text']) ?></span>
             <div class="message-time"><?= htmlspecialchars($msgHour) ?></div>
           </div>
-          <?php if ($i === $lastSentIndex && $i === $lastMessageIndex): ?>
-            <div class="message-status <?= $msg['is_read'] ? 'seen' : 'sent' ?> message-status-right">
-              <?= $msg['is_read'] ? 'seen' : 'sent' ?>
+        <?php
+            elseif ($item['type'] === 'order'):
+              $isClient = ($_SESSION['user_id'] == $item['client_id']);
+        ?>
+          <div class="order-message" style="background:#e3e7e5;padding:1em;border-radius:8px;margin:1em 0;">
+            <div class="order-message-header" style="font-weight:bold;color:#568870;">Pedido de Serviço #<?= htmlspecialchars($item['request_id']) ?></div>
+            <div class="order-message-body" style="margin:0.5em 0;">
+              Animais: <?= htmlspecialchars($item['animals']) ?><br>
+              Quantidade: <?= htmlspecialchars($item['amount']) ?> <?= htmlspecialchars($item['price_period']) ?>(s)<br>
+              Preço total: <?= htmlspecialchars($item['price'] * $item['amount']) ?>€
             </div>
-          <?php endif; ?>
-        <?php endforeach; ?>
+            <div class="message-time"><?= htmlspecialchars($msgHour) ?></div>
+            <?php if ($isClient && $item['status'] === 'pending'): ?>
+              <form method="post" action="../actions/action_cancelOrder.php" style="margin-top:0.5em;">
+                <input type="hidden" name="request_id" value="<?= htmlspecialchars($item['request_id']) ?>">
+                <button type="submit" class="cancel-order-btn" style="background:#E63946;color:#fff;border:none;padding:0.3em 1em;border-radius:6px;cursor:pointer;">Cancelar</button>
+              </form>
+            <?php endif; ?>
+          </div>
+        <?php
+            endif;
+          endforeach;
+        ?>
       </div>
       <form class="send-message-form" action="../actions/action_sendMessage.php" method="post">
         <input type="hidden" name="ad" value="<?= $selectedAdId ?>">
