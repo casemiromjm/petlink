@@ -34,5 +34,5 @@
 
 ## Credentials
 
-- admin/p4s5w0rd
-- johndoe/1234
+- test_admin/1234
+- test_user/1234
