@@ -11,10 +11,10 @@ function drawAdminPanel(array $users, array $animalTypes): void { ?>
             <ul class="user-list">
                 <?php foreach ($users as $user): ?>
                     <li>
-                        <span><?= htmlspecialchars($user['username']) ?> (ID: <?= htmlspecialchars((string)$user['rowid']) ?>)</span>
-                        <form action="../actions/action_elevateUser.php" method="POST" class="admin-action-form">
-                            <input type="hidden" name="user_id" value="<?= htmlspecialchars((string)$user['rowid']) ?>">
-                            <?php if ((int)$user['isAdmin'] === 1): ?>
+                        <span><?= htmlspecialchars($user['username']) ?> (ID: <?= htmlspecialchars((string)$user['user_id']) ?>)</span>
+                        <form action="/actions/action_elevateUser.php" method="POST" class="admin-action-form">
+                            <input type="hidden" name="user_id" value="<?= htmlspecialchars((string)$user['user_id']) ?>">
+                            <?php if ((int)$user['is_admin'] === 1): ?>
                                 <input type="hidden" name="new_admin_status" value="0">
                                 <button type="submit" class="demote-button" onclick="return confirm('Tem certeza que deseja remover o status de administrador de <?= htmlspecialchars($user['username']) ?>?');">Remover Admin</button>
                             <?php else: ?>

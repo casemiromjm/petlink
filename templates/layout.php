@@ -2,6 +2,7 @@
 <?php
 session_start();
 
+
 require_once(__DIR__ . '/../database/connection.db.php');
 require_once(__DIR__ . '/../database/users.class.php');
 // Ver se há mensagens nao vistas
@@ -44,8 +45,8 @@ if (isset($_SESSION['user_id'])) {
               <li><a href="../index.php">Contratar Serviço</a></li>
               <li style="pointer-events:none; color:#fff; font-weight:bold; padding: 0 1em;">|</li>
               <li><a href="../pages/adCreate.php">Anunciar Serviço</a></li>
-              <li style="pointer-events:none; color:#fff; font-weight:bold; padding: 0 1em;">|</li>
               <?php if ($isAdmin): ?>
+              <li style="pointer-events:none; color:#fff; font-weight:bold; padding: 0 1em;">|</li>
                       <li><a href="/pages/admin.php">Painel de Admin</a></li>
                   <?php endif; ?>
             </ul>
@@ -68,7 +69,7 @@ if (isset($_SESSION['user_id'])) {
                 <?php if (isset($_SESSION['user_id'])): ?>
                   <div class="hamburger-menu">
                     <div class="menu-header">
-                      <img src="<?= htmlspecialchars(str_replace('./', '../', $_SESSION['profile_photo'] ?? '../resources/default_profile.png')) ?>" alt="Foto de perfil" class="user-photo">
+                      <img src="<?= htmlspecialchars(str_replace('./', '../', $_SESSION['profile_photo'] ?? '/resources/profilePics/0.png')) ?>" alt="Foto de perfil" class="user-photo">
                       <span class="username"><?= htmlspecialchars($_SESSION['name'] ?? 'Usuário') ?></span>
                       <i class="fi fi-rr-menu-dots"></i>
                     </div>

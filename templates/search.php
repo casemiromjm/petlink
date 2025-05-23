@@ -1,6 +1,5 @@
 <?php declare(strict_types = 1); ?>
 
-<link rel="stylesheet" href="stylesheets/search.css">
 <script src="javascript/script.js"></script>
 
 <?php function drawSearch() {

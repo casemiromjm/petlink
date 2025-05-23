@@ -1,12 +1,11 @@
 <?php
 declare(strict_types = 1);
 
-session_start();
-
 require_once(__DIR__.'/../database/connection.db.php');
 require_once(__DIR__.'/../database/users.class.php');
 require_once(__DIR__.'/../database/animal.class.php');
 require_once(__DIR__.'/../templates/admin.php');
+error_log("DEBUG: admin.php - Depois de templates/admin.php");
 require_once(__DIR__.'/../templates/layout.php');
 
 $db = getDatabaseConnection();
@@ -28,11 +27,11 @@ $animalTypes = Animal_type::getAnimalSpecies($db);
 
 drawHeader();
 ?>
-<link rel="stylesheet" href="../stylesheets/style.css">
+
 <body>
     <div class="main-layout">
         <aside class="side-nav">
-            <?php drawNavbar(); ?>
+
         </aside>
 
         <main class="content">
