@@ -138,10 +138,16 @@
 
               $statusClass = 'order-status';
               if ($status === 'pending') $statusClass .= ' order-status-pending';
+              if ($status === 'accepted_awaiting_payment') $statusClass .= ' order-status-accepted';
               if ($status === 'accepted') $statusClass .= ' order-status-accepted';
               if ($status === 'rejected') $statusClass .= ' order-status-rejected';
             ?>
-            <span class="<?= $statusClass ?>"><?= htmlspecialchars($statusText) ?></span>
+            <span class="<?= $statusClass ?>">
+              <?php
+                if ($status === 'accepted_awaiting_payment') echo 'Aceite... a aguardar pagamento';
+                else echo htmlspecialchars($statusText);
+              ?>
+            </span>
           </div>
           <div><strong>Animais:</strong>
             <?php
@@ -210,8 +216,13 @@
           <?php if ($status === 'pending' && $_SESSION['user_id'] == $latestOrder['freelancer_id']): ?>
     <form class="cancel-order-form" action="" method="post">
       <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
-      <button type="submit" name="accept_order" class="accept-order-btn" formaction="../actions/action_acceptOrder.php">Aceitar</button>
+      <button type="submit" name="accept_order" class="accept-order-btn" formaction="../actions/action_acceptRequest.php">Aceitar</button>
       <button type="submit" name="reject_order" class="reject-order-btn" formaction="../actions/action_rejectRequest.php">Rejeitar</button>
+    </form>
+  <?php elseif ($status === 'accepted_awaiting_payment' && $_SESSION['user_id'] == $latestOrder['client_id']): ?>
+    <form action="../actions/action_payOrder.php" method="post" class="cancel-order-form">
+      <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
+      <button type="submit" class="accept-order-btn">Efetuar pagamento</button>
     </form>
   <?php elseif (
   $_SESSION['user_id'] == $latestOrder['client_id'] &&
