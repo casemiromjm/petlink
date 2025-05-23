@@ -13,24 +13,29 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $db = getDatabaseConnection();
-$user = $_SESSION['user_id'];
+$userId = $_SESSION['user_id'];
 $adId = isset($_GET['id']) ? intval($_GET['id']) : null;
 
-// ta morrendo aqui 1o
 if (!$adId) {
     die('Anúncio não especificado.');
 }
 
 $stmt = $db->prepare('SELECT * FROM Ads WHERE ad_id = ? AND freelancer_id = ?');
-$stmt->execute([$adId, $user]);
+$stmt->execute([$adId, $userId]);
 $ad = $stmt->fetch();
 
 if (!$ad) {
     die('Anúncio não encontrado.');
 }
 
+$animalStmt = $db->prepare('SELECT animal_id FROM Ad_animals WHERE ad_id = ?');
+$animalStmt->execute([$adId]);
+$associatedAnimals = $animalStmt->fetchAll(PDO::FETCH_COLUMN);
+
+$success = isset($_GET['success']) ? intval($_GET['success']) : 0;
+
 drawHeader();
-drawEditAd();
+drawEditAd($ad, $associatedAnimals, $success);
 drawFooter();
 
 ?>

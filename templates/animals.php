@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1); ?>
 
 <link rel="stylesheet" href="../stylesheets/style.css">
-<?php require_once('../templates/sidebar.php'); ?>
+<?php require_once('sidebar.php'); ?>
 
 <?php
 function translateAnimalType(string $animalType): string {

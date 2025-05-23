@@ -17,10 +17,10 @@ $userId = $_SESSION['user_id'];
 $animalId = isset($_GET['id']) ? intval($_GET['id']) : null;
 
 if (!$animalId) {
-    die('Animal não especificado.');
+    die('Animal não especificado.' . ($_GET['id'] ?? 'Nenhum'));
 }
 
-$stmt = $db->prepare('SELECT rowid, * FROM user_animals WHERE user_id = ? AND rowid = ?');
+$stmt = $db->prepare('SELECT animal_id, * FROM User_animals WHERE user_id = ? AND animal_id = ?');
 $stmt->execute([$userId, $animalId]);
 $animal = $stmt->fetch();
 

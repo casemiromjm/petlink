@@ -170,6 +170,14 @@ a:hover {
   background-color: #6f877e;
 }
 
+.form-container .delete-button {
+    background-color: #E63946;
+}
+
+.form-container .delete-button:hover {
+    background-color: #9f141f;
+}
+
 
 /* Navbar (header) */
 header {
