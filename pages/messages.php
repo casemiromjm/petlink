@@ -35,6 +35,7 @@ $stmt = $db->prepare('
         u.photo_id,
         a.ad_id,
         a.title AS ad_title,
+        a.freelancer_id,
         (SELECT text FROM Messages m2 WHERE (m2.from_user_id = :user_id OR m2.to_user_id = :user_id) AND m2.ad_id = a.ad_id AND (m2.from_user_id = u.user_id OR m2.to_user_id = u.user_id) ORDER BY m2.sent_at DESC LIMIT 1) AS last_message,
         (SELECT sent_at FROM Messages m2 WHERE (m2.from_user_id = :user_id OR m2.to_user_id = :user_id) AND m2.ad_id = a.ad_id AND (m2.from_user_id = u.user_id OR m2.to_user_id = u.user_id) ORDER BY m2.sent_at DESC LIMIT 1) AS last_time
     FROM Messages m

@@ -81,7 +81,10 @@
               <div style="font-size:0.97em;color:#2b4d43;"><?= htmlspecialchars($currentChat['name']) ?></div>
             </div>
           </a>
-          <?php if ($_SESSION['user_id'] !== $currentChat['user_id']): ?>
+          <?php if (
+  isset($_SESSION['user_id'], $currentChat['freelancer_id']) &&
+  $_SESSION['user_id'] !== $currentChat['freelancer_id']
+): ?>
             <button id="buyServiceBtn" style="margin-left:auto;background:#81B29A;color:#fff;border:none;padding:0.5em 1em;border-radius:6px;cursor:pointer;">Contratar Serviço</button>
           <?php endif; ?>
         </div>
