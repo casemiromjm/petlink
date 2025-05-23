@@ -55,7 +55,6 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
 
   drawHeader();
   drawSearch();
-// ... (código antes da paginação, incluindo a função buildPaginationLink) ...
 
 if ($totalPages > 1) {
     echo '<div class="pagination">';
@@ -70,8 +69,7 @@ if ($totalPages > 1) {
     $range = 2;
 
     if ($page > $range + 1) {
-        // Link para a primeira página
-        echo '<a href="' . buildPaginationLink(1) . '">1</a>'; // <--- ATENÇÃO AQUI
+        echo '<a href="' . buildPaginationLink(1) . '">1</a>';
         if ($page > $range + 2) {
             echo '<span>...</span>';
         }
@@ -79,21 +77,19 @@ if ($totalPages > 1) {
 
     for ($i = max(1, $page - $range); $i <= min($totalPages, $page + $range); $i++) {
         $activeClass = ($i === $page) ? 'active' : '';
-        // Links para as páginas numeradas
-        echo '<a href="' . buildPaginationLink($i) . '" class="' . $activeClass . '">' . $i . '</a>'; // <--- ATENÇÃO AQUI
+        echo '<a href="' . buildPaginationLink($i) . '" class="' . $activeClass . '">' . $i . '</a>';
     }
 
     if ($page < $totalPages - $range) {
         if ($page < $totalPages - $range - 1) {
             echo '<span>...</span>';
         }
-        // Link para a última página
-        echo '<a href="' . buildPaginationLink($totalPages) . '">' . $totalPages . '</a>'; // <--- ATENÇÃO AQUI
+
+        echo '<a href="' . buildPaginationLink($totalPages) . '">' . $totalPages . '</a>';
     }
 
     if ($page < $totalPages) {
-        // Link para a próxima página
-        echo '<a href="' . buildPaginationLink($page + 1) . '" class="arrow">&raquo;</a>'; // <--- ATENÇÃO AQUI
+        echo '<a href="' . buildPaginationLink($page + 1) . '" class="arrow">&raquo;</a>';
     } else {
         echo '<span class="arrow disabled">&raquo;</span>';
     }
