@@ -90,10 +90,17 @@ class Animal_type {
         $stmt = $db->prepare('SELECT COUNT(*) FROM Animal_types WHERE animal_name = ?');
         $stmt->execute([$animalName]);
         if ($stmt->fetchColumn() > 0) {
-            return false; 
+            return false;
         }
 
         $stmt = $db->prepare('INSERT INTO Animal_types (animal_name) VALUES (?)');
         return $stmt->execute([$animalName]);
     }
+
+    public static function getAnimalSpecies(PDO $db): array {
+        $stmt = $db->prepare('SELECT animal_id, animal_name FROM Animal_types');
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

@@ -2,27 +2,26 @@
 <?php
 session_start();
 
+require_once(__DIR__ . '/../database/connection.db.php');
+require_once(__DIR__ . '/../database/users.class.php');
 // Ver se há mensagens nao vistas
 $hasUnreadMessages = false;
+$isLoggedIn = false;
+$isAdmin = false;
+
 if (isset($_SESSION['user_id'])) {
-  require_once(__DIR__ . '/../database/connection.db.php');
+
   $db = getDatabaseConnection();
   $stmt = $db->prepare('SELECT COUNT(*) FROM Messages WHERE to_user_id = ? AND is_read = 0');
   $stmt->execute([$_SESSION['user_id']]);
+
+  $isLoggedIn = true;
   $hasUnreadMessages = $stmt->fetchColumn() > 0;
+  $isAdmin = User::isUserAdmin($db, $_SESSION['user_id']);
 }
+
 ?>
-<?php function drawHeader() { global $hasUnreadMessages;
-$db = getDatabaseConnection(); // Assume que getDatabaseConnection() está disponível
-
-    $isLoggedIn = isset($_SESSION['user_id']);
-    $isAdmin = false;
-    if ($isLoggedIn) {
-        $isAdmin = isUserAdmin($db, $_SESSION['user_id']);
-    }
-
-
-  ?>
+<?php function drawHeader() { global $isLoggedIn, $isAdmin, $hasUnreadMessages; ?>
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -45,13 +44,14 @@ $db = getDatabaseConnection(); // Assume que getDatabaseConnection() está dispo
               <li><a href="../index.php">Contratar Serviço</a></li>
               <li style="pointer-events:none; color:#fff; font-weight:bold; padding: 0 1em;">|</li>
               <li><a href="../pages/adCreate.php">Anunciar Serviço</a></li>
+              <li style="pointer-events:none; color:#fff; font-weight:bold; padding: 0 1em;">|</li>
+              <?php if ($isAdmin): ?>
+                      <li><a href="/pages/admin.php">Painel de Admin</a></li>
+                  <?php endif; ?>
             </ul>
           </div>
           <div class="nav-right" style="display: flex; align-items: center; gap: 1.5em;">
             <ul style="display: flex; align-items: center; margin: 0;">
-            <?php if ($isAdmin): ?>
-                    <li><a href="../pages/admin.php">Painel de Admin</a></li>
-                <?php endif; ?>
               <?php if (isset($_SESSION['user_id'])): ?>
               <li style="position:relative;">
                 <a href="../pages/messages.php">Mensagens

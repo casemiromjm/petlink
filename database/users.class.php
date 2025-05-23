@@ -20,7 +20,7 @@ class User {
         string $district,
         ?string $phone,
         int $photoId,
-        ?string $createdAt
+        ?string $createdAt,
 
     ) {
         $this->id = $id;
@@ -110,7 +110,7 @@ class User {
                 phone_number,
                 photo_id,
                 created_at
-            FROM Users
+                FROM Users
             WHERE username = ?
         ');
         $stmt->execute([$username]);
@@ -132,18 +132,25 @@ class User {
         );
     }
 
-    function isUserAdmin(PDO $db, int $userId): bool {
-        $stmt = $db->prepare('SELECT isAdmin FROM users WHERE user_id = ?');
+    public static function isUserAdmin(PDO $db, int $userId): bool {
+        $stmt = $db->prepare('SELECT is_admin FROM users WHERE user_id = ?');
         $stmt->execute([$userId]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        return $user && (int)$user['isAdmin'] === 1;
+        return $user && (int)$user['is_admin'] === 1;
     }
 
-    function updateUserAdminStatus(PDO $db, int $userIdToUpdate, int $newAdminStatus): bool {
+    public static function updateUserAdminStatus(PDO $db, int $userIdToUpdate, int $newAdminStatus): bool {
         $newAdminStatus = ($newAdminStatus === 1) ? 1 : 0;
 
         $stmt = $db->prepare('UPDATE users SET isAdmin = ? WHERE rowid = ?');
         return $stmt->execute([$newAdminStatus, $userIdToUpdate]);
     }
+
+    public static function getAllUsers(PDO $db): array {
+        $stmt = $db->prepare('SELECT user_id, username, is_admin FROM users');
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
