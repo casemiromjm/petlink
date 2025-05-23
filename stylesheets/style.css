@@ -2403,9 +2403,29 @@ main {
   bottom: 1.2em;
   right: 1.2em;
   margin: 0;
+  display: flex;
+  gap: 10px;
 }
 
 .cancel-order-btn {
+  background: #E63946;
+  color: #fff;
+  border: none;
+  padding: 0.5em 1.2em;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.accept-order-btn {
+  background: #81B29A;
+  color: #fff;
+  border: none;
+  padding: 0.5em 1.2em;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.reject-order-btn {
   background: #E63946;
   color: #fff;
   border: none;
