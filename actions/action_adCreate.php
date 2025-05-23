@@ -4,7 +4,7 @@ session_start();
 ini_set('display_errors', '1');
 error_reporting(E_ALL);
 
-require_once(__DIR__ . '/../database/connection.db.php'); // Use absolute path
+require_once(__DIR__ . '/../database/connection.db.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {

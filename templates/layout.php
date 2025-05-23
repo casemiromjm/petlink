@@ -1,6 +1,9 @@
 <?php declare(strict_types = 1); ?>
 <?php
-session_start();
+require_once(__DIR__ . '/../utils/session.php');
+
+$session = new Session();
+$session->start();
 
 // Ver se há mensagens nao vistas
 $hasUnreadMessages = false;

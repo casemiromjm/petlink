@@ -9,7 +9,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     die('Invalid request method');
 }
 
-session_start();
+$session = new Session();
+$session->start();
 if (!isset($_SESSION['user_id'])) {
     header('HTTP/1.1 403 Forbidden');
     die('You must be logged in to delete ads');
@@ -28,9 +29,9 @@ if (!$adId) {
 
 $db = getDatabaseConnection();
 
-$db->beginTransaction();
-
 try {
+    $db->beginTransaction();
+
     $stmt = $db->prepare('SELECT freelancer_id FROM Ads WHERE ad_id = ?');
     $stmt->execute([$adId]);
     $adOwner = $stmt->fetchColumn();

@@ -1,11 +1,14 @@
 <?php
     declare(strict_types = 1);
     require_once('sidebar.php');
-    require_once('../utils/session.php');
+    require_once(__DIR__ . '/../utils/session.php');
 ?>
 
-<?php function drawEditAd(array $ad, array $associated_animals): void { ?>
+<?php function drawEditAd(array $ad, array $associated_animals, int $success): void { ?>
 <main class="ads-layout">
+    <?php if ($success === 1): ?>
+    <div id="success-message" class="success-message">Anúncio editado com sucesso</div>
+    <?php endif; ?>
     
     <section class="ad-content">
         <div class="form-container">
@@ -53,6 +56,7 @@
                         </label>
                     <?php endforeach; ?>
                 </div>
+                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
 
                 <button type="submit">Salvar Alterações</button>
             </form>

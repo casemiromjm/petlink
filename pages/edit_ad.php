@@ -32,8 +32,10 @@ $animalStmt = $db->prepare('SELECT animal_id FROM Ad_animals WHERE ad_id = ?');
 $animalStmt->execute([$adId]);
 $associatedAnimals = $animalStmt->fetchAll(PDO::FETCH_COLUMN);
 
+$success = isset($_GET['success']) ? intval($_GET['success']) : 0;
+
 drawHeader();
-drawEditAd($ad, $associatedAnimals);
+drawEditAd($ad, $associatedAnimals, $success);
 drawFooter();
 
 ?>
