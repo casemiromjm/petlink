@@ -107,7 +107,7 @@
           <button type="submit" class="message-button">Enviar mensagem</button>
         </form>
         <?php endif; ?>
-        
+
       </div>
       <p class="ad-description"><?= nl2br(htmlspecialchars($ad->getDescription() ?? 'Descrição não disponível')) ?></p>
     </div>

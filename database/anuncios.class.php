@@ -11,7 +11,7 @@ class Ad {
     private float $price;
     private string $pricePeriod;
     private array $animals;
-    private array $mediaIds;
+    public array $mediaIds;
     private string $username;
     private string $name;
     private int $userId;
