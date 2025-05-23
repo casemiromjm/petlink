@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="stylesheets/search.css">
 <script src="javascript/script.js"></script>
 
-<?php function drawSearch() { 
+<?php function drawSearch() {
   $search = $_GET['search'] ?? '';
   $location = $_GET['location'] ?? '';
 ?>
@@ -74,7 +74,7 @@
         <select id="servico" name="servico">
           <option>Todos</option>
           <option>Passeio</option>
-          <option>Pet Sitting</option>
+          <option>Petsitting</option>
           <option>Tosquia</option>
           <option>Treino</option>
           <option>Alojamento</option>
