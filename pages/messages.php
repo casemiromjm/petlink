@@ -60,9 +60,18 @@ if ($selectedAdId && $selectedUserId) {
     ');
     $stmt->execute([$selectedAdId, $currentUserId, $selectedUserId, $selectedUserId, $currentUserId]);
     $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    // Fetch the latest order for this ad and client/freelancer pair
+    $stmt = $db->prepare('
+        SELECT * FROM ServiceRequests
+        WHERE ad_id = ? AND (client_id = ? OR freelancer_id = ?)
+        ORDER BY rowid DESC LIMIT 1
+    ');
+    $stmt->execute([$selectedAdId, $currentUserId, $currentUserId]);
+    $latestOrder = $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
 drawHeader();
-drawMensagens($chats, $messages, $selectedAdId, $selectedUserId);
+drawMensagens($chats, $messages, $selectedAdId, $selectedUserId, $latestOrder ?? null);
 drawFooter();
 ?>

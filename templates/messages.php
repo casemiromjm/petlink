@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="../stylesheets/style.css">
 
-<?php function drawMensagens(array $chats, array $messages, ?int $selectedAdId, ?int $selectedUserId): void { ?>
+<?php function drawMensagens(array $chats, array $messages, ?int $selectedAdId, ?int $selectedUserId, $latestOrder = null): void { ?>
 <div class="chat-container">
   <aside class="chat-list">
     <h2>Conversas</h2>
@@ -123,6 +123,29 @@
           <?php endif; ?>
         <?php endforeach; ?>
       </div>
+      <?php if ($latestOrder): ?>
+        <div class="order-request-box order-box">
+          <div class="order-title">
+            Pedido de Serviço
+          </div>
+          <div><strong>Animais:</strong>
+            <?php
+              $animals = json_decode($latestOrder['animals'] ?? '[]', true);
+              echo $animals && count($animals) ? htmlspecialchars(implode(', ', $animals)) : 'N/A';
+            ?>
+          </div>
+          <div><strong>Quantidade:</strong> <?= htmlspecialchars((string)($latestOrder['amount'] ?? '')) ?></div>
+          <div><strong>Preço:</strong> <?= htmlspecialchars((string)($latestOrder['price'] ?? '')) ?>€ / <?= htmlspecialchars($latestOrder['price_period'] ?? '') ?></div>
+          <div><strong>Data do pedido:</strong>
+            <?php
+              if (!empty($latestOrder['created_at'])) {
+                $dt = new DateTime($latestOrder['created_at']);
+                echo htmlspecialchars($dt->format('d/m/Y H:i'));
+              }
+            ?>
+          </div>
+        </div>
+      <?php endif; ?>
       <form class="send-message-form" action="../actions/action_sendMessage.php" method="post">
         <input type="hidden" name="ad" value="<?= $selectedAdId ?>">
         <input type="hidden" name="to" value="<?= $selectedUserId ?>">
