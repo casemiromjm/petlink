@@ -132,4 +132,18 @@ class User {
         );
     }
 
+    function isUserAdmin(PDO $db, int $userId): bool {
+        $stmt = $db->prepare('SELECT isAdmin FROM users WHERE user_id = ?');
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $user && (int)$user['isAdmin'] === 1;
+    }
+
+    function updateUserAdminStatus(PDO $db, int $userIdToUpdate, int $newAdminStatus): bool {
+        $newAdminStatus = ($newAdminStatus === 1) ? 1 : 0;
+
+        $stmt = $db->prepare('UPDATE users SET isAdmin = ? WHERE rowid = ?');
+        return $stmt->execute([$newAdminStatus, $userIdToUpdate]);
+    }
 }

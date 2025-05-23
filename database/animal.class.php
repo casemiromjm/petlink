@@ -85,4 +85,15 @@ class Animal_type {
             return false;
         }
     }
+
+    function addAnimalType(PDO $db, string $animalName): bool {
+        $stmt = $db->prepare('SELECT COUNT(*) FROM Animal_types WHERE animal_name = ?');
+        $stmt->execute([$animalName]);
+        if ($stmt->fetchColumn() > 0) {
+            return false; 
+        }
+
+        $stmt = $db->prepare('INSERT INTO Animal_types (animal_name) VALUES (?)');
+        return $stmt->execute([$animalName]);
+    }
 }

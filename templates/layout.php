@@ -12,7 +12,17 @@ if (isset($_SESSION['user_id'])) {
   $hasUnreadMessages = $stmt->fetchColumn() > 0;
 }
 ?>
-<?php function drawHeader() { global $hasUnreadMessages; ?>
+<?php function drawHeader() { global $hasUnreadMessages;
+$db = getDatabaseConnection(); // Assume que getDatabaseConnection() está disponível
+
+    $isLoggedIn = isset($_SESSION['user_id']);
+    $isAdmin = false;
+    if ($isLoggedIn) {
+        $isAdmin = isUserAdmin($db, $_SESSION['user_id']);
+    }
+
+
+  ?>
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,6 +49,9 @@ if (isset($_SESSION['user_id'])) {
           </div>
           <div class="nav-right" style="display: flex; align-items: center; gap: 1.5em;">
             <ul style="display: flex; align-items: center; margin: 0;">
+            <?php if ($isAdmin): ?>
+                    <li><a href="../pages/admin.php">Painel de Admin</a></li>
+                <?php endif; ?>
               <?php if (isset($_SESSION['user_id'])): ?>
               <li style="position:relative;">
                 <a href="../pages/messages.php">Mensagens
