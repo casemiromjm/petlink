@@ -1,5 +1,17 @@
 <?php if (isset($currentChat, $selectedAdId)): ?>
 <link rel="stylesheet" href="../stylesheets/style.css">
+<?php
+  require_once(__DIR__ . '/../database/connection.db.php');
+  $db = getDatabaseConnection();
+  $userId = $_SESSION['user_id'];
+  $stmt = $db->prepare('SELECT COUNT(*) FROM ServiceRequests WHERE ad_id = ? AND client_id = ? AND status IN ("pending", "accepted")');
+  $stmt->execute([$selectedAdId, $userId]);
+  $hasActiveRequest = $stmt->fetchColumn() > 0;
+?>
+<!-- Error bar under navbar -->
+<div id="general-error-bar" class="error-bar" style="display:none;">
+  Já existe um pedido ativo para este anúncio. Por favor, cancele o pedido atual antes de fazer um novo.
+</div>
 <div id="buyServiceModal" class="modal-overlay" style="display:none;">
   <div class="modal-content">
     <button id="closeBuyModal" class="modal-close" aria-label="Fechar">&times;</button>
@@ -67,12 +79,30 @@ if (isset($selectedAdId)) {
 ?>
 <script>
   // Modal logic
-  document.getElementById('buyServiceBtn').onclick = function() {
-    document.getElementById('buyServiceModal').style.display = 'flex';
-  };
+  const hasActiveRequest = <?= json_encode($hasActiveRequest) ?>;
+  const buyBtn = document.getElementById('buyServiceBtn');
+  const modal = document.getElementById('buyServiceModal');
+  const errorMsg = document.getElementById('general-error-bar');
+
+  if (buyBtn) {
+    buyBtn.onclick = function(e) {
+      if (hasActiveRequest) {
+        e.preventDefault();
+        errorMsg.style.display = 'block';
+        setTimeout(() => { errorMsg.style.display = 'none'; }, 2500);
+      } else {
+        modal.style.display = 'flex';
+        document.getElementById('amount').value = 1;
+        updateFinalPrice();
+      }
+    };
+    buyBtn.addEventListener('click', updateFinalPrice);
+  }
+
   document.getElementById('closeBuyModal').onclick = function() {
-    document.getElementById('buyServiceModal').style.display = 'none';
+    modal.style.display = 'none';
   };
+
   // Price calculation
   const pricePerUnit = <?= json_encode($adPrice ?? 0) ?>;
   function updateFinalPrice() {
@@ -80,11 +110,10 @@ if (isset($selectedAdId)) {
     document.getElementById('finalPrice').textContent = (amount * pricePerUnit).toFixed(2);
   }
   document.getElementById('amount').addEventListener('input', updateFinalPrice);
+
   // Optional: close modal on overlay click
-  document.getElementById('buyServiceModal').onclick = function(e) {
+  modal.onclick = function(e) {
     if (e.target === this) this.style.display = 'none';
   };
-  // Initialize price on open
-  document.getElementById('buyServiceBtn').addEventListener('click', updateFinalPrice);
 </script>
 <?php endif; ?>

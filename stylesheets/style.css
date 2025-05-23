@@ -1254,6 +1254,24 @@ body.profile-page {
   border-radius: 0 0 4px 4px;
 }
 
+/* Mensagem de erro geral (igual à success-message mas em vermelho) */
+.error-bar {
+  background-color: #E63946;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 15px;
+  margin-bottom: 20px;
+  border-radius: 0 0 4px 4px;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100vw;
+  z-index: 2001;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: none;
+}
+
 /* Animais do utilizador */
 .animal-list {
   text-align: center;

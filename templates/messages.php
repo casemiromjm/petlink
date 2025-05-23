@@ -171,7 +171,7 @@
               }
             ?>
           </div>
-          <div><strong>Quantidade:</strong>
+          <div><strong>Duração:</strong>
             <?php
               $amount = (int)($latestOrder['amount'] ?? 1);
               $period = $latestOrder['price_period'] ?? '';
