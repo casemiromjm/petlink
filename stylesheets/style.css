@@ -1263,6 +1263,24 @@ body.profile-page {
   border-radius: 0 0 4px 4px;
 }
 
+/* Mensagem de erro geral (igual à success-message mas em vermelho) */
+.error-bar {
+  background-color: #E63946;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 15px;
+  margin-bottom: 20px;
+  border-radius: 0 0 4px 4px;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 100vw;
+  z-index: 2001;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  display: none;
+}
+
 /* Animais do utilizador */
 .animal-list {
   text-align: center;
@@ -2143,9 +2161,9 @@ main {
   font-size: 0.7em;
   color: #555;
   margin-top: 0.1em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 /* Data/hora da última mensagem */
@@ -2308,4 +2326,140 @@ main {
 }
 #erase-animal{
   background-color: #b15050;
+}
+
+
+/* MODAL DO COMPRAR SERVIÇO */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.4);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-content {
+    background: #fff;
+    padding: 2em;
+    border-radius: 10px;
+    min-width: 320px;
+    max-width: 90vw;
+    position: relative;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  }
+  .modal-close {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #888;
+  }
+  .modal-close:hover {
+    color: #E63946;
+  }
+
+/* Animal checkboxes in modal */
+#animalCheckboxes {
+  border: none !important;
+  padding: 0.5em 0 0.5em 0.5em !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  gap: 0.4em !important;
+  margin-bottom: 1em !important;
+}
+
+#animalCheckboxes label {
+  margin: 0.1em 0 0.1em 0 !important;
+  padding: 0.2em 0.5em !important;
+  width: auto !important;
+  text-align: left !important;
+  background: none !important;
+  border: none !important;
+  font-weight: 500;
+  color: #333;
+  border-radius: 4px;
+  transition: background 0.2s;
+  cursor: pointer;
+}
+
+#animalCheckboxes label:hover {
+  background: #f4f4f4;
+}
+
+.order-box {
+  margin: 1.5em 2.5em 0 2.5em;
+  padding: 1em 1em;
+  background: #f7f7f7;
+  border-radius: 12px;
+  border: 2px solid #81B29A;
+  box-shadow: 0 2px 8px rgba(44,77,67,0.07);
+  font-size: 1em;
+  color: #2b4d43;
+  max-width: 600px;
+}
+
+.order-box .order-title {
+  font-weight: bold;
+  font-size: 1.1em;
+  color: #3d5a4a;
+  margin-bottom: 0.5em;
+  letter-spacing: 0.5px;
+}
+
+.order-box strong {
+  color: #568870;
+  font-weight: 600;
+}
+
+.animal-species-label,
+.price-unit-label {
+  color: #888;
+  font-size: 0.95em;
+}
+
+.order-status-pending {
+  color: #888;
+  font-style: italic;
+  font-size: 0.85em;
+  font-weight: normal;
+}
+
+.cancel-order-form {
+  position: absolute;
+  bottom: 1.2em;
+  right: 1.2em;
+  margin: 0;
+  display: flex;
+  gap: 10px;
+}
+
+.cancel-order-btn {
+  background: #E63946;
+  color: #fff;
+  border: none;
+  padding: 0.5em 1.2em;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.accept-order-btn {
+  background: #81B29A;
+  color: #fff;
+  border: none;
+  padding: 0.5em 1.2em;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.reject-order-btn {
+  background: #E63946;
+  color: #fff;
+  border: none;
+  padding: 0.5em 1.2em;
+  border-radius: 6px;
+  cursor: pointer;
 }

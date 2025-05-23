@@ -143,6 +143,23 @@ CREATE TABLE Ad_services (
     FOREIGN KEY (service_id) REFERENCES Services(service_id) ON DELETE CASCADE
 );
 
+CREATE TABLE ServiceRequests (
+    request_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ad_id INTEGER NOT NULL,
+    client_id INTEGER NOT NULL,
+    freelancer_id INTEGER NOT NULL,
+    animals TEXT,
+    amount INTEGER NOT NULL,
+    price REAL NOT NULL,
+    price_period TEXT NOT NULL,
+    status TEXT DEFAULT 'pending', -- pending, approved, rejected
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ad_id) REFERENCES Ads(ad_id),
+    FOREIGN KEY (client_id) REFERENCES Users(user_id),
+    FOREIGN KEY (freelancer_id) REFERENCES Users(user_id)
+);
+
+
 -- Populating db
 
 -- Inserir animal types
