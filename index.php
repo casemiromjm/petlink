@@ -12,6 +12,14 @@
   require_once(__DIR__.'/database/connection.db.php');
   require_once(__DIR__.'/database/anuncios.class.php');
 
+  function buildPaginationLink(int $pageNumber): string {
+      $currentGet = $_GET;
+      $currentGet['page'] = $pageNumber;
+      $queryString = http_build_query($currentGet);
+
+      return '?' . $queryString;
+  }
+
   $db = getDatabaseConnection();
 
   $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
@@ -19,7 +27,7 @@
   $location = isset($_GET['location']) ? $_GET['location'] : '';
   $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-  $duracao = ($_GET['duracao'] ?? '') !== '' && $_GET['duracao'] !== 'Qualquer' ? $_GET['duracao'] : '';
+$duracao = ($_GET['duracao'] ?? '') !== '' && $_GET['duracao'] !== 'Qualquer' ? $_GET['duracao'] : '';
 $animal = ($_GET['animal'] ?? '') !== '' && $_GET['animal'] !== 'Todos' ? $_GET['animal'] : '';
 $servico = ($_GET['servico'] ?? '') !== '' && $_GET['servico'] !== 'Todos' ? $_GET['servico'] : '';
 
@@ -47,12 +55,14 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
 
   drawHeader();
   drawSearch();
+// ... (código antes da paginação, incluindo a função buildPaginationLink) ...
 
-  if ($totalPages > 1) {
+if ($totalPages > 1) {
     echo '<div class="pagination">';
 
     if ($page > 1) {
-        echo '<a href="?page=' . ($page - 1) . '" class="arrow">&laquo;</a>';
+        // Link para a página anterior
+        echo '<a href="' . buildPaginationLink($page - 1) . '" class="arrow">&laquo;</a>'; // <--- ATENÇÃO AQUI
     } else {
         echo '<span class="arrow disabled">&laquo;</span>';
     }
@@ -60,7 +70,8 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
     $range = 2;
 
     if ($page > $range + 1) {
-        echo '<a href="?page=1">1</a>';
+        // Link para a primeira página
+        echo '<a href="' . buildPaginationLink(1) . '">1</a>'; // <--- ATENÇÃO AQUI
         if ($page > $range + 2) {
             echo '<span>...</span>';
         }
@@ -68,18 +79,21 @@ if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
 
     for ($i = max(1, $page - $range); $i <= min($totalPages, $page + $range); $i++) {
         $activeClass = ($i === $page) ? 'active' : '';
-        echo '<a href="?page=' . $i . '" class="' . $activeClass . '">' . $i . '</a>';
+        // Links para as páginas numeradas
+        echo '<a href="' . buildPaginationLink($i) . '" class="' . $activeClass . '">' . $i . '</a>'; // <--- ATENÇÃO AQUI
     }
 
     if ($page < $totalPages - $range) {
         if ($page < $totalPages - $range - 1) {
             echo '<span>...</span>';
         }
-        echo '<a href="?page=' . $totalPages . '">' . $totalPages . '</a>';
+        // Link para a última página
+        echo '<a href="' . buildPaginationLink($totalPages) . '">' . $totalPages . '</a>'; // <--- ATENÇÃO AQUI
     }
 
     if ($page < $totalPages) {
-        echo '<a href="?page=' . ($page + 1) . '" class="arrow">&raquo;</a>';
+        // Link para a próxima página
+        echo '<a href="' . buildPaginationLink($page + 1) . '" class="arrow">&raquo;</a>'; // <--- ATENÇÃO AQUI
     } else {
         echo '<span class="arrow disabled">&raquo;</span>';
     }

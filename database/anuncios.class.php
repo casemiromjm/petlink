@@ -340,6 +340,7 @@ class Ad {
         $where = [];
         $params = [];
 
+        
         if (!empty($filters['search'])) {
             $where[] = '(Ads.title LIKE ? OR Ads.description LIKE ?)';
             $params[] = '%' . $filters['search'] . '%';
@@ -373,8 +374,8 @@ class Ad {
         // Sorting
         $orderBy = 'Ads.ad_id DESC';
         if (!empty($filters['sort'])) {
-            if ($filters['sort'] === 'preco_asc') $orderBy = 'Ads.price ASC';
-            elseif ($filters['sort'] === 'preco_desc') $orderBy = 'Ads.price DESC';
+            if ($filters['sort'] === 'preco_asc') $orderBy = 'Ads.price ASC, Ads.ad_id ASC';
+            elseif ($filters['sort'] === 'preco_desc') $orderBy = 'Ads.price DESC, Ads.ad_id DESC';
             // Add more sort options as needed
         }
 
@@ -398,15 +399,19 @@ class Ad {
             JOIN Users ON Ads.freelancer_id = Users.user_id
             $whereSql
             ORDER BY $orderBy
-            LIMIT :limit OFFSET :offset
+            LIMIT ? OFFSET ?
         ";
 
         $stmt = $db->prepare($sql);
-        foreach ($params as $i => $param) {
-            $stmt->bindValue($i + 1, $param);
+
+        $paramIndex = 1;
+        foreach ($params as $param) {
+            $stmt->bindValue($paramIndex++, $param);
         }
-        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
-        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+        // Agora, adicione LIMIT e OFFSET como os últimos parâmetros posicionais
+        $stmt->bindValue($paramIndex++, $limit, PDO::PARAM_INT);
+        $stmt->bindValue($paramIndex++, $offset, PDO::PARAM_INT);
         $stmt->execute();
         $adsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
 

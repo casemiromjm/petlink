@@ -21,7 +21,7 @@
             </h2>
         </div>
         <div class="ad-list">
-          <?php foreach ($ads as $ad): ?>
+          <?php foreach ($ads as $ad):?>
             <a href="pages/adDetails.php?id=<?= htmlspecialchars((string)$ad->getId()) ?>" class="ad">
                     <div class="ad-image">
                     <?php
