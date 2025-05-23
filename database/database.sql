@@ -152,7 +152,8 @@ CREATE TABLE ServiceRequests (
     amount INTEGER NOT NULL,
     price REAL NOT NULL,
     price_period TEXT NOT NULL,
-    status TEXT DEFAULT 'pending', -- pending, approved, rejected
+    status TEXT DEFAULT 'pending',
+    is_paid BOOLEAN DEFAULT 0,   
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (ad_id) REFERENCES Ads(ad_id),
     FOREIGN KEY (client_id) REFERENCES Users(user_id),

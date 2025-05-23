@@ -220,10 +220,65 @@
       <button type="submit" name="reject_order" class="reject-order-btn" formaction="../actions/action_rejectRequest.php">Rejeitar</button>
     </form>
   <?php elseif ($status === 'accepted_awaiting_payment' && $_SESSION['user_id'] == $latestOrder['client_id']): ?>
-    <form action="../actions/action_payOrder.php" method="post" class="cancel-order-form">
+    <form action="#" method="post" class="cancel-order-form" id="payOrderForm">
       <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
-      <button type="submit" class="accept-order-btn">Efetuar pagamento</button>
+      <button type="submit" class="accept-order-btn" id="openPaymentModalBtn">Efetuar pagamento</button>
     </form>
+    <?php
+      $showPaymentModal = false;
+      // Detalhes dos animais igual à visualização do pedido
+      $animalList = [];
+      $animals = json_decode($latestOrder['animals'] ?? '[]', true);
+      if ($animals && count($animals)) {
+        require_once('../database/connection.db.php');
+        $db = getDatabaseConnection();
+        // Função só se ainda não existir
+        if (!function_exists('translateAnimalType')) {
+          function translateAnimalType(string $animalType): string {
+            $translations = [
+              'Cães' => 'Cão',
+              'Gatos' => 'Gato',
+              'Roedores' => 'Roedor',
+              'Pássaros' => 'Pássaro',
+              'Répteis' => 'Réptil',
+              'Peixes' => 'Peixe',
+              'Furões' => 'Furão',
+              'Coelhos' => 'Coelho'
+            ];
+            return $translations[$animalType] ?? $animalType;
+          }
+        }
+        $placeholders = implode(',', array_fill(0, count($animals), '?'));
+        $stmt = $db->prepare("SELECT name, (SELECT animal_name FROM Animal_types WHERE animal_id = ua.species) AS species FROM user_animals ua WHERE ua.animal_id IN ($placeholders)");
+        $stmt->execute($animals);
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+          $singular = translateAnimalType($row['species']);
+          $animalList[] = htmlspecialchars($row['name']) . ' <span class="animal-species-label">(' . htmlspecialchars($singular) . ')</span>';
+        }
+      }
+      $amount = (int)($latestOrder['amount'] ?? 1);
+      $period = $latestOrder['price_period'] ?? '';
+      $periodMap = [
+        'hora' => 'horas',
+        'dia' => 'dias',
+        'semana' => 'semanas',
+        'mês' => 'meses'
+      ];
+      $periodLabel = $amount === 1 ? $period : ($periodMap[$period] ?? $period);
+      $total = (float)($latestOrder['price'] ?? 0) * $amount;
+      $unit = (float)($latestOrder['price'] ?? 0);
+
+      $purchaseDetails = [
+        'service' => $currentChat['ad_title'] ?? '',
+        'animals' => implode(', ', $animalList),
+        'amount' => $amount,
+        'price_period' => $periodLabel,
+        'price' => number_format($unit, 2, ',', '.'),
+        'total' => number_format($total, 2, ',', '.'),
+        'unit_label' => number_format($unit, 2, ',', '.') . '€/ ' . htmlspecialchars($period),
+      ];
+      include_once('../modals/payment_modal.php');
+    ?>
   <?php elseif (
   $_SESSION['user_id'] == $latestOrder['client_id'] &&
   in_array($status, ['pending', 'rejected'])
@@ -251,6 +306,17 @@
     const container = document.getElementById('messagesContainer');
     if (container) {
       container.scrollTop = container.scrollHeight;
+    }
+
+    // Payment modal logic
+    const payBtn = document.getElementById('openPaymentModalBtn');
+    const payForm = document.getElementById('payOrderForm');
+    const paymentModal = document.getElementById('paymentModal');
+    if (payBtn && payForm && paymentModal) {
+      payForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        paymentModal.style.display = 'flex';
+      });
     }
   });
 </script>
