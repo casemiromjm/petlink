@@ -335,4 +335,176 @@ class Ad {
         $stmt->execute();
         return (int)$stmt->fetchColumn();
     }
+
+    public static function search(PDO $db, array $filters, int $page = 1, int $limit = 16): array {
+        $where = [];
+        $params = [];
+
+        if (!empty($filters['search'])) {
+            $where[] = '(Ads.title LIKE ? OR Ads.description LIKE ?)';
+            $params[] = '%' . $filters['search'] . '%';
+            $params[] = '%' . $filters['search'] . '%';
+        }
+        if (!empty($filters['location'])) {
+            $where[] = 'LOWER(Users.district) = ?';
+            $params[] = strtolower($filters['location']);
+        }
+        if (!empty($filters['duracao'])) {
+            $where[] = 'LOWER(Ads.price_period) = ?';
+            $params[] = strtolower($filters['duracao']);
+        }
+        if (!empty($filters['animal'])) {
+            $where[] = 'EXISTS (SELECT 1 FROM Ad_animals aa JOIN Animal_types at ON aa.animal_id = at.animal_id WHERE aa.ad_id = Ads.ad_id AND at.animal_name = ?)';
+
+            $params[] = $filters['animal'];
+        }
+        if (!empty($filters['servico'])) {
+            $where[] = 'EXISTS (SELECT 1 FROM Ad_services s JOIN Services sv ON s.service_id = sv.service_id WHERE s.ad_id = Ads.ad_id AND sv.service_name = ?)';
+
+            $params[] = $filters['servico'];
+        }
+        if (!empty($filters['user_id'])) {
+            $where[] = 'Users.user_id = ?';
+            $params[] = $filters['user_id'];
+        }
+
+        $whereSql = $where ? 'WHERE ' . implode(' AND ', $where) : '';
+
+        // Sorting
+        $orderBy = 'Ads.ad_id DESC';
+        if (!empty($filters['sort'])) {
+            if ($filters['sort'] === 'preco_asc') $orderBy = 'Ads.price ASC';
+            elseif ($filters['sort'] === 'preco_desc') $orderBy = 'Ads.price DESC';
+            // Add more sort options as needed
+        }
+
+        $offset = ($page - 1) * $limit;
+        $sql = "
+            SELECT
+                Ads.ad_id AS id,
+                Ads.title,
+                Ads.description,
+                Ads.price,
+                Ads.price_period,
+                Ads.service_id,
+                Ads.freelancer_id,
+                Ads.created_at,
+                Users.user_id,
+                Users.name,
+                Users.username,
+                Users.district,
+                Users.photo_id
+            FROM Ads
+            JOIN Users ON Ads.freelancer_id = Users.user_id
+            $whereSql
+            ORDER BY $orderBy
+            LIMIT :limit OFFSET :offset
+        ";
+
+        $stmt = $db->prepare($sql);
+        foreach ($params as $i => $param) {
+            $stmt->bindValue($i + 1, $param);
+        }
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        $adsData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        if (empty($adsData)) {
+            return [];
+        }
+
+        $adIds = array_column($adsData, 'id');
+        $mediaQuery = '
+            SELECT
+                am.ad_id,
+                am.media_id
+            FROM Ad_media am
+            WHERE am.ad_id IN (' . implode(',', array_fill(0, count($adIds), '?')) . ')
+            ORDER BY am.ad_id, am.media_id
+        ';
+
+        $mediaStmt = $db->prepare($mediaQuery);
+        $mediaStmt->execute($adIds);
+        $adMedia = $mediaStmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $mediaByAdId = [];
+        foreach ($adMedia as $media) {
+            $adId = $media['ad_id'];
+            $mediaByAdId[$adId][] = (int)$media['media_id'];
+        }
+
+        $ads = [];
+        foreach ($adsData as $adData) {
+            $adAnimals = self::getAnimalsForAd($db, (int)$adData['id']);
+            $ads[] = new Ad(
+                (int)$adData['id'],
+                (int)($adData['service_id'] ?? 0),
+                (int)($adData['freelancer_id'] ?? 0),
+                $adData['title'] ?? '',
+                $adData['description'] ?? '',
+                (float)$adData['price'],
+                $adData['price_period'] ?? '',
+                $adAnimals,
+                $mediaByAdId[(int)$adData['id']] ?? [],
+                $adData['name'] ?? '',
+                $adData['username'] ?? '',
+                (int)$adData['user_id'],
+                $adData['district'] ?? '',
+                (int)($adData['photo_id'] ?? 0),
+                $adData['created_at'] ?? null
+            );
+        }
+
+        return $ads;
+    }
+
+    public static function countSearch(PDO $db, array $filters): int {
+        $where = [];
+        $params = [];
+
+        if (!empty($filters['search'])) {
+            $where[] = '(Ads.title LIKE ? OR Ads.description LIKE ?)';
+            $params[] = '%' . $filters['search'] . '%';
+            $params[] = '%' . $filters['search'] . '%';
+        }
+        if (!empty($filters['location'])) {
+            $where[] = 'LOWER(Users.district) = ?';
+            $params[] = strtolower($filters['location']);
+        }
+        if (!empty($filters['duracao'])) {
+            $where[] = 'LOWER(Ads.price_period) = ?';
+            $params[] = strtolower($filters['duracao']);
+        }
+        if (!empty($filters['animal'])) {
+            $where[] = 'EXISTS (SELECT 1 FROM Ad_animals aa JOIN Animal_types at ON aa.animal_id = at.animal_id WHERE aa.ad_id = Ads.ad_id AND at.animal_name = ?)';
+
+            $params[] = $filters['animal'];
+        }
+        if (!empty($filters['servico'])) {
+            $where[] = 'EXISTS (SELECT 1 FROM Ad_services s JOIN Services sv ON s.service_id = sv.service_id WHERE s.ad_id = Ads.ad_id AND sv.service_name = ?)';
+
+            $params[] = $filters['servico'];
+        }
+        if (!empty($filters['user_id'])) {
+            $where[] = 'Users.user_id = ?';
+            $params[] = $filters['user_id'];
+        }
+
+        $whereSql = $where ? 'WHERE ' . implode(' AND ', $where) : '';
+
+        $sql = "
+            SELECT COUNT(*)
+            FROM Ads
+            JOIN Users ON Ads.freelancer_id = Users.user_id
+            $whereSql
+        ";
+
+        $stmt = $db->prepare($sql);
+        foreach ($params as $i => $param) {
+            $stmt->bindValue($i + 1, $param);
+        }
+        $stmt->execute();
+        return (int)$stmt->fetchColumn();
+    }
 }

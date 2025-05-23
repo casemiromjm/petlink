@@ -16,13 +16,37 @@
 
   $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
   $limit = 16;
-  $ads = Ad::getAll($db, $page, $limit);
-  $totalAds = Ad::getTotalCount($db);
-  $totalPages = ceil($totalAds / $limit);
+  $location = isset($_GET['location']) ? $_GET['location'] : '';
+  $search = isset($_GET['search']) ? $_GET['search'] : '';
+
+  $duracao = ($_GET['duracao'] ?? '') !== '' && $_GET['duracao'] !== 'Qualquer' ? $_GET['duracao'] : '';
+$animal = ($_GET['animal'] ?? '') !== '' && $_GET['animal'] !== 'Todos' ? $_GET['animal'] : '';
+$servico = ($_GET['servico'] ?? '') !== '' && $_GET['servico'] !== 'Todos' ? $_GET['servico'] : '';
+
+$userId = isset($_GET['user_id']) ? intval($_GET['user_id']) : null;
+$sort = $_GET['sort'] ?? 'recentes';
+
+$filters = [
+    'search' => $search,
+    'location' => $location,
+    'duracao' => $duracao,
+    'animal' => $animal,
+    'servico' => $servico,
+    'user_id' => $userId,
+    'sort' => $sort
+];
+
+$ads = Ad::search($db, $filters, $page, $limit);
+$totalAds = Ad::countSearch($db, $filters); // Use the new method!
+$totalPages = ceil($totalAds / $limit);
+
+if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
+    drawAds($ads, $totalAds, $db);
+    exit;
+}
 
   drawHeader();
   drawSearch();
-  drawAds($ads, $totalAds, $db);
 
   if ($totalPages > 1) {
     echo '<div class="pagination">';
@@ -33,30 +57,27 @@
         echo '<span class="arrow disabled">&laquo;</span>';
     }
 
-    $range = 2; // Number of pages to show before and after the current page
+    $range = 2;
 
     if ($page > $range + 1) {
         echo '<a href="?page=1">1</a>';
         if ($page > $range + 2) {
-            echo '<span>...</span>'; // Ellipsis
+            echo '<span>...</span>';
         }
     }
 
-    // Show pages around the current page
     for ($i = max(1, $page - $range); $i <= min($totalPages, $page + $range); $i++) {
         $activeClass = ($i === $page) ? 'active' : '';
         echo '<a href="?page=' . $i . '" class="' . $activeClass . '">' . $i . '</a>';
     }
 
-    // Show the last page
     if ($page < $totalPages - $range) {
         if ($page < $totalPages - $range - 1) {
-            echo '<span>...</span>'; // Ellipsis
+            echo '<span>...</span>';
         }
         echo '<a href="?page=' . $totalPages . '">' . $totalPages . '</a>';
     }
 
-    // Right arrow (disabled if on the last page)
     if ($page < $totalPages) {
         echo '<a href="?page=' . ($page + 1) . '" class="arrow">&raquo;</a>';
     } else {

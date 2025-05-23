@@ -34,19 +34,21 @@ $animals = $stmt->fetchAll();
 
 // Buscar reviews do utilizador (como freelancer)
 $stmt = $db->prepare('
-  SELECT rating, comment, created_at, client_username
-  FROM Reviews
-  WHERE freelancer_username = ?
-  ORDER BY created_at DESC
+  SELECT r.rating, r.comment, r.created_at, u.username AS client_username
+  FROM Reviews r
+  JOIN Users u ON r.client_id = u.user_id
+  WHERE r.ad_id IN (SELECT ad_id FROM Ads WHERE freelancer_id = ?)
+  ORDER BY r.created_at DESC
 ');
-$stmt->execute([$username]);
+$stmt->execute([$user['user_id']]);
 $reviews = $stmt->fetchAll();
 
 // Buscar anúncios do utilizador
 $stmt = $db->prepare('
-  SELECT ads.ad_id, ads.title, ads.image_path, ads.price, ads.price_period
+  SELECT ads.ad_id, ads.title, ads.price, ads.price_period
   FROM Ads ads
-  WHERE ads.username = ?
+  JOIN Users u ON ads.freelancer_id = u.user_id
+  WHERE u.username = ?
   ORDER BY ads.created_at DESC
 ');
 $stmt->execute([$username]);

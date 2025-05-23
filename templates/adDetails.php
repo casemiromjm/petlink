@@ -87,16 +87,16 @@
 
     <div class="ad-info">
       <div class="ad-info-header">
-        <h1><?= htmlspecialchars($ad['title'] ?? 'Título não disponível') ?></h1>
-        <span class="ad-price"><?= htmlspecialchars((string)($ad['price'] ?? '0.00')) ?>€ / <?= htmlspecialchars($ad['price_period'] ?? 'período não disponível') ?></span>
+        <h1><?= htmlspecialchars($ad->getTitle() ?? 'Título não disponível') ?></h1>
+        <span class="ad-price"><?= htmlspecialchars((string)($ad->getPrice() ?? '0.00')) ?>€ / <?= htmlspecialchars($ad->getPricePeriod() ?? 'período não disponível') ?></span>
 
-        <?php if (isset($_SESSION['username']) && $ad['username'] === $_SESSION['username']): ?>
+        <?php if (isset($_SESSION['username']) && $ad->getUsername() === $_SESSION['username']): ?>
         <!-- owner see edit options -->
         <div style="display:inline;">
-            <form action="../pages/edit_ad.php?id=">
-              <input type="hidden" name="ad" value="<?= htmlspecialchars((string)($ad['ad_id'])) ?>">
-              <button type="submit" class="edit-button">Editar Anúncio</button>
-            </form>
+            <form action="../pages/edit_ad.php" method="get">
+  <input type="hidden" name="id" value="<?= htmlspecialchars((string)($ad->getId())) ?>">
+  <button type="submit" class="edit-button">Editar Anúncio</button>
+</form>
         </div>
 
         <?php else: ?>

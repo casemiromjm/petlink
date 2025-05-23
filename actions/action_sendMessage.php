@@ -19,6 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ad'], $_POST['to'], $
     $fromUserId = $_SESSION['user_id'];
     $text = trim($_POST['message']);
 
+    if ($fromUserId === $toUserId) {
+        header('Location: ../pages/messages.php');
+        exit;
+    }
+
     $stmt = $db->prepare('INSERT INTO Messages (ad_id, from_user_id, to_user_id, text, sent_at) VALUES (?, ?, ?, ?, datetime("now"))');
     $stmt->execute([$adId, $fromUserId, $toUserId, $text]);
 
@@ -71,18 +76,6 @@ if (isset($_GET['ad']) && isset($_GET['to'])) {
 } else {
     $selectedAdId = null;
     $selectedUserId = null;
-}
-
-function drawHeader() {
-    // ...existing header code...
-}
-
-function drawMensagens($chats, $messages, $selectedAdId, $selectedUserId) {
-    // ...existing message drawing code...
-}
-
-function drawFooter() {
-    // ...existing footer code...
 }
 
 drawHeader();

@@ -24,7 +24,19 @@
       <div class="profile-header-card">
         <div class="profile-header-main">
           <div class="profile-photo-container">
-            <img src="<?= htmlspecialchars(str_replace('./', '../', $user['profile_photo'] ?? '../resources/default_profile.png')) ?>" alt="Foto de perfil" class="profile-photo">
+            <?php
+              $profilePhoto = $user['photo_id'] ?? null;
+              if (
+                !$profilePhoto ||
+                $profilePhoto === 'default' ||
+                $profilePhoto === '../resources/default_profile.png'
+              ) {
+                $profilePhotoSrc = '../resources/profilePics/0.png';
+              } else {
+                $profilePhotoSrc = '../resources/profilePics/' . $profilePhoto . '.png';
+              }
+            ?>
+            <img src="<?= htmlspecialchars($profilePhotoSrc) ?>" alt="Foto de perfil" class="profile-photo">
           </div>
           <div class="profile-info-container">
             <div class="profile-name-container">
@@ -115,7 +127,7 @@
                 <div class="review-header">
                   <div class="review-rating">
                     <?php for ($i = 0; $i < 5; $i++): ?>
-                      <i class="fi fi-rr-star<?= $i < $review['rating'] ? '' : '-empty' ?>"></i>
+                      <i class="fi fi-rr-star<?= $i < $review['rating'] ? ' filled' : '' ?>"></i>
                     <?php endfor; ?>
                   </div>
                   <span class="review-date"><?= htmlspecialchars((new DateTime($review['created_at']))->format('d/m/Y')) ?></span>
@@ -148,7 +160,15 @@
             <?php foreach ($userAds as $ad): ?>
               <a class="user-ad-card" href="../pages/adDetails.php?id=<?= htmlspecialchars((string)$ad['ad_id']) ?>">
                 <div class="user-ad-image">
-                  <img src="<?= htmlspecialchars(str_replace('./', '../', $ad['image_path'] ?? '../resources/default_ad.png')) ?>" alt="Imagem do anúncio">
+                  <?php
+                    $adImage = $ad['image_path'] ?? null;
+                    if (!$adImage || $adImage === 'default' || $adImage === '../resources/default_ad.png') {
+                      $adImageSrc = '../resources/adPics/8.png';
+                    } else {
+                      $adImageSrc = (strpos($adImage, 'adPics/') !== false ? '../resources/' : '../resources/adPics/') . basename($adImage);
+                    }
+                  ?>
+                  <img src="<?= htmlspecialchars($adImageSrc) ?>" alt="Imagem do anúncio">
                 </div>
                 <div class="user-ad-info">
                   <h3><?= htmlspecialchars($ad['title']) ?></h3>
