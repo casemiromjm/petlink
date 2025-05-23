@@ -22,6 +22,8 @@ $modalDisplay = (isset($showPaymentModal) && $showPaymentModal) ? 'flex' : 'none
     </section>
 
     <form id="fakePaymentForm" action="#" method="post" autocomplete="off" class="payment-form">
+      <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
+
       <label for="cardName">Nome no Cartão</label>
       <input type="text" id="cardName" name="cardName" required maxlength="40" placeholder="Nome completo">
 
@@ -53,25 +55,19 @@ $modalDisplay = (isset($showPaymentModal) && $showPaymentModal) ? 'flex' : 'none
   document.getElementById('fakePaymentForm').onsubmit = function(e) {
     e.preventDefault();
 
-    // Validação realista dos campos
     const name = document.getElementById('cardName').value.trim();
     const number = document.getElementById('cardNumber').value.replace(/\s+/g, '');
     const expiry = document.getElementById('cardExpiry').value.trim();
     const cvc = document.getElementById('cardCVC').value.trim();
 
-    // Nome: pelo menos 2 palavras
     if (name.split(' ').length < 2) {
       alert('Por favor, insira o nome completo do titular do cartão.');
       return;
     }
-
-    // Número do cartão: 16-19 dígitos
     if (!/^\d{16,19}$/.test(number)) {
       alert('O número do cartão deve ter entre 16 e 19 dígitos.');
       return;
     }
-
-    // Validade: MM/AA, mês válido, ano >= atual
     const match = expiry.match(/^(\d{2})\/(\d{2})$/);
     if (!match) {
       alert('A validade deve estar no formato MM/AA.');
@@ -86,20 +82,32 @@ $modalDisplay = (isset($showPaymentModal) && $showPaymentModal) ? 'flex' : 'none
       alert('A validade do cartão é inválida ou já expirou.');
       return;
     }
-
-    // CVC: 3 ou 4 dígitos
     if (!/^\d{3,4}$/.test(cvc)) {
       alert('O CVC deve ter 3 ou 4 dígitos.');
       return;
     }
 
-    // Se passou todas as validações, simula pagamento
-    this.style.display = 'none';
-    document.getElementById('paymentSuccess').style.display = 'block';
-    setTimeout(() => {
-      document.getElementById('paymentModal').style.display = 'none';
-      this.style.display = '';
-      document.getElementById('paymentSuccess').style.display = 'none';
-    }, 1800);
+    const orderIdInput = document.querySelector('input[name="order_id"]');
+    if (orderIdInput) {
+      fetch('../actions/action_pay.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: 'order_id=' + encodeURIComponent(orderIdInput.value)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (!data.success) {
+          alert('Erro ao processar pagamento!');
+          return;
+        }
+        document.getElementById('fakePaymentForm').style.display = 'none';
+        document.getElementById('paymentSuccess').style.display = 'block';
+        setTimeout(() => {
+          document.getElementById('paymentModal').style.display = 'none';
+          document.getElementById('fakePaymentForm').style.display = '';
+          document.getElementById('paymentSuccess').style.display = 'none';
+        }, 1800);
+      });
+    }
   };
 </script>
