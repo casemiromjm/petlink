@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1); ?>
 
 <link rel="stylesheet" href="../stylesheets/style.css">
-<?php require_once('../templates/sidebar.php'); ?>
+<?php require_once('sidebar.php'); ?>
 
 <?php
 function translateAnimalType(string $animalType): string {
@@ -27,8 +27,8 @@ function translateAnimalType(string $animalType): string {
         <div class="animal-cards">
             <?php
             $stmt = $db->prepare('
-                SELECT ua.rowid, ua.name, ua.age, at.animal_name, ua.animal_picture
-                FROM user_animals ua
+                SELECT ua.animal_id, ua.name, ua.age, at.animal_name, ua.animal_picture
+                FROM User_animals ua
                 JOIN Animal_types at ON ua.species = at.animal_id
                 WHERE ua.user_id = ?
             ');
@@ -36,7 +36,7 @@ function translateAnimalType(string $animalType): string {
             $animals = $stmt->fetchAll();
 
             foreach ($animals as $animal): ?>
-                <a class="animal-card-link" href="../pages/editAnimal.php?id=<?= htmlspecialchars((string)$animal['rowid']) ?>">
+                <a class="animal-card-link" href="../pages/editAnimal.php?id=<?= htmlspecialchars((string)$animal['animal_id']) ?>">
                     <div class="animal-card">
                         <img src="<?= htmlspecialchars(str_replace('./', '../', $animal['animal_picture'] ?? '../resources/default_animal.png')) ?>" alt="Animal">
                         <h3><?= htmlspecialchars($animal['name']) ?></h3>
