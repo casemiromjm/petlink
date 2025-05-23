@@ -28,8 +28,12 @@ if (!$ad) {
     die('Anúncio não encontrado.');
 }
 
+$animalStmt = $db->prepare('SELECT animal_id FROM Ad_animals WHERE ad_id = ?');
+$animalStmt->execute([$adId]);
+$associatedAnimals = $animalStmt->fetchAll(PDO::FETCH_COLUMN);
+
 drawHeader();
-drawEditAd($ad);
+drawEditAd($ad, $associatedAnimals);
 drawFooter();
 
 ?>

@@ -5,7 +5,7 @@
 
 <link rel="stylesheet" href="../stylesheets/style.css">
 
-<?php function drawEditAd(array $ad): void { ?>
+<?php function drawEditAd(array $ad, array $associated_animals): void { ?>
 <body>
 <main class="ads-layout">
     
@@ -33,14 +33,27 @@
                 <input type="number" id="ad-price" name="price" step="0.01" value="<?= htmlspecialchars((string)$ad['price']) ?>" required>
             
                 <div class="animal-checkboxes">
-                    <label><input type="checkbox" name="animais[]" value="1">Cães</label>
-                    <label><input type="checkbox" name="animais[]" value="2">Gatos</label>
-                    <label><input type="checkbox" name="animais[]" value="3">Pássaros</label>
-                    <label><input type="checkbox" name="animais[]" value="4">Roedores</label>
-                    <label><input type="checkbox" name="animais[]" value="5">Répteis</label>
-                    <label><input type="checkbox" name="animais[]" value="6">Peixes</label>
-                    <label><input type="checkbox" name="animais[]" value="7">Furões</label>
-                    <label><input type="checkbox" name="animais[]" value="8">Coelhos</label>
+                    <?php
+                    $animalOptions = [
+                        1 => 'Cães',
+                        2 => 'Gatos',
+                        3 => 'Pássaros',
+                        4 => 'Roedores',
+                        5 => 'Répteis',
+                        6 => 'Peixes',
+                        7 => 'Furões',
+                        8 => 'Coelhos'
+                    ];
+                    
+                    foreach ($animalOptions as $value => $label): ?>
+                        <label>
+                            <input type="checkbox" 
+                                name="animais[]" 
+                                value="<?= $value ?>"
+                                <?= in_array($value, $associated_animals) ? 'checked' : '' ?>>
+                            <?= htmlspecialchars($label) ?>
+                        </label>
+                    <?php endforeach; ?>
                 </div>
 
                 <button type="submit">Salvar Alterações</button>
