@@ -84,18 +84,7 @@ CREATE TABLE Ad_animals (
     FOREIGN KEY (animal_id) REFERENCES Animal_types(animal_id) ON DELETE RESTRICT
 );
 
-CREATE TABLE Orders (
-    order_id        INTEGER PRIMARY KEY AUTOINCREMENT,
-    client_id       INTEGER NOT NULL,
-    ad_id           INTEGER NOT NULL,
-    order_date      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    total_price     REAL NOT NULL,
-    isPaid          BOOLEAN DEFAULT FALSE,
-    isCompleted     BOOLEAN DEFAULT FALSE,
 
-    FOREIGN KEY (client_id) REFERENCES Users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY (ad_id) REFERENCES Ads(ad_id) ON DELETE CASCADE
-);
 
 CREATE TABLE Reviews (
     review_id       INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -154,6 +143,7 @@ CREATE TABLE ServiceRequests (
     price_period TEXT NOT NULL,
     status TEXT DEFAULT 'pending',
     is_paid BOOLEAN DEFAULT 0,   
+    reviewed        BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (ad_id) REFERENCES Ads(ad_id),
     FOREIGN KEY (client_id) REFERENCES Users(user_id),

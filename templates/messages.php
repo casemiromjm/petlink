@@ -297,7 +297,14 @@
     <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
     <button type="submit" class="accept-order-btn" style="background:#81B29A;">Completar serviço</button>
   </form>
-  <?php endif; ?>
+  <?php elseif (
+  $status === 'completed' &&
+  $_SESSION['user_id'] == $latestOrder['client_id'] &&
+  (empty($latestOrder['reviewed']) || $latestOrder['reviewed'] == 0)
+): ?>
+  <button type="button" class="accept-order-btn" id="openLeaveReviewModalBtn" style="background:#81B29A;margin-top:1em;float:right;">Deixar avaliação</button>
+  <?php include_once('../modals/leaveReview_modal.php'); ?>
+<?php endif; ?>
         </div>
       <?php endif; ?>
       <form class="send-message-form" action="../actions/action_sendMessage.php" method="post">
@@ -330,4 +337,7 @@
     }
   });
 </script>
+<div class="modal-content review-modal-content">
+  <!-- conteúdo do modal -->
+</div>
 <?php } ?>
