@@ -46,13 +46,11 @@ $stmt = $db->prepare('
 $stmt->execute([':user_id' => $currentUserId]);
 $chats = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Fetch messages for the selected chat
 $messages = [];
 if ($selectedAdId && $selectedUserId) {
-    // Mark all messages sent to the current user as read
+
     $stmt = $db->prepare('UPDATE Messages SET is_read = 1 WHERE ad_id = ? AND to_user_id = ? AND from_user_id = ? AND is_read = 0');
     $stmt->execute([$selectedAdId, $currentUserId, $selectedUserId]);
-    // Fetch messages
     $stmt = $db->prepare('
         SELECT * FROM Messages
         WHERE ad_id = ? AND ((from_user_id = ? AND to_user_id = ?) OR (from_user_id = ? AND to_user_id = ?))
@@ -61,7 +59,6 @@ if ($selectedAdId && $selectedUserId) {
     $stmt->execute([$selectedAdId, $currentUserId, $selectedUserId, $selectedUserId, $currentUserId]);
     $messages = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Fetch the latest order for this ad and client/freelancer pair
     $stmt = $db->prepare('
         SELECT * FROM ServiceRequests
         WHERE ad_id = ? AND (client_id = ? OR freelancer_id = ?)

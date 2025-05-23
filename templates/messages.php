@@ -13,7 +13,7 @@
              href="../pages/messages.php?ad=<?= htmlspecialchars((string)$chat['ad_id']) ?>&to=<?= htmlspecialchars((string)$chat['user_id']) ?>">
             <div style="display: flex; align-items: center; gap: 12px;">
               <img src="<?php
-  $profilePhotoId = $chat['photo_id'] ?? 'default'; // <-- change 'profile_photo' to 'photo_id'
+  $profilePhotoId = $chat['photo_id'] ?? 'default';
   if (
     !$profilePhotoId ||
     $profilePhotoId === 'default' ||
@@ -81,7 +81,7 @@
               <div style="font-size:0.97em;color:#2b4d43;"><?= htmlspecialchars($currentChat['name']) ?></div>
             </div>
           </a>
-          <?php if (isset($currentChat['freelancer_id']) && $_SESSION['user_id'] !== $currentChat['freelancer_id']): ?>
+          <?php if ($_SESSION['user_id'] !== $currentChat['user_id']): ?>
             <button id="buyServiceBtn" style="margin-left:auto;background:#81B29A;color:#fff;border:none;padding:0.5em 1em;border-radius:6px;cursor:pointer;">Contratar Serviço</button>
           <?php endif; ?>
         </div>
