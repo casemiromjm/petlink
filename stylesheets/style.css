@@ -2306,3 +2306,6 @@ main {
   display: inline-block;
   pointer-events: none;
 }
+#erase-animal{
+  background-color: #b15050;
+}
