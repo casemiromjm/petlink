@@ -113,6 +113,10 @@ a:hover {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.form-container textarea {
+    font-family: inherit;
+}
+
 .form-container h2 {
   text-align: center;
   margin-bottom: 1em;
@@ -395,6 +399,14 @@ footer {
   font-size: 1.2em;
 }
 
+
+.pesquisa input[type="text"],
+.pesquisa select,
+.sort select,
+.filtros select {
+    border-radius: 6px !important;
+}
+
 .pesquisa input[type="text"],
 .pesquisa select,
 .pesquisa button {
@@ -427,16 +439,17 @@ footer {
 }
 
 .pesquisa button {
-  background-color: #81B29A;
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  font-size: 17px;
-  cursor: pointer;
-  font-weight: bold;
-  height: 60px;
-  align-self: center;
-  min-width: 120px;
+    background-color: #81B29A;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 17px;
+    cursor: pointer;
+    font-weight: bold;
+    height: 60px;
+    align-self: center;
+    min-width: 120px;
+    border-radius: 6px;
 }
 
 .pesquisa button:hover {
@@ -477,10 +490,11 @@ footer {
 }
 
 .filtros a {
-  margin-left: 1.2em;
-  text-decoration: underline;
-  color: #404040;
-  font-size: 0.97em;
+    text-decoration: underline;
+    color: #404040;
+    font-size: 0.97em;
+    display: flex;
+    align-items: center;
 }
 
 /* Sort */
@@ -498,10 +512,11 @@ footer {
 }
 
 .sort select {
-  padding: 8px;
-  font-size: 0.9em;
-  width: 180px;
-  height: 35px;
+    padding: 8px;
+    font-size: 0.9em;
+    width: 180px;
+    height: 45px; /* Match .filtros select */
+    box-sizing: border-box;
 }
 
 /* Criar anúncio */
@@ -561,7 +576,8 @@ form .animal-checkboxes {
 }
 
 form .animal-checkboxes label {
-  width: 24%;
+    width: 24%;
+    font-weight: lighter;
 }
 
 /* Página do perfil (layout) */
@@ -2103,7 +2119,7 @@ main {
 .chat-list strong {
   font-size: 0.97em;
   font-weight: 600;
-  color: #568870;
+  color: #fff; /* Changed from #568870 to white */
   margin-bottom: 0;
   line-height: 1.2;
   white-space: nowrap;
@@ -2113,18 +2129,9 @@ main {
   display: block;
 }
 
-/* Nome e username */
-.chat-list .chat-user-row {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  font-size: 0.93em;
-  color: #2b4d43;
-}
-
 /* Última mensagem */
 .chat-list .chat-last-message {
-  font-size: 0.85em;
+  font-size: 0.7em;
   color: #555;
   margin-top: 0.1em;
   white-space: nowrap;
@@ -2134,12 +2141,14 @@ main {
 
 /* Data/hora da última mensagem */
 .chat-list .chat-last-time {
-  font-size: 0.75em;
-  color: #888;
+  font-size: 0.7em; 
+  color: #ffffff;          
   margin-top: 0.05em;
   text-align: right;
   margin-left: auto;
   min-width: 48px;
+  font-weight: normal;
+  letter-spacing: 0.5px;
 }
 
 /* Right: Chat Messages */
@@ -2223,8 +2232,11 @@ main {
   display: flex;
   gap: 0.7em;
   padding: 1.2rem 2.5rem;
+  padding-bottom: 0.1rem;
   border-top: 1px solid #e3e7e5;
   background: #fff;
+  align-items: center; 
+  height:45px;
 }
 
 .send-message-form input[type="text"] {
@@ -2235,6 +2247,8 @@ main {
   font-size: 1em;
   outline: none;
   background: #f7f7f7;
+  height: 45px;
+  margin-bottom: 0;
 }
 
 .send-message-form button {
@@ -2246,10 +2260,8 @@ main {
   font-size: 1em;
   cursor: pointer;
   transition: background 0.2s;
-}
-
-.send-message-form button:hover {
-  background: #568870;
+  height: 45px;
+  margin-top: 0; 
 }
 
 .no-chat-selected {

@@ -93,10 +93,10 @@
         <?php if (isset($_SESSION['username']) && $ad->getUsername() === $_SESSION['username']): ?>
         <!-- owner see edit options -->
         <div style="display:inline;">
-            <form action="../pages/edit_ad.php?id=">
-              <input type="hidden" name="ad" value="<?= htmlspecialchars((string)($ad->getId())) ?>">
-              <button type="submit" class="edit-button">Editar Anúncio</button>
-            </form>
+            <form action="../pages/edit_ad.php" method="get">
+  <input type="hidden" name="id" value="<?= htmlspecialchars((string)($ad->getId())) ?>">
+  <button type="submit" class="edit-button">Editar Anúncio</button>
+</form>
         </div>
 
         <?php else: ?>

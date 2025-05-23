@@ -27,9 +27,6 @@
       <label for="user_description">Descrição</label>
       <textarea id="user_description" name="user_description" rows="5" required><?= htmlspecialchars($_SESSION['user_description'] ?? '') ?></textarea>
 
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" value="<?= htmlspecialchars($_SESSION['email'] ?? '') ?>" required>
-
       <label for="telemovel">Telemóvel</label>
       <input type="tel" id="telemovel" name="telemovel" value="<?= htmlspecialchars($_SESSION['phone'] ?? '') ?>">
 

@@ -33,11 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
+        $freelancerId = $_SESSION['user_id'];
+
         $stmt = $db->prepare('
-            INSERT INTO ads (title, username, description, price, price_period, image_path)
+            INSERT INTO Ads (title, freelancer_id, description, price, price_period, service_id)
             VALUES (?, ?, ?, ?, ?, ?)
         ');
-        $stmt->execute([$title, $username, $description, $price, $pricePeriod, $imagePath]);
+        $stmt->execute([$title, $freelancerId, $description, $price, $pricePeriod, $serviceTypeId]);
 
         $adId = $db->lastInsertId();
 
