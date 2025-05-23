@@ -62,7 +62,7 @@
         <div class="chat-header-bar" style="display:flex;align-items:center;gap:16px;padding:1.2rem 2rem 1rem 2rem;border-bottom:1px solid #e3e7e5;background:#fff;">
           <a href="../pages/userprofile.php?username=<?= urlencode($currentChat['username']) ?>" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;">
             <img src="<?php
-  $profilePhotoId = $currentChat['photo_id'] ?? 'default'; // <-- use 'photo_id' here
+  $profilePhotoId = $currentChat['photo_id'] ?? 'default'; 
   if (
     !$profilePhotoId ||
     $profilePhotoId === 'default' ||
@@ -81,13 +81,11 @@
               <div style="font-size:0.97em;color:#2b4d43;"><?= htmlspecialchars($currentChat['name']) ?></div>
             </div>
           </a>
-          <?php if ($_SESSION['user_id'] !== $currentChat['user_id']): // Only show for buyer ?>
-            <button id="buyServiceBtn" style="margin-left:auto;background:#81B29A;color:#fff;border:none;padding:0.5em 1em;border-radius:6px;cursor:pointer;">Comprar Serviço</button>
+          <?php if (isset($currentChat['freelancer_id']) && $_SESSION['user_id'] !== $currentChat['freelancer_id']): ?>
+            <button id="buyServiceBtn" style="margin-left:auto;background:#81B29A;color:#fff;border:none;padding:0.5em 1em;border-radius:6px;cursor:pointer;">Contratar Serviço</button>
           <?php endif; ?>
         </div>
-        <!-- Modal for buying service -->
         <?php
-        // include the modal from the modals folder instead of defining it here
         include_once('../modals/buyService_modal.php');
         ?>
       <?php endif; ?>
@@ -124,9 +122,18 @@
         <?php endforeach; ?>
       </div>
       <?php if ($latestOrder): ?>
-        <div class="order-request-box order-box">
-          <div class="order-title">
-            Pedido de Serviço
+        <div class="order-request-box order-box" style="position:relative;">
+          <div class="order-title" style="display:flex;justify-content:space-between;align-items:center;">
+            <span>Pedido de Serviço</span>
+            <?php
+              $status = $latestOrder['status'] ?? 'pending';
+              $statusText = [
+                'pending' => 'A aguardar confirmação',
+                'accepted' => 'Aceite',
+                'rejected' => 'Rejeitado'
+              ][$status] ?? ucfirst($status);
+            ?>
+            <span class="order-status<?= $status === 'pending' ? ' order-status-pending' : '' ?>"><?= htmlspecialchars($statusText) ?></span>
           </div>
           <div><strong>Animais:</strong>
             <?php
@@ -134,7 +141,6 @@
               if ($animals && count($animals)) {
                 require_once('../database/connection.db.php');
                 $db = getDatabaseConnection();
-                // Use the same translation function as in animals.php
                 function translateAnimalType(string $animalType): string {
                   $translations = [
                     'Cães' => 'Cão',
@@ -166,7 +172,6 @@
             <?php
               $amount = (int)($latestOrder['amount'] ?? 1);
               $period = $latestOrder['price_period'] ?? '';
-              // Pluralize period
               $periodMap = [
                 'hora' => 'horas',
                 'dia' => 'dias',
@@ -194,6 +199,10 @@
               }
             ?>
           </div>
+          <form action="../actions/action_cancelOrder.php" method="post" class="cancel-order-form">
+            <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
+            <button type="submit" class="cancel-order-btn">Cancelar pedido</button>
+          </form>
         </div>
       <?php endif; ?>
       <form class="send-message-form" action="../actions/action_sendMessage.php" method="post">

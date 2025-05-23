@@ -2390,3 +2390,26 @@ main {
   color: #888;
   font-size: 0.95em;
 }
+
+.order-status-pending {
+  color: #888;
+  font-style: italic;
+  font-size: 0.85em;
+  font-weight: normal;
+}
+
+.cancel-order-form {
+  position: absolute;
+  bottom: 1.2em;
+  right: 1.2em;
+  margin: 0;
+}
+
+.cancel-order-btn {
+  background: #E63946;
+  color: #fff;
+  border: none;
+  padding: 0.5em 1.2em;
+  border-radius: 6px;
+  cursor: pointer;
+}
