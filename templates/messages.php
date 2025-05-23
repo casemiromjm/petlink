@@ -131,11 +131,61 @@
           <div><strong>Animais:</strong>
             <?php
               $animals = json_decode($latestOrder['animals'] ?? '[]', true);
-              echo $animals && count($animals) ? htmlspecialchars(implode(', ', $animals)) : 'N/A';
+              if ($animals && count($animals)) {
+                require_once('../database/connection.db.php');
+                $db = getDatabaseConnection();
+                // Use the same translation function as in animals.php
+                function translateAnimalType(string $animalType): string {
+                  $translations = [
+                    'Cães' => 'Cão',
+                    'Gatos' => 'Gato',
+                    'Roedores' => 'Roedor',
+                    'Pássaros' => 'Pássaro',
+                    'Répteis' => 'Réptil',
+                    'Peixes' => 'Peixe',
+                    'Furões' => 'Furão',
+                    'Coelhos' => 'Coelho'
+                  ];
+                  return $translations[$animalType] ?? $animalType;
+                }
+                $placeholders = implode(',', array_fill(0, count($animals), '?'));
+                $stmt = $db->prepare("SELECT name, (SELECT animal_name FROM Animal_types WHERE animal_id = ua.species) AS species FROM user_animals ua WHERE ua.animal_id IN ($placeholders)");
+                $stmt->execute($animals);
+                $animalList = [];
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                  $singular = translateAnimalType($row['species']);
+                  $animalList[] = htmlspecialchars($row['name']) . ' <span class="animal-species-label">(' . htmlspecialchars($singular) . ')</span>';
+                }
+                echo implode(', ', $animalList);
+              } else {
+                echo 'N/A';
+              }
             ?>
           </div>
-          <div><strong>Quantidade:</strong> <?= htmlspecialchars((string)($latestOrder['amount'] ?? '')) ?></div>
-          <div><strong>Preço:</strong> <?= htmlspecialchars((string)($latestOrder['price'] ?? '')) ?>€ / <?= htmlspecialchars($latestOrder['price_period'] ?? '') ?></div>
+          <div><strong>Quantidade:</strong>
+            <?php
+              $amount = (int)($latestOrder['amount'] ?? 1);
+              $period = $latestOrder['price_period'] ?? '';
+              // Pluralize period
+              $periodMap = [
+                'hora' => 'horas',
+                'dia' => 'dias',
+                'semana' => 'semanas',
+                'mês' => 'meses'
+              ];
+              $periodLabel = $amount === 1 ? $period : ($periodMap[$period] ?? $period);
+              echo $amount . ' ' . $periodLabel;
+            ?>
+          </div>
+          <div>
+            <strong>Preço total:</strong>
+            <?php
+              $total = (float)($latestOrder['price'] ?? 0) * $amount;
+              $unit = (float)($latestOrder['price'] ?? 0);
+              echo number_format($total, 2, ',', '.') . '€';
+              echo ' <span class="price-unit-label">(' . number_format($unit, 2, ',', '.') . '€/ ' . htmlspecialchars($period) . ')</span>';
+            ?>
+          </div>
           <div><strong>Data do pedido:</strong>
             <?php
               if (!empty($latestOrder['created_at'])) {
