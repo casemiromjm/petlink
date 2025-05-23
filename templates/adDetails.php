@@ -42,8 +42,17 @@
         }
       ?>
       <p><i class="fi fi-rr-marker"></i> <?= htmlspecialchars($ad->getDistrict() ?? 'Localização não disponível') ?></p>
-
-    <p><i class="fi fi-rr-star"></i> <?= number_format($averageRating, 1) ?>/5 (<?= $reviewCount ?> avaliações)</p>
+      <?php
+      if ($reviewCount==0){?>
+        <p><i class="fi fi-rr-star"></i> Sem avaliações</p>
+        <?php
+      }
+      else{
+        ?>
+        <p><i class="fi fi-rr-star"></i> <?= number_format($averageRating, 1) ?>/5 (<?= $reviewCount ?> avaliações)</p>
+      <?php
+      }
+      ?>
 
       <p><i class="fi fi-rr-calendar"></i> Membro desde <?= htmlspecialchars($membroDesde) ?></p>
       <div style="text-align:center; margin-top: 10px;">
