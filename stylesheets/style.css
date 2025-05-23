@@ -2134,9 +2134,9 @@ main {
   font-size: 0.7em;
   color: #555;
   margin-top: 0.1em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
 }
 
 /* Data/hora da última mensagem */
