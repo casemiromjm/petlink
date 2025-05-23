@@ -4,7 +4,7 @@
   require_once(__DIR__ . '/../database/connection.db.php');
   $db = getDatabaseConnection();
   $userId = $_SESSION['user_id'];
-  $stmt = $db->prepare('SELECT COUNT(*) FROM ServiceRequests WHERE ad_id = ? AND client_id = ? AND status IN ("pending", "accepted")');
+  $stmt = $db->prepare('SELECT COUNT(*) FROM ServiceRequests WHERE ad_id = ? AND client_id = ? AND status IN ("pending", "accepted", "rejected")');
   $stmt->execute([$selectedAdId, $userId]);
   $hasActiveRequest = $stmt->fetchColumn() > 0;
 ?>

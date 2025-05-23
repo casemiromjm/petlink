@@ -135,8 +135,13 @@
                 'accepted' => 'Aceite',
                 'rejected' => 'Rejeitado'
               ][$status] ?? ucfirst($status);
+
+              $statusClass = 'order-status';
+              if ($status === 'pending') $statusClass .= ' order-status-pending';
+              if ($status === 'accepted') $statusClass .= ' order-status-accepted';
+              if ($status === 'rejected') $statusClass .= ' order-status-rejected';
             ?>
-            <span class="order-status<?= $status === 'pending' ? ' order-status-pending' : '' ?>"><?= htmlspecialchars($statusText) ?></span>
+            <span class="<?= $statusClass ?>"><?= htmlspecialchars($statusText) ?></span>
           </div>
           <div><strong>Animais:</strong>
             <?php
@@ -202,20 +207,21 @@
               }
             ?>
           </div>
-          <?php if ($status === 'pending'): ?>
-  <?php if ($_SESSION['user_id'] == $latestOrder['freelancer_id']): ?>
+          <?php if ($status === 'pending' && $_SESSION['user_id'] == $latestOrder['freelancer_id']): ?>
     <form class="cancel-order-form" action="" method="post">
       <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
       <button type="submit" name="accept_order" class="accept-order-btn" formaction="../actions/action_acceptOrder.php">Aceitar</button>
-      <button type="submit" name="reject_order" class="reject-order-btn" formaction="../actions/action_rejectOrder.php">Rejeitar</button>
+      <button type="submit" name="reject_order" class="reject-order-btn" formaction="../actions/action_rejectRequest.php">Rejeitar</button>
     </form>
-  <?php elseif ($_SESSION['user_id'] == $latestOrder['client_id']): ?>
+  <?php elseif (
+  $_SESSION['user_id'] == $latestOrder['client_id'] &&
+  in_array($status, ['pending', 'rejected'])
+): ?>
     <form action="../actions/action_cancelRequest.php" method="post" class="cancel-order-form">
       <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
       <button type="submit" class="cancel-order-btn">Cancelar pedido</button>
     </form>
   <?php endif; ?>
-<?php endif; ?>
         </div>
       <?php endif; ?>
       <form class="send-message-form" action="../actions/action_sendMessage.php" method="post">

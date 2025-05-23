@@ -2421,11 +2421,21 @@ main {
   font-size: 0.95em;
 }
 
-.order-status-pending {
-  color: #888;
+.order-status {
   font-style: italic;
   font-size: 0.85em;
   font-weight: normal;
+}
+
+.order-status-pending {
+  color: #888;
+}
+
+.order-status-accepted {
+  color: #81B29A;
+}
+.order-status-rejected {
+  color: #E63946;
 }
 
 .cancel-order-form {
