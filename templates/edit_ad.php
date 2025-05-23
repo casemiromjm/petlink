@@ -1,12 +1,10 @@
 <?php
     declare(strict_types = 1);
     require_once('sidebar.php');
+    require_once('../utils/session.php');
 ?>
 
-<link rel="stylesheet" href="../stylesheets/style.css">
-
 <?php function drawEditAd(array $ad, array $associated_animals): void { ?>
-<body>
 <main class="ads-layout">
     
     <section class="ad-content">
@@ -61,15 +59,11 @@
 
             <form action="../actions/action_deleteAd.php" method="post" style="display:inline;">
                 <input type="hidden" name="ad_id" value="<?= htmlspecialchars((string)$ad['ad_id']) ?>">
-                
-                <?php if (isset($_SESSION['csrf_token'])): ?>
                 <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token']) ?>">
-                <?php endif; ?>
                 
-                <button type="submit" class="delete-button">Eliminar Anúncio</button>
+                <button type="submit" class="delete-button" onclick="return confirm('Tens certeza que queres deletar este anúncio PERMANENTEMENTE?')">Eliminar Anúncio</button>
             </form>
         </div>
     </section>
 </main>
-</body>
 <?php } ?>
