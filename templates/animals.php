@@ -19,7 +19,6 @@ function translateAnimalType(string $animalType): string {
     return $translations[$animalType] ?? $animalType;
 }
 ?>
-
 <?php function drawAnimals(PDO $db, int $userId): void { ?>
 <body class="animals">
     <section class="animal-list">
@@ -27,28 +26,40 @@ function translateAnimalType(string $animalType): string {
         <div class="animal-cards">
             <?php
             $stmt = $db->prepare('
-                SELECT ua.animal_id, ua.name, ua.age, at.animal_name, ua.animal_picture
-                FROM User_animals ua
+                SELECT
+                    ua.rowid AS animal_id_from_db, -- <--- MUDANÇA AQUI: Dar um alias explícito ao rowid
+                    ua.name,
+                    ua.age,
+                    at.animal_name,
+                    ua.animal_picture
+                FROM user_animals ua
                 JOIN Animal_types at ON ua.species = at.animal_id
                 WHERE ua.user_id = ?
             ');
             $stmt->execute([$userId]);
-            $animals = $stmt->fetchAll();
+            $animals = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            foreach ($animals as $animal): ?>
-                <a class="animal-card-link" href="../pages/editAnimal.php?id=<?= htmlspecialchars((string)$animal['animal_id']) ?>">
+            foreach ($animals as $animal):
+                // Agora, acede a animal_id_from_db
+                $animalRowId = isset($animal['animal_id_from_db']) && is_numeric($animal['animal_id_from_db']) && (int)$animal['animal_id_from_db'] > 0 ? (int)$animal['animal_id_from_db'] : null;
+
+                if ($animalRowId !== null):
+            ?>
+                <a class="animal-card-link" href="../pages/editAnimal.php?id=<?= htmlspecialchars((string)$animalRowId) ?>">
                     <div class="animal-card">
                         <img src="<?= htmlspecialchars(str_replace('./', '../', $animal['animal_picture'] ?? '../resources/default_animal.png')) ?>" alt="Animal">
                         <h3><?= htmlspecialchars($animal['name']) ?></h3>
                         <p><?= htmlspecialchars(translateAnimalType($animal['animal_name'])) ?> • <?= htmlspecialchars((string)$animal['age']) ?> anos</p>
                     </div>
                 </a>
-            <?php endforeach; ?>
+            <?php
+                endif;
+            endforeach; ?>
             <a class="animal-card-link" href="../pages/addAnimal.php">
                 <div class="animal-card add-animal">
                     <div class="add-icon">+</div>
-                    <p>Adicionar animal</p>
                 </div>
+                <p>Adicionar animal</p>
             </a>
         </div>
     </section>

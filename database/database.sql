@@ -143,6 +143,23 @@ CREATE TABLE Ad_services (
     FOREIGN KEY (service_id) REFERENCES Services(service_id) ON DELETE CASCADE
 );
 
+CREATE TABLE ServiceRequests (
+    request_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ad_id INTEGER NOT NULL,
+    client_id INTEGER NOT NULL,
+    freelancer_id INTEGER NOT NULL,
+    animals TEXT,
+    amount INTEGER NOT NULL,
+    price REAL NOT NULL,
+    price_period TEXT NOT NULL,
+    status TEXT DEFAULT 'pending', -- pending, approved, rejected
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ad_id) REFERENCES Ads(ad_id),
+    FOREIGN KEY (client_id) REFERENCES Users(user_id),
+    FOREIGN KEY (freelancer_id) REFERENCES Users(user_id)
+);
+
+
 -- Populating db
 
 -- Inserir animal types
@@ -220,7 +237,7 @@ INSERT INTO Users (username, email, name, photo_id, phone, district, password_ha
 INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('joao_pets', 'joao@example.com', 'João Costa', 5, '913456789', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
 INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('maria123', 'maria@example.com', 'Maria Silva',6 , '912345678', 'Lisboa','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
 INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('tomas_vv3', 'tomasthebest@example.com', 'Tomás Ribeiro', 1, '914191674', 'Setúbal','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('anasantos', 'ana.santos@example.com', 'Ana Santos', 2, '961122334', 'Aveiro','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('anasantos', 'ana.santos@example.com', 'Ana Santos', 2, 'Aveiro','961122334','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
 INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('carlosm', 'carlos.m@example.com', 'Carlos Martins',3, 'Braga' ,'923456789','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
 INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('sofia_l', 'sofia.l@example.com', 'Sofia Lima', 4 , 'Faro','935678901','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
 INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('miguel_p', 'miguel.p@example.com', 'Miguel Pereira', 5, 'Guarda','917890123','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
@@ -228,7 +245,7 @@ INSERT INTO Users (username, email, name, photo_id, district, phone, password_ha
 INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('joanam', 'joana.m@example.com', 'Joana Marta', 1, 'Beja', '939900112','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
 INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('helder_c', 'helder.c@example.com', 'Helder Carlo', 2, 'Portalegre', '916611223','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
 INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('fernando_g', 'fernando.g@example.com', 'Fernando Gonçalves',3 , '918899002', 'Bragança','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('tiagom', 'tiago.m@example.com', 'Tiago Mendes', 4, 'Santarém', '969876543','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
+INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('tiagom', 'tiago.m@example.com', 'Tiago Mendes', 4, '969876543', 'Santarém','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
 INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('patriciav', 'patricia.v@example.com', 'Patrícia Vicente',5, 'Setúbal', '921234567','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
 INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('brunor', 'bruno.r@example.com', 'Bruno Ribeiro', 6, 'Viana do Castelo', '967788990','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
 INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('carla_s', 'carla.s@example.com', 'Carla Sousa', 1, 'Vila Real', '928899001','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
@@ -394,6 +411,7 @@ INSERT INTO Reviews (ad_id, client_id, rating, comment) VALUES
 (1, 3, 4, 'Meu cachorro aprendeu muito rápido. Ótimo trabalho!'),
 (1, 9, 5, 'Profissionalismo e carinho com os animais. Perfeito!'),
 (1, 10, 4, 'Bom custo-benefício. O cão obedece mais.'),
+(1, 11, 1, 'O meu cão ficou mais burro.'),
 
 (2, 1, 5, 'Cuidaram muito bem do meu gato. Serviço impecável!'),
 (2, 2, 4, 'Confiável e atencioso. Meu pet ficou super bem.'),
@@ -402,7 +420,7 @@ INSERT INTO Reviews (ad_id, client_id, rating, comment) VALUES
 (2, 12, 5, 'Meu cão adorou o petsitting. Muito carinho e atenção.'),
 
 (3, 1, 5, 'Banho e tosquia perfeitos! Minha poodle ficou linda.'),
-(3, 2, 4, 'Ótimo serviço, mas demorou um pouco mais do que o esperado.'),
+(3, 2, 3, 'Ótimo serviço, mas demorou um pouco mais do que o esperado.'),
 (3, 3, 5, 'Profissional muito cuidadoso e atencioso. Super recomendo!'),
 (3, 13, 5, 'Excelente! Meu pet ficou cheiroso e bem tosado.'),
 (3, 14, 4, 'Bom trabalho, mas a comunicação poderia ser melhor.'),
@@ -411,17 +429,17 @@ INSERT INTO Reviews (ad_id, client_id, rating, comment) VALUES
 (4, 2, 5, 'Passeador muito responsável e pontual. Adorei!'),
 (4, 3, 4, 'Meu cão se divertiu muito. Ótimo serviço!'),
 (4, 15, 5, 'Passeios com muita energia e carinho. Recomendo!'),
-(4, 16, 4, 'Bom para o dia a dia, mas a rota é sempre a mesma.'),
+(4, 16, 1, 'Bom para o dia a dia, mas a rota é sempre a mesma.'),
 
 (5, 1, 5, 'Passeios incríveis! Meu cachorro adorou a experiência.'),
 (5, 2, 5, 'Profissional atencioso e dedicado. Meu pet voltou muito feliz!'),
 (5, 3, 4, 'Bom serviço, mas o preço é um pouco elevado.'),
 (5, 17, 5, 'Passeios com muita atenção e segurança. Recomendo!'),
-(5, 18, 4, 'Pontual e profissional. Meu cão se adaptou bem.'),
+(5, 18, 3, 'Pontual e profissional. Meu cão se adaptou bem.'),
 
 (6, 1, 5, 'Treino eficaz! Meu cachorro está mais obediente.'),
 (6, 2, 5, 'Treinador paciente e com ótimas técnicas. Recomendo!'),
-(6, 3, 4, 'Bom para comandos básicos, mas esperava mais progresso.'),
+(6, 3, 5, 'Bom para comandos básicos, mas esperava mais progresso.'),
 (6, 19, 5, 'Resultados visíveis em pouco tempo. Excelente!'),
 (6, 20, 4, 'Profissionalismo e dedicação. Meu cão está melhorando.'),
 
@@ -434,36 +452,36 @@ INSERT INTO Reviews (ad_id, client_id, rating, comment) VALUES
 (8, 1, 5, 'Cuidaram muito bem dos meus pássaros. Super recomendo!'),
 (8, 2, 5, 'Profissional atencioso e com conhecimento sobre aves.'),
 (8, 3, 4, 'Bom para viagens curtas, mas o preço é um pouco alto.'),
-(8, 6, 5, 'Meus pássaros estavam muito bem cuidados. Excelente!'),
+(8, 6, 2, 'Meus pássaros estavam muito bem cuidados. Excelente!'),
 (8, 7, 4, 'Confiável, mas a comunicação poderia ser mais frequente.'),
 
 (9, 1, 5, 'Alojamento seguro e confortável. Meus pequenos animais adoraram!'),
 (9, 2, 5, 'Ótimo lugar para deixar seus pets. Recomendo!'),
-(9, 3, 4, 'Bom para pequenos animais, mas o espaço é um pouco limitado.'),
+(9, 3, 1, 'Bom para pequenos animais, mas o espaço é um pouco limitado.'),
 (9, 8, 5, 'Meus roedores ficaram muito bem cuidados. Excelente!'),
 (9, 9, 4, 'Confiável, mas a localização é um pouco distante.'),
 
 (10, 1, 5, 'Treinador experiente e com ótimas dicas. Meu cão melhorou muito!'),
-(10, 2, 5, 'Profissionalismo e paixão pelos animais. Recomendo!'),
+(10, 2, 3, 'Profissionalismo e paixão pelos animais. Recomendo!'),
 (10, 3, 4, 'Bom para problemas de comportamento, mas o preço é um pouco alto.'),
 (10, 10, 5, 'Resultados impressionantes. Muito satisfeito!'),
 (10, 11, 4, 'Eficaz, mas o tempo de resposta é um pouco lento.'),
 
 (11, 1, 5, 'Cuidados ao domicílio excelentes. Meus pets ficaram muito bem!'),
-(11, 2, 5, 'Profissional atencioso e dedicado. Recomendo!'),
+(11, 2, 2, 'Profissional atencioso e dedicado. Recomendo!'),
 (11, 3, 4, 'Bom para cuidados básicos, mas esperava mais interação.'),
 (11, 12, 5, 'Meus animais receberam muito carinho. Excelente!'),
 (11, 13, 4, 'Confiável, mas a disponibilidade é um pouco limitada.'),
 
 (12, 1, 5, 'Cuidados especializados para coelhos. Meu coelho adorou!'),
-(12, 2, 5, 'Profissional com conhecimento sobre roedores. Recomendo!'),
+(12, 2, 3, 'Profissional com conhecimento sobre roedores. Recomendo!'),
 (12, 3, 4, 'Bom para coelhos, mas o preço é um pouco alto.'),
 (12, 14, 5, 'Meus roedores ficaram muito bem cuidados. Excelente!'),
 (12, 15, 4, 'Atencioso, mas a comunicação poderia ser mais frequente.'),
 
 (13, 1, 5, 'Serviços de tosquia e cuidados excelentes. Meu cão ficou lindo!'),
 (13, 2, 4, 'Bom trabalho, mas o agendamento foi um pouco complicado.'),
-(13, 3, 5, 'Profissional muito cuidadoso e atencioso. Recomendo!'),
+(13, 3, 3, 'Profissional muito cuidadoso e atencioso. Recomendo!'),
 (13, 16, 5, 'Meu pet ficou impecável. Ótimo serviço!'),
 (13, 17, 4, 'Qualidade boa, mas o local é um pouco barulhento.'),
 

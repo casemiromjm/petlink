@@ -6,13 +6,17 @@ error_reporting(E_ALL);
 
 require_once(__DIR__ . '/../database/connection.db.php');
 
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header('Location: /pages/login.php?redirect=' .  urlencode($_SERVER['REQUEST_URI']) . '&message=' . urlencode('Para criar um anúncio, precisa estar logado.'));
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $db = getDatabaseConnection();
-
         $title = htmlspecialchars(trim($_POST['titulo']));
         $description = htmlspecialchars(trim($_POST['descricao']));
-        $serviceTypeId = intval($_POST['tipo']); 
+        $serviceTypeId = intval($_POST['tipo']);
         $price = floatval($_POST['preco']);
         $pricePeriod = htmlspecialchars(trim($_POST['preco-por']));
         $username = $_SESSION['username'];
@@ -20,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $imagePath = null;
         if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = '../resources/'; 
+            $uploadDir = '../resources/';
             $fileName = uniqid() . '_' . basename($_FILES['image']['name']);
             $targetPath = $uploadDir . $fileName;
 
@@ -29,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
             if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
-                $imagePath = './resources/' . $fileName; 
+                $imagePath = './resources/' . $fileName;
             }
         }
 

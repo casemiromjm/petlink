@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="../stylesheets/style.css">
 
-<?php function drawMensagens(array $chats, array $messages, ?int $selectedAdId, ?int $selectedUserId): void { ?>
+<?php function drawMensagens(array $chats, array $messages, ?int $selectedAdId, ?int $selectedUserId, $latestOrder = null): void { ?>
 <div class="chat-container">
   <aside class="chat-list">
     <h2>Conversas</h2>
@@ -13,7 +13,7 @@
              href="../pages/messages.php?ad=<?= htmlspecialchars((string)$chat['ad_id']) ?>&to=<?= htmlspecialchars((string)$chat['user_id']) ?>">
             <div style="display: flex; align-items: center; gap: 12px;">
               <img src="<?php
-  $profilePhotoId = $chat['photo_id'] ?? 'default'; // <-- change 'profile_photo' to 'photo_id'
+  $profilePhotoId = $chat['photo_id'] ?? 'default';
   if (
     !$profilePhotoId ||
     $profilePhotoId === 'default' ||
@@ -62,7 +62,7 @@
         <div class="chat-header-bar" style="display:flex;align-items:center;gap:16px;padding:1.2rem 2rem 1rem 2rem;border-bottom:1px solid #e3e7e5;background:#fff;">
           <a href="../pages/userprofile.php?username=<?= urlencode($currentChat['username']) ?>" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;">
             <img src="<?php
-  $profilePhotoId = $currentChat['photo_id'] ?? 'default'; // <-- use 'photo_id' here
+  $profilePhotoId = $currentChat['photo_id'] ?? 'default'; 
   if (
     !$profilePhotoId ||
     $profilePhotoId === 'default' ||
@@ -81,7 +81,16 @@
               <div style="font-size:0.97em;color:#2b4d43;"><?= htmlspecialchars($currentChat['name']) ?></div>
             </div>
           </a>
+          <?php if (
+  isset($_SESSION['user_id'], $currentChat['freelancer_id']) &&
+  $_SESSION['user_id'] !== $currentChat['freelancer_id']
+): ?>
+            <button id="buyServiceBtn" style="margin-left:auto;background:#81B29A;color:#fff;border:none;padding:0.5em 1em;border-radius:6px;cursor:pointer;">Contratar Serviço</button>
+          <?php endif; ?>
         </div>
+        <?php
+        include_once('../modals/buyService_modal.php');
+        ?>
       <?php endif; ?>
       <div class="messages-list" id="messagesContainer">
         <?php
@@ -115,6 +124,100 @@
           <?php endif; ?>
         <?php endforeach; ?>
       </div>
+      <?php if ($latestOrder): ?>
+        <div class="order-request-box order-box" style="position:relative;">
+          <div class="order-title" style="display:flex;justify-content:space-between;align-items:center;">
+            <span>Pedido de Serviço</span>
+            <?php
+              $status = $latestOrder['status'] ?? 'pending';
+              $statusText = [
+                'pending' => 'A aguardar confirmação',
+                'accepted' => 'Aceite',
+                'rejected' => 'Rejeitado'
+              ][$status] ?? ucfirst($status);
+            ?>
+            <span class="order-status<?= $status === 'pending' ? ' order-status-pending' : '' ?>"><?= htmlspecialchars($statusText) ?></span>
+          </div>
+          <div><strong>Animais:</strong>
+            <?php
+              $animals = json_decode($latestOrder['animals'] ?? '[]', true);
+              if ($animals && count($animals)) {
+                require_once('../database/connection.db.php');
+                $db = getDatabaseConnection();
+                function translateAnimalType(string $animalType): string {
+                  $translations = [
+                    'Cães' => 'Cão',
+                    'Gatos' => 'Gato',
+                    'Roedores' => 'Roedor',
+                    'Pássaros' => 'Pássaro',
+                    'Répteis' => 'Réptil',
+                    'Peixes' => 'Peixe',
+                    'Furões' => 'Furão',
+                    'Coelhos' => 'Coelho'
+                  ];
+                  return $translations[$animalType] ?? $animalType;
+                }
+                $placeholders = implode(',', array_fill(0, count($animals), '?'));
+                $stmt = $db->prepare("SELECT name, (SELECT animal_name FROM Animal_types WHERE animal_id = ua.species) AS species FROM user_animals ua WHERE ua.animal_id IN ($placeholders)");
+                $stmt->execute($animals);
+                $animalList = [];
+                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                  $singular = translateAnimalType($row['species']);
+                  $animalList[] = htmlspecialchars($row['name']) . ' <span class="animal-species-label">(' . htmlspecialchars($singular) . ')</span>';
+                }
+                echo implode(', ', $animalList);
+              } else {
+                echo 'N/A';
+              }
+            ?>
+          </div>
+          <div><strong>Duração:</strong>
+            <?php
+              $amount = (int)($latestOrder['amount'] ?? 1);
+              $period = $latestOrder['price_period'] ?? '';
+              $periodMap = [
+                'hora' => 'horas',
+                'dia' => 'dias',
+                'semana' => 'semanas',
+                'mês' => 'meses'
+              ];
+              $periodLabel = $amount === 1 ? $period : ($periodMap[$period] ?? $period);
+              echo $amount . ' ' . $periodLabel;
+            ?>
+          </div>
+          <div>
+            <strong>Preço total:</strong>
+            <?php
+              $total = (float)($latestOrder['price'] ?? 0) * $amount;
+              $unit = (float)($latestOrder['price'] ?? 0);
+              echo number_format($total, 2, ',', '.') . '€';
+              echo ' <span class="price-unit-label">(' . number_format($unit, 2, ',', '.') . '€/ ' . htmlspecialchars($period) . ')</span>';
+            ?>
+          </div>
+          <div><strong>Data do pedido:</strong>
+            <?php
+              if (!empty($latestOrder['created_at'])) {
+                $dt = new DateTime($latestOrder['created_at']);
+                echo htmlspecialchars($dt->format('d/m/Y H:i'));
+              }
+            ?>
+          </div>
+          <?php if ($status === 'pending'): ?>
+  <?php if ($_SESSION['user_id'] == $latestOrder['freelancer_id']): ?>
+    <form class="cancel-order-form" action="" method="post">
+      <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
+      <button type="submit" name="accept_order" class="accept-order-btn" formaction="../actions/action_acceptOrder.php">Aceitar</button>
+      <button type="submit" name="reject_order" class="reject-order-btn" formaction="../actions/action_rejectOrder.php">Rejeitar</button>
+    </form>
+  <?php elseif ($_SESSION['user_id'] == $latestOrder['client_id']): ?>
+    <form action="../actions/action_cancelRequest.php" method="post" class="cancel-order-form">
+      <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
+      <button type="submit" class="cancel-order-btn">Cancelar pedido</button>
+    </form>
+  <?php endif; ?>
+<?php endif; ?>
+        </div>
+      <?php endif; ?>
       <form class="send-message-form" action="../actions/action_sendMessage.php" method="post">
         <input type="hidden" name="ad" value="<?= $selectedAdId ?>">
         <input type="hidden" name="to" value="<?= $selectedUserId ?>">
