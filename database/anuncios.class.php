@@ -387,10 +387,10 @@ class Ad {
         return (int)$stmt->fetchColumn();
     }
 
+
     public static function search(PDO $db, array $filters, int $page = 1, int $limit = 16): array {
         $where = [];
         $params = [];
-
 
         if (!empty($filters['search'])) {
             $where[] = '(Ads.title LIKE ? OR Ads.description LIKE ?)';
@@ -405,16 +405,17 @@ class Ad {
             $where[] = 'LOWER(Ads.price_period) = ?';
             $params[] = strtolower($filters['duracao']);
         }
+
         if (!empty($filters['animal'])) {
-            $where[] = 'EXISTS (SELECT 1 FROM Ad_animals aa JOIN Animal_types at ON aa.animal_id = at.animal_id WHERE aa.ad_id = Ads.ad_id AND at.animal_name = ?)';
-
-            $params[] = $filters['animal'];
+            $where[] = 'EXISTS (SELECT 1 FROM Ad_animals aa WHERE aa.ad_id = Ads.ad_id AND aa.animal_id = ?)';
+            $params[] = (int)$filters['animal'];
         }
+
         if (!empty($filters['servico'])) {
-            $where[] = 'EXISTS (SELECT 1 FROM Ad_services s JOIN Services sv ON s.service_id = sv.service_id WHERE s.ad_id = Ads.ad_id AND sv.service_name = ?)';
-
-            $params[] = $filters['servico'];
+            $where[] = 'EXISTS (SELECT 1 FROM Ad_services s WHERE s.ad_id = Ads.ad_id AND s.service_id = ?)';
+            $params[] = (int)$filters['servico'];
         }
+
         if (!empty($filters['user_id'])) {
             $where[] = 'Users.user_id = ?';
             $params[] = $filters['user_id'];
@@ -423,7 +424,7 @@ class Ad {
         $whereSql = $where ? 'WHERE ' . implode(' AND ', $where) : '';
 
         $orderBy = 'Ads.ad_id DESC';
-        if (!empty($filters['sort'])) {
+            if (!empty($filters['sort'])) {
             if ($filters['sort'] === 'preco_asc') $orderBy = 'Ads.price ASC, Ads.ad_id ASC';
             elseif ($filters['sort'] === 'preco_desc') $orderBy = 'Ads.price DESC, Ads.ad_id DESC';
         }
@@ -444,12 +445,12 @@ class Ad {
                 Users.username,
                 Users.district,
                 Users.photo_id
-            FROM Ads
-            JOIN Users ON Ads.freelancer_id = Users.user_id
-            $whereSql
-            ORDER BY $orderBy
-            LIMIT ? OFFSET ?
-        ";
+                FROM Ads
+                JOIN Users ON Ads.freelancer_id = Users.user_id
+                $whereSql
+                ORDER BY $orderBy
+                LIMIT ? OFFSET ?
+            ";
 
         $stmt = $db->prepare($sql);
 
@@ -466,7 +467,6 @@ class Ad {
         if (empty($adsData)) {
             return [];
         }
-
         $adIds = array_column($adsData, 'id');
 
         $ratingsQuery = '
@@ -483,12 +483,14 @@ class Ad {
         $adRatings = $ratingsStmt->fetchAll(PDO::FETCH_ASSOC);
 
         $ratingsByAdId = [];
+
         foreach ($adRatings as $rating) {
             $ratingsByAdId[(int)$rating['ad_id']] = [
                 'average_rating' => (float)$rating['average_rating'],
                 'review_count' => (int)$rating['review_count']
             ];
         }
+
 
         $mediaQuery = '
             SELECT
@@ -498,49 +500,48 @@ class Ad {
             WHERE am.ad_id IN (' . implode(',', array_fill(0, count($adIds), '?')) . ')
             ORDER BY am.ad_id, am.media_id
         ';
-
         $mediaStmt = $db->prepare($mediaQuery);
         $mediaStmt->execute($adIds);
         $adMedia = $mediaStmt->fetchAll(PDO::FETCH_ASSOC);
-
         $mediaByAdId = [];
+
         foreach ($adMedia as $media) {
             $adId = $media['ad_id'];
             $mediaByAdId[$adId][] = (int)$media['media_id'];
         }
 
-        $ads = [];
-        foreach ($adsData as $adData) {
-            $currentAdId = (int)$adData['id'];
-            $adAnimals = self::getAnimalsForAd($db, $currentAdId);
-            $averageRating = $ratingsByAdId[$currentAdId]['average_rating'] ?? null;
-            $reviewCount = $ratingsByAdId[$currentAdId]['review_count'] ?? null;
+            $ads = [];
+            foreach ($adsData as $adData) {
+                $currentAdId = (int)$adData['id'];
+                $adAnimals = self::getAnimalsForAd($db, $currentAdId);
+                $averageRating = $ratingsByAdId[$currentAdId]['average_rating'] ?? null;
+                $reviewCount = $ratingsByAdId[$currentAdId]['review_count'] ?? null;
 
-            $ads[] = new Ad(
-                (int)$adData['id'],
-                (int)($adData['service_id'] ?? 0),
-                (int)($adData['freelancer_id'] ?? 0),
-                $adData['title'] ?? '',
-                $adData['description'] ?? '',
-                (float)$adData['price'],
-                $adData['price_period'] ?? '',
-                $adAnimals,
-                $mediaByAdId[(int)$adData['id']] ?? [],
-                $adData['name'] ?? '',
-                $adData['username'] ?? '',
-                (int)$adData['user_id'],
-                $adData['district'] ?? '',
-                (int)($adData['photo_id'] ?? 0),
-                $adData['created_at'] ?? null,
-                $averageRating,
-                $reviewCount
-            );
+                $ads[] = new Ad(
+                    (int)$adData['id'],
+                    (int)($adData['service_id'] ?? 0),
+                    (int)($adData['freelancer_id'] ?? 0),
+                    $adData['title'] ?? '',
+                    $adData['description'] ?? '',
+                    (float)$adData['price'],
+                    $adData['price_period'] ?? '',
+                    $adAnimals,
+                    $mediaByAdId[(int)$adData['id']] ?? [],
+                    $adData['name'] ?? '',
+                    $adData['username'] ?? '',
+                    (int)$adData['user_id'],
+                    $adData['district'] ?? '',
+                    (int)($adData['photo_id'] ?? 0),
+                    $adData['created_at'] ?? null,
+                    $averageRating,
+                    $reviewCount
+                );
+            }
+
+            return $ads;
         }
-
-        return $ads;
-    }
-
-    public static function countSearch(PDO $db, array $filters): int {
+        
+        public static function countSearch(PDO $db, array $filters): int {
         $where = [];
         $params = [];
 

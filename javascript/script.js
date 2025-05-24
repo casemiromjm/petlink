@@ -15,9 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const servico = document.getElementById('servico') ? document.getElementById('servico').value : '';
     const sort = document.getElementById('sort') ? document.getElementById('sort').value : 'recentes';
 
-    const duracaoParam = (duracao === 'Qualquer' || duracao === '') ? '' : duracao;
-    const animalParam = (animal === 'Todos' || animal === '') ? '' : animal;
-    const servicoParam = (servico === 'Todos' || servico === '') ? '' : servico;
+    const duracaoParam = (duracao === '' || duracao === 'Qualquer') ? '' : duracao; // 'Qualquer' might still be a value from a static select
+    const animalParam = (animal === '') ? '' : animal; // 'Todos' is no longer a value, empty string means no filter
+    const servicoParam = (servico === '') ? '' : servico; // 'Todos' is no longer a value, empty string means no filter
 
     const params = new URLSearchParams({
       search: search,
@@ -90,13 +90,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function limparFiltros() {
     if (document.getElementById('duracao')) document.getElementById('duracao').value = 'Qualquer';
-    if (document.getElementById('animal')) document.getElementById('animal').value = 'Todos';
-    if (document.getElementById('servico')) document.getElementById('servico').value = 'Todos';
+    if (document.getElementById('animal')) document.getElementById('animal').value = '';
+    if (document.getElementById('servico')) document.getElementById('servico').value = '';
     if (document.getElementById('search-input')) document.getElementById('search-input').value = '';
     if (document.getElementById('location')) document.getElementById('location').value = '';
     if (document.getElementById('sort')) document.getElementById('sort').value = 'recentes';
 
     fetchResults(1);
+  }
+
+  const clearFiltersButton = document.getElementById('clear-filters-button');
+  if (clearFiltersButton) {
+    clearFiltersButton.addEventListener('click', limparFiltros);
   }
 
 });
