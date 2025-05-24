@@ -13,7 +13,6 @@
 
   drawHeader();
 ?>
-<body>
   <div class="profile-container"> 
     <aside class="side-nav">
       <?php drawNavbar(); ?>
@@ -22,7 +21,7 @@
       <?php drawConfig(); ?>
     </section>
   </div>
-</body>
+  
 <?php
   drawFooter();
 ?>

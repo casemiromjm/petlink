@@ -19,5 +19,6 @@
       <button type="submit">Login</button>
     </form>
     <p>Ainda não se juntou à Petlink? <a href="signup.php">Crie uma conta</a>!</p>
+    <p><a href="config.php">Esqueci minha senha</a></p>
   </section>
 <?php } ?>
