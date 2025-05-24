@@ -2,14 +2,15 @@
 
 require_once(__DIR__ . '/../database/connection.db.php');
 require_once(__DIR__ . '/../database/animal.class.php');
+require_once(__DIR__ . '/../database/service.class.php');
 
 $db = getDatabaseConnection();
 $animalSpecies = Animal_type::getAnimalSpecies($db);
-
+$services = Service::getAllServices($db);
 ?>
 <link rel="stylesheet" href="../stylesheets/style.css">
 
-<?php function drawAdCreate() { global $animalSpecies;?>
+<?php function drawAdCreate() { global $animalSpecies, $services ;?>
     <section class="form-container">
         <h2>Anunciar Serviço</h2>
         <form id="ad-form" action="../actions/action_adCreate.php" method="post" enctype="multipart/form-data">
@@ -24,17 +25,13 @@ $animalSpecies = Animal_type::getAnimalSpecies($db);
             <textarea id="descricao" name="descricao" required></textarea>
 
             <label for="tipo">Tipo de serviço</label>
-            <select id="tipo" name="tipo" required>
-                <option disabled selected>Selecionar</option>
-                <option value="1">Passeio</option>
-                <option value="2">Tosquia</option>
-                <option value="3">Petsitting</option>
-                <option value="4">Treino</option>
-                <option value="5">Alojamento</option>
-                <option value="6">Veterinário</option>
-                <option value="7">Transporte</option>
+            <select id="tipo" name="service_id" required> <option disabled selected value="">Selecionar</option>
+                <?php foreach ($services as $service): ?>
+                    <option value="<?= htmlspecialchars((string)$service->service_id) ?>">
+                        <?= htmlspecialchars($service->service_name) ?>
+                    </option>
+                <?php endforeach; ?>
             </select>
-
             <label for="preco">Preço</label>
             <div id="preco-container">
                 <input type="number" id="preco" name="preco" required>

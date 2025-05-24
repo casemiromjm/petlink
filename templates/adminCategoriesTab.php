@@ -13,7 +13,6 @@ $users = User::getAllUsers($db);
 $animalTypes = Animal_type::getAnimalSpecies($db);
 $services = Service::getAllServices($db);
 
-
 ?>
 <section class="admin-section">
     <h3>Gerir Categorias & Serviços</h3>

@@ -3,14 +3,16 @@
 
 require_once(__DIR__ . '/../database/connection.db.php');
 require_once(__DIR__ . '/../database/animal.class.php');
+require_once(__DIR__ . '/../database/service.class.php');
 
 $db = getDatabaseConnection();
 $animalSpecies = Animal_type::getAnimalSpecies($db);
+$services = Service::getAllServices($db);
 ?>
 
 <script src="javascript/script.js"></script>
 
-<?php function drawSearch() {global $animalSpecies;
+<?php function drawSearch() {global $animalSpecies, $services;
   $search = $_GET['search'] ?? '';
   $location = $_GET['location'] ?? '';
 ?>
@@ -73,16 +75,14 @@ $animalSpecies = Animal_type::getAnimalSpecies($db);
       </select>
       </div>
       <div>
-        <h3>Serviço</h3>
-        <select id="servico" name="servico">
-          <option>Todos</option>
-          <option>Passeio</option>
-          <option>Petsitting</option>
-          <option>Tosquia</option>
-          <option>Treino</option>
-          <option>Alojamento</option>
-          <option>Veterinário</option>
-        </select>
+      <h3>Serviço</h3>
+      <select id="servico" name="servico">
+          <option value="">Todos</option> <?php foreach ($services as $service): ?>
+              <option value="<?= htmlspecialchars((string)$service->service_id) ?>">
+                  <?= htmlspecialchars($service->service_name) ?>
+              </option>
+          <?php endforeach; ?>
+      </select>
       </div>
       <a href="#" onclick="limparFiltros()">Limpar Filtros</a>
     </div>

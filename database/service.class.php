@@ -28,15 +28,15 @@ class Service {
         }
     }
 
-    public static function addService(PDO $db, string $newName): bool {
-        try {
-            $stmt = $db->prepare('INSERT INTO Services (newName) VALUES (?)');
-            $stmt->execute([$newName]);
-            return $stmt->rowCount() > 0;
-        } catch (PDOException $e) {
-            error_log("Erro PDO em Service::addService: " . $e->getMessage());
-            throw $e;
+    static function addService(PDO $db, string $serviceName): bool {
+        $stmt = $db->prepare('SELECT COUNT(*) FROM Services WHERE service_name = ?');
+        $stmt->execute([$serviceName]);
+        if ($stmt->fetchColumn() > 0) {
+            return false;
         }
+
+        $stmt = $db->prepare('INSERT INTO Services (service_name) VALUES (?)');
+        return $stmt->execute([$serviceName]);
     }
 
     public static function deleteService(PDO $db, int $serviceId): bool {

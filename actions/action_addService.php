@@ -6,7 +6,6 @@ require_once(__DIR__ . '/../database/connection.db.php');
 require_once(__DIR__ . '/../database/users.class.php');
 require_once(__DIR__ . '/../database/service.class.php');
 
-
 if (!isset($_SESSION['user_id'])) {
     header('Location: /pages/login.php?message=' . urlencode('Acesso restrito. Por favor, faça login.'));
     exit;
@@ -47,6 +46,7 @@ try {
     }
 } catch (PDOException $e) {
     error_log("Erro PDO ao adicionar serviço: " . $e->getMessage());
+
     if ($e->getCode() === '23000') {
         header('Location: /pages/admin.php?tab=categories&error=' . urlencode('Este serviço já existe.'));
     } else {
@@ -54,6 +54,7 @@ try {
     }
     exit;
 } catch (Exception $e) {
+    
     error_log("Erro inesperado ao adicionar serviço: " . $e->getMessage());
     header('Location: /pages/admin.php?tab=categories&error=' . urlencode('Ocorreu um erro inesperado.'));
     exit;

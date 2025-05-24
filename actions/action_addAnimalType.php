@@ -7,7 +7,7 @@ require_once(__DIR__ . '/../database/users.class.php');
 require_once(__DIR__ . '/../database/animal.class.php');
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: ../pages/login.php?message=' . urlencode('Acesso restrito. Por favor, faça login.'));
+    header('Location: /pages/login.php?message=' . urlencode('Acesso restrito. Por favor, faça login.'));
     exit;
 }
 
@@ -59,5 +59,4 @@ try {
     header('Location: /pages/admin.php?tab=categories&error=' . urlencode('Ocorreu um erro inesperado.'));
     exit;
 }
-
 ?>
