@@ -41,7 +41,7 @@ class Service {
 
     public static function deleteService(PDO $db, int $serviceId): bool {
         try {
-            $stmt = $db->prepare('DELETE FROM Services WHERE id = ?');
+            $stmt = $db->prepare('DELETE FROM Services WHERE service_id = ?');
             $stmt->execute([$serviceId]);
             return $stmt->rowCount() > 0;
         } catch (PDOException $e) {
