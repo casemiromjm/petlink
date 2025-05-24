@@ -305,6 +305,7 @@ nav .profile-icon {
 
 /* Opçoes */
 .hamburger-menu .menu-options {
+  z-index: 1;
   display: none;
   position: absolute;
   top: 100%;
@@ -2206,6 +2207,7 @@ main {
   position: relative;
   word-break: break-word;
   box-shadow: 0 2px 8px rgba(44, 77, 67, 0.04);
+  margin: 20px auto;
 }
 
 .message.sent {
@@ -2488,6 +2490,22 @@ main {
   padding-bottom: 10px;
   margin-bottom: 20px;
 }
+.admin-section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+.admin-section table th,
+.admin-section table td {
+  padding: 8px;
+  text-align: left;
+}
+
+.admin-section table th {
+  background-color: #f2f2f2;
+}
+
 
 .user-list,
 .category-list {

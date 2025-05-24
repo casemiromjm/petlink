@@ -17,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $animalId = filter_input(INPUT_POST, 'animal_id', FILTER_VALIDATE_INT);
 
         if ($animalId === false || $animalId === null || $animalId <= 0) {
-            error_log("DEBUG: animalId INVÁLIDO ou AUSENTE. Redirecionando com erro.");
             header('Location: ../pages/animals.php?error=' . urlencode('ID do animal inválido para apagar.'));
             exit;
         }

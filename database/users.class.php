@@ -143,9 +143,10 @@ class User {
     public static function updateUserAdminStatus(PDO $db, int $userIdToUpdate, int $newAdminStatus): bool {
         $newAdminStatus = ($newAdminStatus === 1) ? 1 : 0;
 
-        $stmt = $db->prepare('UPDATE users SET isAdmin = ? WHERE rowid = ?');
+        $stmt = $db->prepare('UPDATE users SET is_admin = ? WHERE rowid = ?');
         return $stmt->execute([$newAdminStatus, $userIdToUpdate]);
     }
+
 
     public static function getAllUsers(PDO $db): array {
         $stmt = $db->prepare('SELECT user_id, username, is_admin FROM users');
@@ -153,4 +154,14 @@ class User {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function deleteUser(PDO $db, int $userId): bool {
+        try {
+            $stmt = $db->prepare('DELETE FROM Users WHERE user_id = ?');
+            $stmt->execute([$userId]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Erro PDO ao eliminar utilizador: " . $e->getMessage());
+            return false;
+        }
+    }
 }

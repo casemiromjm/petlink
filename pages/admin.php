@@ -5,7 +5,6 @@ require_once(__DIR__.'/../database/connection.db.php');
 require_once(__DIR__.'/../database/users.class.php');
 require_once(__DIR__.'/../database/animal.class.php');
 require_once(__DIR__.'/../templates/admin.php');
-error_log("DEBUG: admin.php - Depois de templates/admin.php");
 require_once(__DIR__.'/../templates/layout.php');
 
 $db = getDatabaseConnection();
@@ -24,17 +23,37 @@ if (!User::isUserAdmin($db, $userId)) {
 
 $users = User::getAllUsers($db);
 $animalTypes = Animal_type::getAnimalSpecies($db);
+$currentTab = $_GET['tab'] ?? 'users';
+
+$overview = [
+    'total_users' => $users,
+    'total_animals' => $animalTypes,
+    'recent_activity' => [],
+];
 
 drawHeader();
 ?>
 
 <body>
-    <div class="main-layout">
+    <div class="main-layout" style="display: flex;">
         <aside class="side-nav">
+        <ul>
+            <li class="<?= ($currentTab === 'users') ? 'active' : '' ?>">
+                <a href="/pages/admin.php?tab=users">Gerir Utilizadores</a>
+            </li>
 
+            <li class="<?= ($currentTab === 'categories') ? 'active' : '' ?>">
+                <a href="/pages/admin.php?tab=categories">Gerir Categorias</a>
+            </li>
+
+            <li class="<?= ($currentTab === 'overview') ? 'active' : '' ?>">
+                <a href="/pages/admin.php?tab=overview">Visão Geral do Sistema</a>
+            </li>
+
+            </ul>
         </aside>
 
-        <main class="content">
+        <main class="content" >
             <?php
             if (isset($_GET['success'])) {
                 echo '<p class="message success">' . htmlspecialchars($_GET['success']) . '</p>';
@@ -43,7 +62,7 @@ drawHeader();
                 echo '<p class="message error">' . htmlspecialchars($_GET['error']) . '</p>';
             }
             ?>
-            <?php drawAdminPanel($users, $animalTypes); ?>
+            <?php drawAdminPanel($currentTab, $users, $animalTypes,$overview); ?>
         </main>
     </div>
 </body>
