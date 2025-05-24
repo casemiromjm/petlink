@@ -4,6 +4,7 @@ declare(strict_types = 1);
 require_once(__DIR__.'/../database/connection.db.php');
 require_once(__DIR__.'/../database/users.class.php');
 require_once(__DIR__.'/../database/animal.class.php');
+require_once(__DIR__.'/../database/service.class.php');
 require_once(__DIR__.'/../templates/admin.php');
 require_once(__DIR__.'/../templates/layout.php');
 
@@ -23,11 +24,13 @@ if (!User::isUserAdmin($db, $userId)) {
 
 $users = User::getAllUsers($db);
 $animalTypes = Animal_type::getAnimalSpecies($db);
+$services = Service::getAllServices($db);
 $currentTab = $_GET['tab'] ?? 'users';
 
 $overview = [
-    'total_users' => $users,
-    'total_animals' => $animalTypes,
+    'total_users' => count($users),
+    'total_animals' => count($animalTypes),
+    'total_services' => count($services),
     'recent_activity' => [],
 ];
 
@@ -62,9 +65,10 @@ drawHeader();
                 echo '<p class="message error">' . htmlspecialchars($_GET['error']) . '</p>';
             }
             ?>
-            <?php drawAdminPanel($currentTab, $users, $animalTypes, $overview); ?>
+            <?php drawAdminPanel($currentTab, $users, $animalTypes, $services, $overview); ?>
         </main>
     </div>
+    <script src="/javascript/visibility.js"></script>
 </body>
 <?php
 drawFooter();

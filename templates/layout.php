@@ -24,14 +24,12 @@ if (isset($_SESSION['user_id'])) {
 ?>
 <?php function drawHeader() { global $isLoggedIn, $isAdmin, $hasUnreadMessages; ?>
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="../resources/logo.png">
-    <title>PetLink</title>
-    <link rel="preload" href="/stylesheets/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/stylesheets/style.css"></noscript>
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-  </head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" type="image/x-icon" href="/resources/logo.png"> <link rel="stylesheet" href="/stylesheets/style.css">
+      <link rel="stylesheet" href="/stylesheets/admin.css"> <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+      <title>PetLink</title>
+    </head>
   <body>
     <header>
       <div class="logo">

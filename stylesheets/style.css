@@ -2509,42 +2509,30 @@ main {
 
 .add-category-form {
   background-color: #ffffff;
-  /* Fundo branco para destacar */
   padding: 25px;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  /* Sombra suave */
   margin-top: 30px;
-  /* Mais espaço acima do formulário */
   display: flex;
-  /* Usar flexbox para alinhar os elementos */
   flex-wrap: wrap;
-  /* Permite que os itens quebrem para a próxima linha */
   gap: 20px;
-  /* Espaço entre os elementos flex */
   align-items: flex-end;
-  /* Alinha os itens pela parte inferior */
 }
 
 .add-category-form .form-group {
   flex-grow: 1;
-  /* Permite que o grupo do input se expanda */
   min-width: 250px;
-  /* Largura mínima para o input */
 }
 
 .add-category-form label {
   display: block;
-  /* Garante que o label ocupe a sua própria linha */
   margin-bottom: 8px;
-  /* Espaço abaixo do label */
   font-weight: bold;
   color: #555;
 }
 
 .add-category-form input[type="text"] {
   width: 100%;
-  /* Ocupa a largura total do seu form-group */
   padding: 12px;
   border: 1px solid #ced4da;
   border-radius: 6px;
@@ -2553,12 +2541,9 @@ main {
 }
 
 .add-category-form input[type="text"]:focus {
-  border-color: #007bff;
-  /* Borda azul ao focar */
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-  /* Sombra azul ao focar */
+  border-color: #81B29A;
+  box-shadow: 0 0 0 0.2rem #568870;
   outline: none;
-  /* Remove o outline padrão do navegador */
 }
 
 .user-list,
@@ -2672,4 +2657,20 @@ main {
   background-color: #f8d7da;
   color: #721c24;
   border: 1px solid #f5c6cb;
+}
+
+.toggle-header {
+  background-color: #f8f9fa;
+  padding: 15px 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.25rem;
+  color: #333;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.toggle-header:hover {
+  background-color: #e9ecef;
 }
