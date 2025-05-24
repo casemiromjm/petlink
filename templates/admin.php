@@ -14,7 +14,7 @@ function drawAdminPanel(string $currentTab, array $users, array $animalTypes, ar
                         <p>Nenhum utilizador encontrado.</p>
                     <?php else: ?>
                         <table>
-                            <thead>
+                            <thead >
                                 <tr>
                                     <th>ID</th>
                                     <th>Username</th>
@@ -25,7 +25,7 @@ function drawAdminPanel(string $currentTab, array $users, array $animalTypes, ar
                             <tbody>
                                 <?php foreach ($users as $user): ?>
                                     <tr>
-                                        <td><?= htmlspecialchars((string)$user['user_id']) ?></td>
+                                        <td style ="text-align:center" ><?= htmlspecialchars((string)$user['user_id']) ?></td>
                                         <td><?= htmlspecialchars($user['username']) ?></td>
                                         <td><?= ((int)$user['is_admin'] === 1) ? 'Sim' : 'Não' ?></td>
                                         <td>
@@ -59,25 +59,37 @@ function drawAdminPanel(string $currentTab, array $users, array $animalTypes, ar
                     <?php if (empty($animalTypes)): ?>
                         <p>Nenhuma categoria de animal encontrada.</p>
                     <?php else: ?>
-                        <ul class="category-list">
-                            <?php foreach ($animalTypes as $type): ?>
-                                <li>
-                                    <span><?= htmlspecialchars($type['name']) ?></span>
-                                    <form action="../actions/action_delete_animal_type.php" method="post" class="admin-action-form" onsubmit="return confirm('Tem a certeza que quer eliminar esta categoria?');">
-                                        <input type="hidden" name="type_id" value="<?= htmlspecialchars((string)$type['id']) ?>">
-                                        <button type="submit" style="background-color: #dc3545; color: white;">Eliminar</button>
-                                    </form>
-                                </li>
-                            <?php endforeach; ?>
-                        </ul>
-                    <?php endif; ?>
+                        <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($animalTypes as $type): ?>
+                                        <tr>
+                                            <td><?= htmlspecialchars((string)$type['animal_id']) ?></td> <td><?= htmlspecialchars($type['animal_name']) ?></td>   <td>
+                                                <form action="/actions/action_deleteAnimalType.php" method="post" class="admin-action-form" onsubmit="return confirm('Tem a certeza que quer eliminar esta categoria?');">
+                                                    <input type="hidden" name="type_id" value="<?= htmlspecialchars((string)$type['animal_id']) ?>">
+                                                    <button type="submit" style="background-color: #dc3545; color: white;">Eliminar</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        <?php endif; ?>
 
-                    <h4>Adicionar Nova Categoria</h4>
-                    <form action="../actions/action_add_animal_type.php" method="post">
-                        <label for="new_category_name">Nome da Categoria:</label>
-                        <input type="text" id="new_category_name" name="name" required>
-                        <button type="submit">Adicionar Categoria</button>
-                    </form>
+                        <h4>Adicionar Espécie</h4>
+                        <form action="/actions/action_addAnimalType.php" method="post" class="add-category-form">
+                            <div class="form-group">
+                                <label for="new_category_name">Nome da Espécie:</label>
+                                <input type="text" id="new_category_name" name="name" required placeholder="Ex: Cão, Gato, Pássaro">
+                            </div>
+                            <button type="submit" class="button-primary">Adicionar Espécie</button>
+                        </form>
                 </section>
             <?php break; ?>
 

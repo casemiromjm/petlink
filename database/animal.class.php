@@ -76,7 +76,7 @@ class Animal_type {
         }
     }
 
-    public static function delete(PDO $db, int $id): bool {
+    public static function deleteAnimalType(PDO $db, int $id): bool {
         try {
             $stmt = $db->prepare('DELETE FROM Animal_types WHERE animal_id = ?');
             return $stmt->execute([$id]);
@@ -86,7 +86,7 @@ class Animal_type {
         }
     }
 
-    function addAnimalType(PDO $db, string $animalName): bool {
+    static function  addAnimalType(PDO $db, string $animalName): bool {
         $stmt = $db->prepare('SELECT COUNT(*) FROM Animal_types WHERE animal_name = ?');
         $stmt->execute([$animalName]);
         if ($stmt->fetchColumn() > 0) {

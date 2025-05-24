@@ -2499,13 +2499,67 @@ main {
 .admin-section table th,
 .admin-section table td {
   padding: 8px;
-  text-align: left;
+  text-align:center;
 }
+
 
 .admin-section table th {
   background-color: #f2f2f2;
 }
 
+.add-category-form {
+  background-color: #ffffff;
+  /* Fundo branco para destacar */
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Sombra suave */
+  margin-top: 30px;
+  /* Mais espaço acima do formulário */
+  display: flex;
+  /* Usar flexbox para alinhar os elementos */
+  flex-wrap: wrap;
+  /* Permite que os itens quebrem para a próxima linha */
+  gap: 20px;
+  /* Espaço entre os elementos flex */
+  align-items: flex-end;
+  /* Alinha os itens pela parte inferior */
+}
+
+.add-category-form .form-group {
+  flex-grow: 1;
+  /* Permite que o grupo do input se expanda */
+  min-width: 250px;
+  /* Largura mínima para o input */
+}
+
+.add-category-form label {
+  display: block;
+  /* Garante que o label ocupe a sua própria linha */
+  margin-bottom: 8px;
+  /* Espaço abaixo do label */
+  font-weight: bold;
+  color: #555;
+}
+
+.add-category-form input[type="text"] {
+  width: 100%;
+  /* Ocupa a largura total do seu form-group */
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.add-category-form input[type="text"]:focus {
+  border-color: #007bff;
+  /* Borda azul ao focar */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  /* Sombra azul ao focar */
+  outline: none;
+  /* Remove o outline padrão do navegador */
+}
 
 .user-list,
 .category-list {
@@ -2532,9 +2586,21 @@ main {
   margin-left: 15px;
 }
 
+.button-primary {
+  padding: 12px 25px;
+  background-color: rgb(41, 166, 70);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+  white-space: nowrap;
+}
+
 .elevate-button {
-  background-color: #28a745;
-  /* Verde */
+  background-color: rgb(41, 166, 70);
   color: white;
   border: none;
   border-radius: 5px;
@@ -2575,8 +2641,7 @@ main {
 }
 
 .add-category-form button {
-  background-color: #007bff;
-
+  background-color: #81B29A;
   color: white;
   border: none;
   border-radius: 5px;
@@ -2586,7 +2651,7 @@ main {
 }
 
 .add-category-form button:hover {
-  background-color: #0056b3;
+  background-color: #64947d;
 }
 
 .message {

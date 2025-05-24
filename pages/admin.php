@@ -62,7 +62,7 @@ drawHeader();
                 echo '<p class="message error">' . htmlspecialchars($_GET['error']) . '</p>';
             }
             ?>
-            <?php drawAdminPanel($currentTab, $users, $animalTypes,$overview); ?>
+            <?php drawAdminPanel($currentTab, $users, $animalTypes, $overview); ?>
         </main>
     </div>
 </body>
