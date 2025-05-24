@@ -1,6 +1,8 @@
 <?php
   declare(strict_types = 1);
-
+  ini_set('log_errors', 'On');
+  ini_set('error_log', __DIR__ . '/../error_log.txt');
+  error_reporting(E_ALL);
   ini_set('display_errors', 1);
   ini_set('display_startup_errors', 1);
   error_reporting(E_ALL);
@@ -45,7 +47,7 @@ $filters = [
 ];
 
 $ads = Ad::search($db, $filters, $page, $limit);
-$totalAds = Ad::countSearch($db, $filters); // Use the new method!
+$totalAds = Ad::countSearch($db, $filters); 
 $totalPages = ceil($totalAds / $limit);
 
 if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {

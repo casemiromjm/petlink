@@ -380,6 +380,23 @@ class Ad {
         return $ads;
     }
 
+    public static function getAllAdsReport(PDO $db): array{
+        $query = '
+            SELECT
+                Ads.ad_id,
+                Ads.title,
+                Ads.freelancer_id,
+                Ads.price,
+                Ads.price_period
+            FROM Ads
+            ORDER BY Ads.created_at ASC
+        ';
+
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public static function getTotalCount(PDO $db): int {
         $query = 'SELECT COUNT(*) FROM Ads';
         $stmt = $db->prepare($query);
@@ -540,7 +557,7 @@ class Ad {
 
             return $ads;
         }
-        
+
         public static function countSearch(PDO $db, array $filters): int {
         $where = [];
         $params = [];

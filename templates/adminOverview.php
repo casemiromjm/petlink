@@ -22,15 +22,15 @@ $overview = [
 <section class="admin-section">
     <h3>Visão Geral do Sistema</h3>
     <p>Bem-vindo ao painel de administração! Aqui pode supervisionar e garantir o bom funcionamento de todo o sistema.</p>
-    <ul>
-        <li>Total de Utilizadores Registados: **<?= htmlspecialchars((string)$systemOverviewData['total_users']) ?>**</li>
-        <li>Total de Animais Registados: **<?= htmlspecialchars((string)$systemOverviewData['total_animals']) ?>**</li>
+    <ul class = "data">
+        <li>Total de Utilizadores Registados: <?= htmlspecialchars((string)$overview['total_users']) ?></li>
+        <li>Total de Espécies Disponíveis: <?= htmlspecialchars((string)$overview['total_animals']) ?></li>
+        <li>Total de Serviços Disponíveis: <?= htmlspecialchars((string)$overview['total_services']) ?></li>
     </ul>
-    <h4>Ações do Sistema:</h4>
-    <p>Aqui poderias ter botões para tarefas como:</p>
-    <ul>
-        <li><button disabled>Gerar Relatório de Atividade</button></li>
-        <li><button disabled>Limpar Cache do Sistema</button></li>
-        <li><button disabled>Ver Logs de Erro</button></li>
+<br>
+    <ul class="actions">
+    <li><a href="/actions/action_userReport.php"><button>Gerar Relatório de Usuários</button></a></li>
+    <li><a href="/actions/action_adReport.php"><button>Gerar Relatório de Anúncios</button></a></li>
+
     </ul>
 </section>

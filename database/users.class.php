@@ -149,7 +149,7 @@ class User {
 
 
     public static function getAllUsers(PDO $db): array {
-        $stmt = $db->prepare('SELECT user_id, username, is_admin FROM users');
+        $stmt = $db->prepare('SELECT user_id, username, name, is_admin FROM users');
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }

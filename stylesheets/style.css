@@ -114,7 +114,7 @@ a:hover {
 }
 
 .form-container textarea {
-    font-family: inherit;
+  font-family: inherit;
 }
 
 .form-container h2 {
@@ -405,7 +405,7 @@ footer {
 .pesquisa select,
 .sort select,
 .filtros select {
-    border-radius: 6px !important;
+  border-radius: 6px !important;
 }
 
 .pesquisa input[type="text"],
@@ -440,28 +440,28 @@ footer {
 }
 
 .pesquisa button {
-    background-color: #81B29A;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 17px;
-    cursor: pointer;
-    font-weight: bold;
-    height: 60px;
-    align-self: center;
-    min-width: 120px;
-    border-radius: 6px;
+  background-color: #81B29A;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 17px;
+  cursor: pointer;
+  font-weight: bold;
+  height: 60px;
+  align-self: center;
+  min-width: 120px;
+  border-radius: 6px;
 }
 
 .pesquisa button:hover {
   background-color: #568870;
 }
 
-#error-message{
+#error-message {
   color: red;
   border: 1px solid red;
   padding: 10px;
-  margin:0;
+  margin: 0;
   margin-bottom: 15px;
   background-color: #ffb6b6;
 }
@@ -500,11 +500,11 @@ footer {
 }
 
 .filtros a {
-    text-decoration: underline;
-    color: #404040;
-    font-size: 0.97em;
-    display: flex;
-    align-items: center;
+  text-decoration: underline;
+  color: #404040;
+  font-size: 0.97em;
+  display: flex;
+  align-items: center;
 }
 
 /* Sort */
@@ -522,11 +522,12 @@ footer {
 }
 
 .sort select {
-    padding: 8px;
-    font-size: 0.9em;
-    width: 180px;
-    height: 45px; /* Match .filtros select */
-    box-sizing: border-box;
+  padding: 8px;
+  font-size: 0.9em;
+  width: 180px;
+  height: 45px;
+  /* Match .filtros select */
+  box-sizing: border-box;
 }
 
 /* Criar anúncio */
@@ -586,8 +587,8 @@ form .animal-checkboxes {
 }
 
 form .animal-checkboxes label {
-    width: 24%;
-    font-weight: lighter;
+  width: 24%;
+  font-weight: lighter;
 }
 
 /* Página do perfil (layout) */
@@ -1278,7 +1279,7 @@ body.profile-page {
   left: 0;
   width: 100vw;
   z-index: 2001;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   display: none;
 }
 
@@ -2147,7 +2148,8 @@ main {
 .chat-list strong {
   font-size: 0.97em;
   font-weight: 600;
-  color: #fff; /* Changed from #568870 to white */
+  color: #fff;
+  /* Changed from #568870 to white */
   margin-bottom: 0;
   line-height: 1.2;
   white-space: nowrap;
@@ -2265,7 +2267,7 @@ main {
   border-top: 1px solid #e3e7e5;
   background: #fff;
   align-items: center;
-  height:45px;
+  height: 45px;
 }
 
 .send-message-form input[type="text"] {
@@ -2326,42 +2328,50 @@ main {
   display: inline-block;
   pointer-events: none;
 }
-#erase-animal{
+
+#erase-animal {
   background-color: #b15050;
 }
 
 
 /* MODAL DO COMPRAR SERVIÇO */
-  .modal-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.4);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .modal-content {
-    background: #fff;
-    padding: 2em;
-    border-radius: 10px;
-    min-width: 320px;
-    max-width: 90vw;
-    position: relative;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
-  }
-  .modal-close {
-    position: absolute;
-    top: 10px; right: 10px;
-    background: none;
-    border: none;
-    font-size: 1.5em;
-    cursor: pointer;
-    color: #888;
-  }
-  .modal-close:hover {
-    color: #E63946;
-  }
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 2em;
+  border-radius: 10px;
+  min-width: 320px;
+  max-width: 90vw;
+  position: relative;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  color: #888;
+}
+
+.modal-close:hover {
+  color: #E63946;
+}
 
 /* Animal checkboxes in modal */
 #animalCheckboxes {
@@ -2398,7 +2408,7 @@ main {
   background: #f7f7f7;
   border-radius: 12px;
   border: 2px solid #81B29A;
-  box-shadow: 0 2px 8px rgba(44,77,67,0.07);
+  box-shadow: 0 2px 8px rgba(44, 77, 67, 0.07);
   font-size: 1em;
   color: #2b4d43;
   max-width: 600px;
@@ -2490,6 +2500,7 @@ main {
   padding-bottom: 10px;
   margin-bottom: 20px;
 }
+
 .admin-section table {
   width: 100%;
   border-collapse: collapse;
@@ -2499,12 +2510,45 @@ main {
 .admin-section table th,
 .admin-section table td {
   padding: 8px;
-  text-align:center;
+  text-align: center;
 }
 
 
 .admin-section table th {
   background-color: #f2f2f2;
+}
+
+.admin-section ul {
+  list-style: none;
+  padding: 0;
+}
+
+.admin-section ul li {
+  margin-bottom: 10px;
+}
+
+.admin-section ul li button {
+  background-color: #81B29A;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 25px;
+  font-size: 1.1em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.admin-section ul li button:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.admin-section ul li a {
+  text-decoration: none;
+  display: flex;
+  width: 100%;
 }
 
 .add-category-form {
