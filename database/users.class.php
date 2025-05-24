@@ -20,7 +20,7 @@ class User {
         string $district,
         ?string $phone,
         int $photoId,
-        ?string $createdAt
+        ?string $createdAt,
 
     ) {
         $this->id = $id;
@@ -110,7 +110,7 @@ class User {
                 phone_number,
                 photo_id,
                 created_at
-            FROM Users
+                FROM Users
             WHERE username = ?
         ');
         $stmt->execute([$username]);
@@ -132,4 +132,36 @@ class User {
         );
     }
 
+    public static function isUserAdmin(PDO $db, int $userId): bool {
+        $stmt = $db->prepare('SELECT is_admin FROM users WHERE user_id = ?');
+        $stmt->execute([$userId]);
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $user && (int)$user['is_admin'] === 1;
+    }
+
+    public static function updateUserAdminStatus(PDO $db, int $userIdToUpdate, int $newAdminStatus): bool {
+        $newAdminStatus = ($newAdminStatus === 1) ? 1 : 0;
+
+        $stmt = $db->prepare('UPDATE users SET is_admin = ? WHERE rowid = ?');
+        return $stmt->execute([$newAdminStatus, $userIdToUpdate]);
+    }
+
+
+    public static function getAllUsers(PDO $db): array {
+        $stmt = $db->prepare('SELECT user_id, username, name, is_admin FROM users');
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function deleteUser(PDO $db, int $userId): bool {
+        try {
+            $stmt = $db->prepare('DELETE FROM Users WHERE user_id = ?');
+            $stmt->execute([$userId]);
+            return $stmt->rowCount() > 0;
+        } catch (PDOException $e) {
+            error_log("Erro PDO ao eliminar utilizador: " . $e->getMessage());
+            return false;
+        }
+    }
 }

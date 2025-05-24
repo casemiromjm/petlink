@@ -5,29 +5,34 @@ require_once(__DIR__ . '/../utils/session.php');
 $session = new Session();
 $session->start();
 
+
+require_once(__DIR__ . '/../database/connection.db.php');
+require_once(__DIR__ . '/../database/users.class.php');
 // Ver se há mensagens nao vistas
 $hasUnreadMessages = false;
+$isLoggedIn = false;
+$isAdmin = false;
+
 if (isset($_SESSION['user_id'])) {
-  require_once(__DIR__ . '/../database/connection.db.php');
+
   $db = getDatabaseConnection();
   $stmt = $db->prepare('SELECT COUNT(*) FROM Messages WHERE to_user_id = ? AND is_read = 0');
   $stmt->execute([$_SESSION['user_id']]);
+
+  $isLoggedIn = true;
   $hasUnreadMessages = $stmt->fetchColumn() > 0;
+  $isAdmin = User::isUserAdmin($db, $_SESSION['user_id']);
 }
+
 ?>
-<?php function drawHeader() { global $hasUnreadMessages; ?>
-  <!DOCTYPE html>
-  <html>
+<?php function drawHeader() { global $isLoggedIn, $isAdmin, $hasUnreadMessages; ?>
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="../resources/logo.png">
-    <title>PetLink</title>
-    <link rel="preload" href="stylesheets/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="stylesheet" href="../stylesheets/style.css">
-    <noscript><link rel="stylesheet" href="stylesheets/style.css"></noscript>
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-  </head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" type="image/x-icon" href="/resources/logo.png"> <link rel="stylesheet" href="/stylesheets/style.css">
+      <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+      <title>PetLink</title>
+    </head>
   <body>
     <header>
       <div class="logo">
@@ -41,6 +46,10 @@ if (isset($_SESSION['user_id'])) {
               <li><a href="../index.php">Contratar Serviço</a></li>
               <li style="pointer-events:none; color:#fff; font-weight:bold; padding: 0 1em;">|</li>
               <li><a href="../pages/adCreate.php">Anunciar Serviço</a></li>
+              <?php if ($isAdmin): ?>
+              <li style="pointer-events:none; color:#fff; font-weight:bold; padding: 0 1em;">|</li>
+                      <li><a href="/pages/admin.php">Painel de Admin</a></li>
+                  <?php endif; ?>
             </ul>
           </div>
           <div class="nav-right" style="display: flex; align-items: center; gap: 1.5em;">
@@ -61,7 +70,7 @@ if (isset($_SESSION['user_id'])) {
                 <?php if (isset($_SESSION['user_id'])): ?>
                   <div class="hamburger-menu">
                     <div class="menu-header">
-                      <img src="<?= htmlspecialchars(str_replace('./', '../', $_SESSION['profile_photo'] ?? '../resources/default_profile.png')) ?>" alt="Foto de perfil" class="user-photo">
+                      <img src="<?= htmlspecialchars(str_replace('./', '../', $_SESSION['profile_photo'] ?? '/resources/profilePics/0.png')) ?>" alt="Foto de perfil" class="user-photo">
                       <span class="username"><?= htmlspecialchars($_SESSION['name'] ?? 'Usuário') ?></span>
                       <i class="fi fi-rr-menu-dots"></i>
                     </div>
