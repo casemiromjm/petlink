@@ -1,8 +1,16 @@
-<?php declare(strict_types = 1); ?>
+<?php declare(strict_types = 1);
+
+
+require_once(__DIR__ . '/../database/connection.db.php');
+require_once(__DIR__ . '/../database/animal.class.php');
+
+$db = getDatabaseConnection();
+$animalSpecies = Animal_type::getAnimalSpecies($db);
+?>
 
 <script src="javascript/script.js"></script>
 
-<?php function drawSearch() {
+<?php function drawSearch() {global $animalSpecies;
   $search = $_GET['search'] ?? '';
   $location = $_GET['location'] ?? '';
 ?>
@@ -55,18 +63,14 @@
         </select>
       </div>
       <div>
-        <h3>Animais</h3>
-        <select id="animal" name="animal">
-          <option>Todos</option>
-          <option>Cães</option>
-          <option>Gatos</option>
-          <option>Pássaros</option>
-          <option>Furões</option>
-          <option>Coelhos</option>
-          <option>Peixes</option>
-          <option>Roedores</option>
-          <option>Répteis</option>
-        </select>
+      <h3>Animais</h3>
+      <select id="animal" name="animal">
+          <option value="">Todos</option> <?php foreach ($animalSpecies as $species): ?>
+              <option value="<?= htmlspecialchars((string)$species['animal_id']) ?>">
+                  <?= htmlspecialchars($species['animal_name']) ?>
+              </option>
+          <?php endforeach; ?>
+      </select>
       </div>
       <div>
         <h3>Serviço</h3>

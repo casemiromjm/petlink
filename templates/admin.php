@@ -1,7 +1,6 @@
 <?php
 declare(strict_types = 1);
 
-
 function drawAdminPanel(string $currentTab, array $users, array $animalTypes, array $overview): void { ?>
     <section class="admin-panel">
         <h2>Painel de Administração</h2>

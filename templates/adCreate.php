@@ -1,8 +1,15 @@
-<?php declare(strict_types = 1); ?>
+<?php declare(strict_types = 1);
 
+require_once(__DIR__ . '/../database/connection.db.php');
+require_once(__DIR__ . '/../database/animal.class.php');
+
+$db = getDatabaseConnection();
+$animalSpecies = Animal_type::getAnimalSpecies($db);
+
+?>
 <link rel="stylesheet" href="../stylesheets/style.css">
 
-<?php function drawAdCreate() { ?>
+<?php function drawAdCreate() { global $animalSpecies;?>
     <section class="form-container">
         <h2>Anunciar Serviço</h2>
         <form id="ad-form" action="../actions/action_adCreate.php" method="post" enctype="multipart/form-data">
@@ -40,19 +47,16 @@
                     <option>mês</option>
                 </select>
             </div>
-
             <label for="animais">Animais</label>
             <div class="animal-checkboxes">
-                <label><input type="checkbox" name="animais[]" value="1">Cães</label>
-                <label><input type="checkbox" name="animais[]" value="2">Gatos</label>
-                <label><input type="checkbox" name="animais[]" value="3">Pássaros</label>
-                <label><input type="checkbox" name="animais[]" value="4">Roedores</label>
-                <label><input type="checkbox" name="animais[]" value="5">Répteis</label>
-                <label><input type="checkbox" name="animais[]" value="6">Peixes</label>
-                <label><input type="checkbox" name="animais[]" value="7">Furões</label>
-                <label><input type="checkbox" name="animais[]" value="8">Coelhos</label>
+            <?php foreach ($animalSpecies as $species): ?>
+                <label>
+                <input type="checkbox"
+                    name="animais[]"
+                    value="<?= htmlspecialchars((string)$species['animal_id']) ?>">
+                    <?= htmlspecialchars($species['animal_name']) ?> </label>
+            <?php endforeach; ?>
             </div>
-
             <button type="submit">Criar Anúncio</button>
         </form>
     </section>
