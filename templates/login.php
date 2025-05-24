@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1); ?>
 
-<link rel="stylesheet" href="../stylesheets/style.css">
+<!-- <link rel="stylesheet" href="../stylesheets/style.css"> -->
 
 <?php function drawLogin(): void { ?>
   <section class="form-container login">

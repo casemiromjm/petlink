@@ -1,13 +1,12 @@
 <?php declare(strict_types = 1); ?>
 <?php
+require_once(__DIR__ . '/../database/connection.db.php');
+require_once(__DIR__ . '/../database/users.class.php');
 require_once(__DIR__ . '/../utils/session.php');
 
 $session = new Session();
 $session->start();
 
-
-require_once(__DIR__ . '/../database/connection.db.php');
-require_once(__DIR__ . '/../database/users.class.php');
 // Ver se há mensagens nao vistas
 $hasUnreadMessages = false;
 $isLoggedIn = false;
@@ -26,10 +25,13 @@ if (isset($_SESSION['user_id'])) {
 
 ?>
 <?php function drawHeader() { global $isLoggedIn, $isAdmin, $hasUnreadMessages; ?>
+  <!DOCTYPE html>
+  <html>
   <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="icon" type="image/x-icon" href="/resources/logo.png"> <link rel="stylesheet" href="/stylesheets/style.css">
+      <link rel="icon" type="image/x-icon" href="/resources/logo.png"> 
+      <link rel="stylesheet" href="/stylesheets/style.css">
       <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
       <title>PetLink</title>
     </head>
