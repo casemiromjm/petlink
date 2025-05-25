@@ -723,6 +723,24 @@ form .animal-checkboxes label {
   justify-content: flex-start;
 }
 
+.profile-link {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 8px 18px;
+  background-color: #81B29A;
+  color: #fff !important;
+  border-radius: 4px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.profile-link:hover {
+  background-color: #568870;
+  color: #fff !important;
+}
+
+
 /* Cima-direita: Imagem do anúncio */
 .ad-images {
   grid-column: 1 / 2;
@@ -989,6 +1007,8 @@ form .animal-checkboxes label {
   text-align: center;
   width: 200px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .animal-card img {
@@ -998,6 +1018,56 @@ form .animal-checkboxes label {
   border-radius: 4px;
   margin-bottom: 1em;
   width: 200px;
+}
+
+.animal-card-link {
+text-decoration: none;
+color: inherit;
+display: inline-block;
+} 
+
+.animal-image-container {
+  height: 150px;
+  overflow: hidden;
+}
+
+.animal-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s;
+}
+
+.animal-card:hover .animal-image-container img {
+  transform: scale(1.05);
+}
+
+.animal-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+.animal-info {
+  padding: 1rem;
+  text-align: center;
+}
+
+.animal-info h3 {
+  margin: 0 0 0.3rem 0;
+  color: #2b4d43;
+  font-size: 1.1rem;
+}
+
+.animal-type {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin: 0 0 0.3rem 0;
+}
+
+.animal-age {
+  color: #81B29A;
+  font-weight: 500;
+  margin: 0;
 }
 
 .add-animal {
@@ -1162,7 +1232,7 @@ form .animal-checkboxes label {
 }
 
 main {
-
+  flex: 1
 }
 
 .hidden-input {
@@ -1190,78 +1260,34 @@ main {
   gap: 1.5rem;
 }
 
+@media (min-width: 900px) {
+  .profile-header-row {
+    flex-direction: row;
+    gap: 2rem;
+  }
 
+  .profile-header-card {
+    flex: 0 0 320px;
+    min-width: 260px;
+    max-width: 340px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.2rem;
+    background: white;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
 
-.profile-photo-container {
-  margin-bottom: 0;
-  flex-shrink: 0;
+  .profile-about-card {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+  }
 }
 
-.profile-photo {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 3px solid #81B29A;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-}
-
-.profile-info-container {
-  width: auto;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  align-items: flex-start;
-}
-
-.profile-name-container {
-  margin-bottom: 0.2rem;
-}
-
-.profile-name {
-  font-size: 1.3rem;
-  margin: 0;
-}
-
-.profile-username {
-  font-size: 1rem;
-}
-
-.profile-photo-container {
-  flex-shrink: 0;
-}
-
-.profile-photo {
-  width: 150px;
-  height: 150px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 4px solid #81B29A;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.profile-info-container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
-.profile-name-container {
-  margin-bottom: 0.5rem;
-}
-
-.profile-name {
-  font-size: 2rem;
-  margin: 0;
-  color: #2b4d43;
-}
-
-.profile-username {
-  font-size: 1.1rem;
-  color: #6c757d;
-}
 
 
 /* Section Cards */
@@ -1311,57 +1337,6 @@ main {
   margin-top: 1rem;
 }
 
-.animal-card {
-  border: 1px solid #e9ecef;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.animal-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-}
-
-.animal-image-container {
-  height: 150px;
-  overflow: hidden;
-}
-
-.animal-image-container img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s;
-}
-
-.animal-card:hover .animal-image-container img {
-  transform: scale(1.05);
-}
-
-.animal-info {
-  padding: 1rem;
-  text-align: center;
-}
-
-.animal-info h3 {
-  margin: 0 0 0.3rem 0;
-  color: #2b4d43;
-  font-size: 1.1rem;
-}
-
-.animal-type {
-  color: #6c757d;
-  font-size: 0.9rem;
-  margin: 0 0 0.3rem 0;
-}
-
-.animal-age {
-  color: #81B29A;
-  font-weight: 500;
-  margin: 0;
-}
-
 /* Reviews Section */
 .reviews-list {
   display: flex;
@@ -1374,11 +1349,6 @@ main {
   border-radius: 8px;
   padding: 1.5rem;
   transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.review-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
 .review-header {
@@ -1433,35 +1403,6 @@ main {
   margin: 0;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-  .profile-header-card {
-    flex-direction: column;
-    text-align: center;
-    align-items: center;
-  }
-
-  .profile-info-container {
-    align-items: center;
-  }
-
-  .message-button {
-    align-self: center;
-  }
-
-  .edit-button {
-    align-self: center;
-  }
-
-  .profile-meta {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .animal-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  }
-}
 
 .profile-header-row {
   display: flex;
@@ -1489,12 +1430,6 @@ main {
   justify-content: stretch;
 }
 
-@media (max-width: 900px) {
-  .profile-header-row {
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-}
 
 .profile-info-container>.meta-item,
 .profile-info-container>.profile-name-container {
@@ -1585,56 +1520,6 @@ main {
   align-items: flex-start;
 }
 
-@media (min-width: 900px) {
-  .profile-header-row {
-    flex-direction: row;
-    gap: 2rem;
-  }
-
-  .profile-header-card {
-    flex: 1 1 0;
-    min-width: 320px;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .profile-about-card {
-    flex: 1 1 0;
-    min-width: 320px;
-    display: flex;
-    flex-direction: column;
-    justify-content: stretch;
-  }
-}
-
-@media (min-width: 900px) {
-  .profile-header-row {
-    flex-direction: row;
-    gap: 2rem;
-  }
-
-  .profile-header-card {
-    flex: 0 0 320px;
-    min-width: 260px;
-    max-width: 340px;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 1.2rem;
-    background: white;
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  }
-
-  .profile-about-card {
-    flex: 1 1 0;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: stretch;
-  }
-}
-
 .profile-header-main {
   display: flex;
   align-items: center;
@@ -1677,20 +1562,6 @@ main {
   font-size: 1rem;
 }
 
-.animal-card-link {
-  text-decoration: none;
-  color: inherit;
-  display: inline-block;
-}
-
-.animal-card-link .animal-card {
-  cursor: pointer;
-  transition: box-shadow 0.2s;
-}
-
-.animal-card-link .animal-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
 
 /* Chat Container Layout */
 .chat-container {
