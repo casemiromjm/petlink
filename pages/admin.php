@@ -59,16 +59,17 @@ drawHeader();
         <main class="content" >
             <?php
             if (isset($_GET['success'])) {
-                echo '<p class="message success">' . htmlspecialchars($_GET['success']) . '</p>';
+                echo '<div class="success-message" id="success-message">' . htmlspecialchars($_GET['success']) . '</div>';
             }
             if (isset($_GET['error'])) {
-                echo '<p class="message error">' . htmlspecialchars($_GET['error']) . '</p>';
+                echo '<div class="error-bar" id="error-message">' . htmlspecialchars($_GET['error']) . '</div>';
             }
             ?>
             <?php drawAdminPanel($currentTab, $users, $animalTypes, $services, $overview); ?>
         </main>
     </div>
     <script src="/javascript/visibility.js"></script>
+    <script src="/javascript/script.js"></script>
 </body>
 <?php
 drawFooter();
