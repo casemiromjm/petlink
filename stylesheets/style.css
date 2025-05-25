@@ -18,6 +18,11 @@ body {
   flex-direction: column;
 }
 
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
 a {
   text-decoration: none;
   color: white;
@@ -1533,12 +1538,12 @@ main {
 }
 
 
-
 .profile-photo {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  object-fit: cover;
+  object-fit: contain;
+  background: #e0e0e0;
   border: 3px solid #81B29A;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
@@ -2194,6 +2199,83 @@ main {
   border-radius: 6px;
   font-size: 1rem;
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+
+.user-list,
+.category-list {
+  list-style: none;
+  padding: 0;
+}
+
+.user-list li,
+.category-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed #eee;
+}
+
+.user-list li:last-child,
+.category-list li:last-child {
+  border-bottom: none;
+}
+
+.admin-action-form {
+  display: inline-block;
+  margin-left: 15px;
+}
+
+.button-primary {
+  padding: 12px 25px;
+  background-color: rgb(41, 166, 70);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+  white-space: nowrap;
+}
+
+.admin-btn {
+  padding: 6px 10px;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s, transform 0.1s;
+  white-space: nowrap;
+  margin-left: 8px;
+}
+
+.admin-btn.elevate {
+  background-color: #29a646;
+}
+
+.admin-btn.elevate:hover {
+  background-color: #218838;
+}
+
+.admin-btn.demote {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.admin-btn.demote:hover {
+  background-color: #e0a800;
+  color: #fff;
+}
+
+.admin-btn.delete {
+  background-color: #E63946;
+}
+
+.admin-btn.delete:hover {
+  background-color: #9f141f;
 }
 
 .toggle-header {
