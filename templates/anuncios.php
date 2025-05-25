@@ -1,6 +1,7 @@
 <?php declare(strict_types = 1); ?>
 
 <link rel="stylesheet" href="../stylesheets/style.css">
+<link rel="stylesheet" href="../stylesheets/responsive.css">
 
 <?php function drawAds(array $ads, $totalAds, PDO $db): void { ?>
     <section class="results">
