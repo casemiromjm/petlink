@@ -39,21 +39,20 @@ drawHeader();
 
 <body>
     <div class="main-layout" style="display: flex;">
-        <aside class="side-nav">
-        <ul>
-            <li class="<?= ($currentTab === 'users') ? 'active' : '' ?>">
+        <aside>
+          <nav class="side-nav">
+            <ul>
+              <li class="<?= ($currentTab === 'users') ? 'active' : '' ?>">
                 <a href="/pages/admin.php?tab=users">Gerir Utilizadores</a>
-            </li>
-
-            <li class="<?= ($currentTab === 'categories') ? 'active' : '' ?>">
+              </li>
+              <li class="<?= ($currentTab === 'categories') ? 'active' : '' ?>">
                 <a href="/pages/admin.php?tab=categories">Gerir Categorias</a>
-            </li>
-
-            <li class="<?= ($currentTab === 'overview') ? 'active' : '' ?>">
+              </li>
+              <li class="<?= ($currentTab === 'overview') ? 'active' : '' ?>">
                 <a href="/pages/admin.php?tab=overview">Visão Geral do Sistema</a>
-            </li>
-
+              </li>
             </ul>
+          </nav>
         </aside>
 
         <main class="content" >

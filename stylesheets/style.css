@@ -1552,16 +1552,6 @@ main {
   gap: 2px;
 }
 
-.chat-list li {
-  border-bottom: 1px solid #c0cac5;
-  margin: 0;
-  padding: 0;
-  background: #e3e7e5;
-  min-height: 54px;
-  border-radius: 6px;
-  /* opcional: arredonda os cantos para destacar o gap */
-}
-
 .chat-list a.profile-link {
   display: block;
   padding: 0.7rem 1.1rem;
@@ -1577,7 +1567,6 @@ main {
   font-size: 0.97em;
   font-weight: 600;
   color: #fff;
-  /* Changed from #568870 to white */
   margin-bottom: 0;
   line-height: 1.2;
   white-space: nowrap;
@@ -2036,30 +2025,6 @@ main {
   box-sizing: border-box;
 }
 
-.review-modal-content textarea {
-  min-height: 90px;
-  resize: vertical;
-}
-
-.review-modal-content .star-select {
-  display: flex;
-  justify-content: center;
-  gap: 0.3em;
-  margin-bottom: 1.2em;
-}
-
-.review-modal-content .star-select i {
-  font-size: 2em;
-  color: #FFD700;
-  cursor: pointer;
-  transition: transform 0.15s;
-}
-
-.review-modal-content .star-select i:hover,
-.review-modal-content .star-select i.selected {
-  transform: scale(1.15);
-  color: #f59e0b;
-}
 
 .review-modal-content button[type="submit"] {
   width: 100%;
