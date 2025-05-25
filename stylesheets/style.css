@@ -2152,94 +2152,61 @@ main {
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-.user-list,
-.category-list {
-  list-style: none;
-  padding: 0;
+/* --- Landing Page Styles --- */
+.landing-hero {
+  text-align: center;
+  padding: 1.5em 1em;
 }
 
-.user-list li,
-.category-list li {
+.landing-logo {
+  width: 90px;
+}
+
+.landing-hero h1 {
+  font-size: 2.3em;
+  color: #2b4d43;
+}
+
+.landing-subtitle {
+  font-size: 1.3em;
+  max-width: 600px;
+  margin: 1em auto 1em auto;
+  color: #555;
+}
+
+.landing-btn {
+  font-size: 1.2em;
+  margin: 0 0.5em;
+}
+
+.landing-features {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px dashed #eee;
+  justify-content: center;
+  gap: 2em;
+  flex-wrap: wrap;
+  padding: 1em 1em;
 }
 
-.user-list li:last-child,
-.category-list li:last-child {
-  border-bottom: none;
+.landing-feature-card {
+  flex: 1;
+  min-width: 220px;
+  max-width: 320px;
+  background: #fff;
+  padding: 1em 2em;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
 
-.admin-action-form {
-  display: inline-block;
-  margin-left: 15px;
+.landing-feature-card h2 {
+  color: #2b4d43;
+  margin-bottom: 0.5em;
 }
 
-.button-primary {
-  padding: 12px 25px;
-  background-color: rgb(41, 166, 70);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: bold;
-  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
-  white-space: nowrap;
+.landing-feature-card ul {
+  text-align: left;
+  color: #555;
+  font-size: 1em;
+  padding-left: 1.2em;
 }
 
-.admin-btn {
-  padding: 6px 10px;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 1rem;
-  transition: background-color 0.2s, transform 0.1s;
-  white-space: nowrap;
-  margin-left: 8px;
-}
 
-.admin-btn.elevate {
-  background-color: #29a646;
-}
-
-.admin-btn.elevate:hover {
-  background-color: #218838;
-}
-
-.admin-btn.demote {
-  background-color: #ffc107;
-  color: #333;
-}
-
-.admin-btn.demote:hover {
-  background-color: #e0a800;
-  color: #fff;
-}
-
-.admin-btn.delete {
-  background-color: #E63946;
-}
-
-.admin-btn.delete:hover {
-  background-color: #9f141f;
-}
-
-.toggle-header {
-  background-color: #f8f9fa;
-  padding: 15px 20px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 1.25rem;
-  color: #333;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.toggle-header:hover {
-  background-color: #e9ecef;
-}
