@@ -18,20 +18,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_description = trim($_POST['user_description']); // Allow line breaks
 
         // Handle profile photo upload
-        $profilePhoto = $_SESSION['profile_photo'];
+        $profilePhoto = null;
+
+        if (!empty($_SESSION['profile_photo'])) {
+            $profilePhoto = $_SESSION['profile_photo'];
+        }
+        
+
         if (isset($_FILES['profile-photo']) && $_FILES['profile-photo']['error'] === UPLOAD_ERR_OK) {
+            $fileName = random_int(1000000000, 9999999999);
+            
             $uploadDir = '../resources/profilePics/'; // Corrigido para profilePics
-            $fileName = uniqid() . '_' . basename($_FILES['profile-photo']['name']);
-            $targetPath = $uploadDir . $fileName;
+            $targetPath = $uploadDir . $fileName . '.png';
 
             if (!is_dir($uploadDir)) {
                 mkdir($uploadDir, 0755, true);
             }
 
             if (move_uploaded_file($_FILES['profile-photo']['tmp_name'], $targetPath)) {
-                $profilePhoto = './resources/profilePics/' . $fileName; // Caminho relativo correto
+                $profilePhoto = $fileName;
             }
         }
+
+        if ($profilePhoto === null) {
+            $profilePhoto = '0.png';
+        }
+        
+        $_SESSION['profile_photo'] = $profilePhoto;
 
         // Update user data in the database (sem email!)
         $stmt = $db->prepare('

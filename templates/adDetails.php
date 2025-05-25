@@ -14,13 +14,19 @@
         <?php
         $profilePhotoId = $ad->getPhotoId();
 
-        if (empty($profilePhotoId)) {
+        if (empty($profilePhotoId) || $profilePhotoId === 'default') {
             $src = '/resources/profilePics/0.png';
-        } else {
-            $src = "/resources/profilePics/" . htmlspecialchars((string)$profilePhotoId) . ".png";
         }
-    ?>
-<img src="<?= htmlspecialchars($src) ?>" alt="Profile Photo" class="ad-user-photo">
+        // If it's a numeric ID (default images 1.png, 2.png, etc.)
+        elseif (is_numeric($profilePhotoId)) {
+            $src = '/resources/profilePics/' . $profilePhotoId . '.png';
+        }
+        // Fallback for invalid cases
+        else {
+            $src = '/resources/profilePics/0.png';
+        }
+        ?>
+        <img src="<?= htmlspecialchars($src) ?>" alt="Profile Photo" class="ad-user-photo">
         <div class="ad-user-info">
           <strong><?= htmlspecialchars(($ad->getName()) ?? 'Nome não disponível') ?></strong>
           <span class="username"><?= htmlspecialchars($ad->getUsername()?? 'Usuário não disponível') ?></span>
