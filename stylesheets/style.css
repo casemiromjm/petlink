@@ -461,7 +461,6 @@ form .animal-checkboxes label {
   font-weight: lighter;
 }
 
-/* Página do perfil (layout) */
 
 /* Sidebar do perfil */
 .side-nav {
@@ -1021,18 +1020,11 @@ form .animal-checkboxes label {
   font-size: 2em;
   font-weight: bold;
   margin-bottom: 0.5em;
-  color: #666 !important;
+  color: #666;
 }
 
 .add-animal:hover {
   background-color: #c0cac5;
-}
-
-.add-icon {
-  font-size: 2em;
-  font-weight: bold;
-  margin-bottom: 0.5em;
-  color: #666;
 }
 
 /* Layout de animais */
@@ -1041,35 +1033,9 @@ form .animal-checkboxes label {
   min-height: 100vh;
 }
 
-.animals-layout .side-nav {
-  height: 100%;
-  min-height: 100vh;
-}
-
 .animals-layout .animals-content {
   flex: 1;
   padding: 40px;
-  min-height: 100vh;
-  box-sizing: border-box;
-}
-
-/* Add Animal Page Styles */
-.add-animal-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px;
-  min-height: 100vh;
-  box-sizing: border-box;
-}
-
-.add-animal-form {
-  max-width: 600px;
-  width: 100%;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -1138,18 +1104,11 @@ form .animal-checkboxes label {
 .login,
 .signup {
   max-width: 400px;
-  margin: 2em auto;
-  background: white;
-  padding: 2em;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  font-family: Arial, sans-serif;
 }
 
 .login h2,
 .signup h2 {
   text-align: center;
-  margin-bottom: 0.5em;
   font-size: 1.6em;
   color: #333;
 }
@@ -1203,7 +1162,7 @@ form .animal-checkboxes label {
 }
 
 main {
-  flex: 1;
+
 }
 
 .hidden-input {
@@ -1221,23 +1180,6 @@ main {
   text-decoration: underline;
 }
 
-.profile-link {
-  display: inline-block;
-  margin-top: 8px;
-  padding: 8px 18px;
-  background-color: #81B29A;
-  color: #fff !important;
-  border-radius: 4px;
-  font-weight: bold;
-  text-decoration: none;
-  transition: background 0.2s;
-}
-
-.profile-link:hover {
-  background-color: #568870;
-  color: #fff !important;
-}
-
 /* User Profile Container */
 .user-profile-container {
   max-width: 1000px;
@@ -1248,25 +1190,7 @@ main {
   gap: 1.5rem;
 }
 
-/* Profile Header Card */
-.profile-header-card {
-  flex: 0 0 320px;
-  min-width: 260px;
-  max-width: 340px;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 1.2rem;
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
 
-.profile-header-main {
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-}
 
 .profile-photo-container {
   margin-bottom: 0;
