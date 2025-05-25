@@ -1358,12 +1358,6 @@ main {
   margin-bottom: 1rem;
 }
 
-.review-rating {
-  color: #FFD700;
-  display: flex;
-  gap: 0.2rem;
-}
-
 .review-date {
   color: #6c757d;
   font-size: 0.9rem;
@@ -1403,31 +1397,10 @@ main {
   margin: 0;
 }
 
-
 .profile-header-row {
   display: flex;
   gap: 2rem;
   margin-bottom: 1.5rem;
-}
-
-.profile-header-card {
-  flex: 1 1 0;
-  min-width: 320px;
-  background: white;
-  border-radius: 12px;
-  padding: 2rem;
-  display: flex;
-  gap: 2rem;
-  align-items: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.profile-about-card {
-  flex: 1 1 0;
-  min-width: 320px;
-  display: flex;
-  flex-direction: column;
-  justify-content: stretch;
 }
 
 
@@ -1508,17 +1481,7 @@ main {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.profile-photo-container {
-  margin-bottom: 1rem;
-}
 
-.profile-info-container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  align-items: flex-start;
-}
 
 .profile-header-main {
   display: flex;
@@ -1526,10 +1489,7 @@ main {
   gap: 1.2rem;
 }
 
-.profile-photo-container {
-  margin-bottom: 0;
-  flex-shrink: 0;
-}
+
 
 .profile-photo {
   width: 90px;
@@ -1538,19 +1498,6 @@ main {
   object-fit: cover;
   border: 3px solid #81B29A;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
-}
-
-.profile-info-container {
-  width: auto;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  align-items: flex-start;
-}
-
-.profile-name-container {
-  margin-bottom: 0.2rem;
 }
 
 .profile-name {
