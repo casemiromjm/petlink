@@ -20,8 +20,18 @@
             die('Anúncio não especificado.');
         }
 
-        $stmt = $db->prepare('SELECT * FROM Ads WHERE ad_id = ? AND freelancer_id = ?');
-        $stmt->execute([$adId, $userId]);
+        $stmt = $db->prepare('SELECT is_admin FROM users WHERE user_id = ?');
+        $stmt->execute([$userId]);
+        $isAdmin = (bool)$stmt->fetchColumn();
+
+        if ($isAdmin) {
+            $stmt = $db->prepare('SELECT * FROM Ads WHERE ad_id = ?');
+            $stmt->execute([$adId]);
+        } else {
+            $stmt = $db->prepare('SELECT * FROM Ads WHERE ad_id = ? AND freelancer_id = ?');
+            $stmt->execute([$adId, $userId]);
+        }
+
         $ad = $stmt->fetch();
 
         if (!$ad) {

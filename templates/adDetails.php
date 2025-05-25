@@ -128,16 +128,27 @@ function drawAdDetails(): void {
             <h1><?= htmlspecialchars($ad->getTitle() ?? 'Título não disponível') ?></h1>
             <span class="ad-price"><?= htmlspecialchars((string)($ad->getPrice() ?? '0.00')) ?>€ / <?= htmlspecialchars($ad->getPricePeriod() ?? 'período não disponível') ?></span>
 
-            <?php if (isset($_SESSION['username']) && $ad->getUsername() === $_SESSION['username']): ?>
-            <!-- owner see edit options -->
+            <?php 
+            $isAdmin = false;
+            if (isset($_SESSION['username'])) {
+                $stmt = $db->prepare('SELECT is_admin FROM Users WHERE username = ?');
+                $stmt->execute([$_SESSION['username']]);
+                $isAdmin = (bool)$stmt->fetchColumn();
+            }
+
+            if (isset($_SESSION['username']) && ($ad->getUsername() === $_SESSION['username'] || $isAdmin)):
+            ?>
+            <!-- owner and admin see edit options -->
             <div style="display:inline;">
                 <form action="../pages/edit_ad.php" method="get">
                     <input type="hidden" name="id" value="<?= htmlspecialchars((string)($ad->getId())) ?>">
                     <button type="submit" class="edit-button">Editar Anúncio</button>
                 </form>
             </div>
-            <?php else: ?>
-            <!-- other users see message button-->
+            <?php endif; ?>
+
+            <!-- message button to everyone except you -->
+            <?php if (isset($_SESSION['username']) && ($ad->getUsername() !== $_SESSION['username'] || $isAdmin)): ?>
             <form action="../pages/messages.php" method="get" style="display:inline;">
                 <input type="hidden" name="ad" value="<?= htmlspecialchars((string)$ad->getId()) ?>">
                 <input type="hidden" name="to" value="<?= htmlspecialchars((string)$ad->getUserId()) ?>">
