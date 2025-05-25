@@ -462,18 +462,6 @@ form .animal-checkboxes label {
 }
 
 /* Página do perfil (layout) */
-body.profile-page {
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  grid-template-columns: 250px 1fr;
-  grid-template-areas:
-    "header header"
-    "nav content"
-    "footer footer";
-  min-height: 100vh;
-  position: relative;
-  /* Ensure proper stacking context */
-}
 
 /* Sidebar do perfil */
 .side-nav {
@@ -484,23 +472,15 @@ body.profile-page {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
 }
 
 .side-nav ul {
-  margin: 0;
-  padding: 0;
   display: block;
 }
 
 .side-nav ul li {
-  text-decoration: none;
-  display: block;
-  color: #474747;
-  padding: 22px 22px;
-  display: block;
-  padding: 0;
-  list-style-type: none;
-  font-size: 1.1em;
   border-bottom: 0.1em solid #7c968b;
 }
 
@@ -530,43 +510,7 @@ body.profile-page {
 }
 
 
-.side-nav {
-  height: 100vh;
-  position: sticky;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
 /* Conteúdo do perfil */
-.profile-content {
-  grid-area: content;
-  padding: 40px;
-  position: relative;
-  /* Ensure proper stacking */
-  z-index: 2;
-  /* Ensure it stays above the sidebar */
-  background-color: #fff;
-  /* Optional: Add background to distinguish */
-}
-
-.edit-profile-container {
-  padding: 0;
-  width: 100%;
-  max-width: 600px;
-}
-
-.edit-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.edit-header h2 {
-  margin: 0;
-  font-size: 1.8em;
-  color: #333;
-}
 
 .profile-picture {
   text-align: center;
@@ -583,33 +527,6 @@ body.profile-page {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-}
-
-.profile-image-placeholder::before {
-  content: '';
-  display: block;
-  width: 60%;
-  height: 60%;
-  background-color: #d1d1d1;
-  border-radius: 50%;
-}
-
-.profile-image-placeholder img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
-.change-photo-link {
-  color: #81B29A;
-  text-decoration: none;
-  font-size: 0.9em;
-  cursor: pointer;
-}
-
-.change-photo-link:hover {
-  text-decoration: underline;
 }
 
 /* Form do perfil */
@@ -720,17 +637,22 @@ body.profile-page {
   color: #444;
 }
 
-.ad-location {
+.ad-location i, .ad-animals i, .ad-price i {
+  margin-right: 5px;
+  color: #81B29A;
+}
+
+.ad-rating i {
+  margin-right: 5px;
+  color: #FFD700;
+}
+
+.ad-location, .ad-animals, .ad-rating {
   font-size: 0.9em;
   color: #666;
   margin: 5px 0;
   display: flex;
   align-items: center;
-}
-
-.ad-location i {
-  margin-right: 5px;
-  color: #81B29A;
 }
 
 .ad-price {
@@ -742,36 +664,6 @@ body.profile-page {
   align-items: center;
 }
 
-.ad-price i {
-  margin-right: 5px;
-  color: #81B29A;
-}
-
-.ad-rating {
-  font-size: 0.9em;
-  color: #666;
-  margin: 5px 0;
-  display: flex;
-  align-items: center;
-}
-
-.ad-rating i {
-  margin-right: 5px;
-  color: #FFD700;
-}
-
-.ad-animals {
-  color: #666;
-  font-size: 0.9em;
-  margin: 5px 0;
-  display: flex;
-  align-items: center;
-}
-
-.ad-animals i {
-  margin-right: 5px;
-  color: #81B29A;
-}
 
 /*Detalhes de um anúncio específico*/
 .ad-details {
@@ -794,15 +686,6 @@ body.profile-page {
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   height: 265px;
-}
-
-.ad-user h2 {
-  font-size: 1.2em;
-  margin-bottom: 10px;
-  color: #333;
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .ad-user .username {
@@ -836,18 +719,9 @@ body.profile-page {
   align-items: center;
   gap: 18px;
   width: 100%;
-  min-width: 0;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   margin-bottom: 10px;
   box-sizing: border-box;
   justify-content: flex-start;
-}
-
-.ad-user-info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
 }
 
 /* Cima-direita: Imagem do anúncio */
@@ -930,8 +804,7 @@ body.profile-page {
 }
 
 .ad-reviews h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
+  font-size: 1.2rem;
   color: #1f2937;
   margin-bottom: 1.5rem;
   text-align: center;
@@ -959,7 +832,7 @@ body.profile-page {
   border-radius: 50%;
   object-fit: cover;
   margin-right: 0.75rem;
-  border: 2px solid #6366f1;
+  border: 2.5px solid #81B29A;
 }
 
 .review-user-info {
@@ -968,11 +841,6 @@ body.profile-page {
   flex-grow: 1;
 }
 
-.review-user-info strong {
-  font-size: 1rem;
-  font-weight: 600;
-  color: #374151;
-}
 
 .review-user-info .username {
   font-size: 0.875rem;
@@ -1011,51 +879,6 @@ body.profile-page {
   margin-top: 0.5rem;
 }
 
-@media (max-width: 768px) {
-  .ad-reviews {
-    padding: 1rem;
-    margin-top: 1.5rem;
-    max-height: 300px;
-  }
-
-  .ad-reviews h3 {
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-  }
-
-  .review-item {
-    padding: 1rem;
-    margin-bottom: 1rem;
-  }
-
-  .review-user-photo {
-    width: 2.5rem;
-    height: 2.5rem;
-    margin-right: 0.5rem;
-  }
-
-  .review-user-info strong {
-    font-size: 0.9375rem;
-  }
-
-  .review-user-info .username,
-  .review-user-info .review-date {
-    font-size: 0.8125rem;
-  }
-
-  .review-rating {
-    font-size: 1rem;
-  }
-
-  .review-rating .fi-rr-star {
-    font-size: 1rem;
-  }
-
-  .review-comment {
-    font-size: 0.875rem;
-  }
-}
-
 /* Baixo-direita: Descrição do anúncio */
 .ad-info {
   grid-column: 1 / 2;
@@ -1075,15 +898,8 @@ body.profile-page {
   border-bottom: 1px solid #ddd;
 }
 
-.ad-info-header h1 {
-  font-size: 1.5em;
-  color: #333;
-  margin: 0;
-}
-
 .ad-info-header .ad-price {
   font-size: 1.1em;
-  font-weight: bold;
   color: #666;
   margin-left: 10px;
 }
