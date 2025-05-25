@@ -58,7 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: ../pages/adDetails.php?id=$adId&success=1");
         exit;
     } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
+        error_log("Application Error: " . $e->getMessage() . " - Stack Trace: " . $e->getTraceAsString());
+        echo "An unexpected error occurred. Please try again later or contact support.";
         exit;
     }
 }
