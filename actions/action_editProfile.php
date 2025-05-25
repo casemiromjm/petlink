@@ -52,11 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: ../pages/profile.php?success=1');
         exit;
     } catch (PDOException $e) {
-        error_log('Error updating profile: ' . $e->getMessage());
-        echo '<pre>';
-        echo 'Error updating profile: ' . $e->getMessage() . "\n";
-        echo 'Trace: ' . $e->getTraceAsString();
-        echo '</pre>';
+        error_log('Database Error in profile update: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
         header('Location: ../pages/profile.php?error=1');
         exit;
     }

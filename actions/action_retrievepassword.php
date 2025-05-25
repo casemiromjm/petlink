@@ -36,7 +36,7 @@ try {
     }
 
     $stmt = $db->prepare('
-        SELECT user_id FROM Users 
+        SELECT user_id FROM Users
         WHERE email = ? AND username = ? AND district = ?
     ');
     $stmt->execute([$email, $username, $district]);
@@ -56,7 +56,7 @@ try {
 
 } catch (PDOException $e) {
     error_log('Password reset error: ' . $e->getMessage());
-    die("Error: " . $e->getMessage()); 
+        header('Location: ../pages/retrievepassword.php?error=1');
     exit();
 }
 ?>

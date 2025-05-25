@@ -34,12 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: ../pages/login.php?success=1');
         exit;
     } catch (PDOException $e) {
-        error_log($e->getMessage()); 
+        error_log($e->getMessage());
         if ($e->getCode() === '23000') {
             header('Location: ../pages/signup.php?error=duplicate');
         } else {
-            echo "Error: " . $e->getMessage();
-        }
+            error_log('Database Error: ' . $e->getMessage() . "\n" . $e->getTraceAsString());}
         exit;
     }
 }
