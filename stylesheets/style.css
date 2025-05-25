@@ -2441,11 +2441,21 @@ main {
   font-size: 0.95em;
 }
 
-.order-status-pending {
-  color: #888;
+.order-status {
   font-style: italic;
   font-size: 0.85em;
   font-weight: normal;
+}
+
+.order-status-pending {
+  color: #888;
+}
+
+.order-status-accepted {
+  color: #81B29A;
+}
+.order-status-rejected {
+  color: #E63946;
 }
 
 .cancel-order-form {
@@ -2482,6 +2492,176 @@ main {
   padding: 0.5em 1.2em;
   border-radius: 6px;
   cursor: pointer;
+}
+
+/* Payment Modal Styles */
+.payment-modal-content {
+  max-width: 400px;
+  padding: 1.5em 1.2em;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(44, 77, 67, 0.10);
+  position: relative;
+  border: 1px solid #ececec;
+  transition: box-shadow 0.2s;
+}
+
+.payment-modal-title {
+  margin-bottom: 0.7em;
+  text-align: center;
+  color: #2b4d43;
+  font-size: 1.2em;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.payment-summary {
+  background: #f7f7f7;
+  border-radius: 8px;
+  padding: 0.7em 1em;
+  margin-bottom: 1em;
+  font-size: 0.97em;
+}
+
+.payment-form label {
+  font-weight: 500;
+  color: #2b4d43;
+  margin-bottom: 0.15em;
+  display: block;
+  font-size: 0.97em;
+}
+
+.payment-form input[type="text"] {
+  width: 100%;
+  padding: 0.5em;
+  border-radius: 6px;
+  border: 1.2px solid #ececec;
+  background-color: #f7f7f7;
+  margin-bottom: 0.7em;
+  font-size: 0.97em;
+  box-sizing: border-box;
+}
+
+.payment-form-row {
+  display: flex;
+  gap: 0.7em;
+}
+
+.payment-form-row > div {
+  flex: 1;
+}
+
+.payment-submit-btn {
+  width: 100%;
+  padding: 0.6em;
+  background-color: #81B29A;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: bold;
+  margin-top: 0.7em;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 1px 4px rgba(44,77,67,0.07);
+}
+
+.payment-submit-btn:hover {
+  background-color: #568870;
+}
+
+.payment-success-message {
+  display: none;
+  color: #81B29A;
+  margin-top: 0.7em;
+  text-align: center;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+/* Review Modal Styles */
+.review-modal-content {
+  max-width: 420px;
+  padding: 2.2em 1.5em 1.5em 1.5em;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(44, 77, 67, 0.13);
+  position: relative;
+  border: 1.5px solid #c0cac5;
+  transition: box-shadow 0.2s;
+  text-align: center;
+}
+
+.review-modal-content h3 {
+  color: #2b4d43;
+  font-size: 1.35em;
+  font-weight: 700;
+  margin-bottom: 1.2em;
+  letter-spacing: 0.01em;
+}
+
+.review-modal-content label {
+  font-weight: 500;
+  color: #2b4d43;
+  margin-bottom: 0.3em;
+  display: block;
+  font-size: 1em;
+  text-align: left;
+}
+
+.review-modal-content select,
+.review-modal-content textarea {
+  width: 100%;
+  padding: 0.6em;
+  border-radius: 6px;
+  border: 1.2px solid #ececec;
+  background-color: #f7f7f7;
+  margin-bottom: 1.2em;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.review-modal-content textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.review-modal-content .star-select {
+  display: flex;
+  justify-content: center;
+  gap: 0.3em;
+  margin-bottom: 1.2em;
+}
+
+.review-modal-content .star-select i {
+  font-size: 2em;
+  color: #FFD700;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.review-modal-content .star-select i:hover,
+.review-modal-content .star-select i.selected {
+  transform: scale(1.15);
+  color: #f59e0b;
+}
+
+.review-modal-content button[type="submit"] {
+  width: 100%;
+  padding: 0.7em;
+  background-color: #81B29A;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 0.7em;
+  transition: background 0.2s;
+}
+
+.review-modal-content button[type="submit"]:hover {
+  background-color: #568870;
 }
 
 .admin-panel {

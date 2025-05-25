@@ -130,13 +130,29 @@
             <span>Pedido de Serviço</span>
             <?php
               $status = $latestOrder['status'] ?? 'pending';
-              $statusText = [
-                'pending' => 'A aguardar confirmação',
-                'accepted' => 'Aceite',
-                'rejected' => 'Rejeitado'
-              ][$status] ?? ucfirst($status);
+              $isPaid = !empty($latestOrder['is_paid']);
+              // New: If paid and not completed, show "Serviço em progresso"
+              if ($isPaid && !in_array($status, ['completed', 'rejected'])) {
+                $status = 'in_progress';
+                $statusText = 'Serviço em progresso';
+              } else {
+                $statusText = [
+                  'pending' => 'A aguardar confirmação',
+                  'accepted' => 'Aceite',
+                  'accepted_awaiting_payment' => 'Aceite... a aguardar pagamento',
+                  'rejected' => 'Rejeitado',
+                  'completed' => 'Concluído'
+                ][$status] ?? ucfirst($status);
+              }
+              $statusClass = 'order-status';
+              if ($status === 'pending') $statusClass .= ' order-status-pending';
+              if ($status === 'accepted_awaiting_payment' || $status === 'accepted') $statusClass .= ' order-status-accepted';
+              if ($status === 'rejected') $statusClass .= ' order-status-rejected';
+              if ($status === 'in_progress') $statusClass .= ' order-status-in-progress';
             ?>
-            <span class="order-status<?= $status === 'pending' ? ' order-status-pending' : '' ?>"><?= htmlspecialchars($statusText) ?></span>
+            <span class="<?= $statusClass ?>">
+              <?= htmlspecialchars($statusText) ?>
+            </span>
           </div>
           <div><strong>Animais:</strong>
             <?php
@@ -202,19 +218,92 @@
               }
             ?>
           </div>
-          <?php if ($status === 'pending'): ?>
-  <?php if ($_SESSION['user_id'] == $latestOrder['freelancer_id']): ?>
+          <?php if ($status === 'pending' && $_SESSION['user_id'] == $latestOrder['freelancer_id']): ?>
     <form class="cancel-order-form" action="" method="post">
       <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
-      <button type="submit" name="accept_order" class="accept-order-btn" formaction="../actions/action_acceptOrder.php">Aceitar</button>
-      <button type="submit" name="reject_order" class="reject-order-btn" formaction="../actions/action_rejectOrder.php">Rejeitar</button>
+      <button type="submit" name="accept_order" class="accept-order-btn" formaction="../actions/action_acceptRequest.php">Aceitar</button>
+      <button type="submit" name="reject_order" class="reject-order-btn" formaction="../actions/action_rejectRequest.php">Rejeitar</button>
     </form>
-  <?php elseif ($_SESSION['user_id'] == $latestOrder['client_id']): ?>
+  <?php elseif ($status === 'accepted_awaiting_payment' && $_SESSION['user_id'] == $latestOrder['client_id']): ?>
+    <form action="#" method="post" class="cancel-order-form" id="payOrderForm">
+      <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
+      <button type="submit" class="accept-order-btn" id="openPaymentModalBtn">Efetuar pagamento</button>
+    </form>
+    <?php
+      $showPaymentModal = false;
+      // Detalhes dos animais igual à visualização do pedido
+      $animalList = [];
+      $animals = json_decode($latestOrder['animals'] ?? '[]', true);
+      if ($animals && count($animals)) {
+        require_once('../database/connection.db.php');
+        $db = getDatabaseConnection();
+        // Função só se ainda não existir
+        if (!function_exists('translateAnimalType')) {
+          function translateAnimalType(string $animalType): string {
+            $translations = [
+              'Cães' => 'Cão',
+              'Gatos' => 'Gato',
+              'Roedores' => 'Roedor',
+              'Pássaros' => 'Pássaro',
+              'Répteis' => 'Réptil',
+              'Peixes' => 'Peixe',
+              'Furões' => 'Furão',
+              'Coelhos' => 'Coelho'
+            ];
+            return $translations[$animalType] ?? $animalType;
+          }
+        }
+        $placeholders = implode(',', array_fill(0, count($animals), '?'));
+        $stmt = $db->prepare("SELECT name, (SELECT animal_name FROM Animal_types WHERE animal_id = ua.species) AS species FROM user_animals ua WHERE ua.animal_id IN ($placeholders)");
+        $stmt->execute($animals);
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+          $singular = translateAnimalType($row['species']);
+          $animalList[] = htmlspecialchars($row['name']) . ' <span class="animal-species-label">(' . htmlspecialchars($singular) . ')</span>';
+        }
+      }
+      $amount = (int)($latestOrder['amount'] ?? 1);
+      $period = $latestOrder['price_period'] ?? '';
+      $periodMap = [
+        'hora' => 'horas',
+        'dia' => 'dias',
+        'semana' => 'semanas',
+        'mês' => 'meses'
+      ];
+      $periodLabel = $amount === 1 ? $period : ($periodMap[$period] ?? $period);
+      $total = (float)($latestOrder['price'] ?? 0) * $amount;
+      $unit = (float)($latestOrder['price'] ?? 0);
+
+      $purchaseDetails = [
+        'service' => $currentChat['ad_title'] ?? '',
+        'animals' => implode(', ', $animalList),
+        'amount' => $amount,
+        'price_period' => $periodLabel,
+        'price' => number_format($unit, 2, ',', '.'),
+        'total' => number_format($total, 2, ',', '.'),
+        'unit_label' => number_format($unit, 2, ',', '.') . '€/ ' . htmlspecialchars($period),
+      ];
+      include_once('../modals/payment_modal.php');
+    ?>
+  <?php elseif (
+  $_SESSION['user_id'] == $latestOrder['client_id'] &&
+  in_array($status, ['pending', 'rejected'])
+): ?>
     <form action="../actions/action_cancelRequest.php" method="post" class="cancel-order-form">
       <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
       <button type="submit" class="cancel-order-btn">Cancelar pedido</button>
     </form>
-  <?php endif; ?>
+  <?php elseif ($status === 'in_progress' && $_SESSION['user_id'] == $latestOrder['freelancer_id']): ?>
+  <form action="../actions/action_completeService.php" method="post" class="cancel-order-form" style="margin-top:1em;">
+    <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
+    <button type="submit" class="accept-order-btn" style="background:#81B29A;">Completar serviço</button>
+  </form>
+  <?php elseif (
+  $status === 'completed' &&
+  $_SESSION['user_id'] == $latestOrder['client_id'] &&
+  (empty($latestOrder['reviewed']) || $latestOrder['reviewed'] == 0)
+): ?>
+  <button type="button" class="accept-order-btn" id="openLeaveReviewModalBtn" style="background:#81B29A;margin-top:1em;float:right;">Deixar avaliação</button>
+  <?php include_once('../modals/leaveReview_modal.php'); ?>
 <?php endif; ?>
         </div>
       <?php endif; ?>
@@ -235,6 +324,20 @@
     if (container) {
       container.scrollTop = container.scrollHeight;
     }
+
+    // Payment modal logic
+    const payBtn = document.getElementById('openPaymentModalBtn');
+    const payForm = document.getElementById('payOrderForm');
+    const paymentModal = document.getElementById('paymentModal');
+    if (payBtn && payForm && paymentModal) {
+      payForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        paymentModal.style.display = 'flex';
+      });
+    }
   });
 </script>
+<div class="modal-content review-modal-content">
+  <!-- conteúdo do modal -->
+</div>
 <?php } ?>
