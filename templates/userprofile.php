@@ -165,11 +165,24 @@ require_once(__DIR__ . '/../database/anuncios.class.php');
               <a class="user-ad-card" href="../pages/adDetails.php?id=<?= htmlspecialchars((string)$ad['ad_id']) ?>">
                 <div class="user-ad-image">
                   <?php
-                    $adImage = $ad['image_path'] ?? null;
-                    if (!$adImage || $adImage === 'default' || $adImage === '../resources/default_ad.png') {
-                      $adImageSrc = '../resources/adPics/8.png';
-                    } else {
-                      $adImageSrc = (strpos($adImage, 'adPics/') !== false ? '../resources/' : '../resources/adPics/') . basename($adImage);
+                    $adId = $ad['ad_id'] ?? null;
+                    $adImageSrc = '../resources/adPics/8.png'; // Default fallback image
+
+                    if ($adId) {
+                        // First get the media_id from ad_media table
+                        $stmt = $db->prepare('
+                            SELECT m.file_name
+                            FROM media m
+                            JOIN ad_media am ON m.media_id = am.media_id
+                            WHERE am.ad_id = ?
+                            LIMIT 1
+                        ');
+                        $stmt->execute([$adId]);
+                        $filename = $stmt->fetchColumn();
+
+                        if ($filename) {
+                            $adImageSrc = '../resources/adPics/' . htmlspecialchars($filename) . '.png';
+                        }
                     }
                   ?>
                   <img src="<?= htmlspecialchars($adImageSrc) ?>" alt="Imagem do anúncio">
