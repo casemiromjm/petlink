@@ -1,13 +1,20 @@
 <?php
 declare(strict_types = 1);
-
-session_start();
-require_once('../database/connection.db.php');
+require_once(__DIR__ . '/../init.php');
+require_once(__DIR__ . '/../database/connection.db.php');
+require_once(__DIR__ . '/../security.php');
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: ../pages/login.php');
     exit;
 }
+
+if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    error_log('CSRF token mismatch or missing for config. IP: ' . $_SERVER['REMOTE_ADDR']);
+    header('Location: ../pages/config.php?error=csrf');
+    exit();
+}
+unset($_SESSION['csrf_token']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = getDatabaseConnection();

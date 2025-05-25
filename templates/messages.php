@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="../stylesheets/style.css">
 
-<?php function drawMensagens(array $chats, array $messages, ?int $selectedAdId, ?int $selectedUserId, $latestOrder = null): void { ?>
+<?php function drawMensagens(array $chats, array $messages, ?int $selectedAdId, ?int $selectedUserId, $latestOrder = null, $csrf_token): void { ?>
 <div class="chat-container">
   <aside class="chat-list">
     <h2>Conversas</h2>
@@ -62,7 +62,7 @@
         <div class="chat-header-bar" style="display:flex;align-items:center;gap:16px;padding:1.2rem 2rem 1rem 2rem;border-bottom:1px solid #e3e7e5;background:#fff;">
           <a href="../pages/userprofile.php?username=<?= urlencode($currentChat['username']) ?>" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;">
             <img src="<?php
-  $profilePhotoId = $currentChat['photo_id'] ?? 'default'; 
+  $profilePhotoId = $currentChat['photo_id'] ?? 'default';
   if (
     !$profilePhotoId ||
     $profilePhotoId === 'default' ||
@@ -158,7 +158,7 @@
             <?php
               $animals = json_decode($latestOrder['animals'] ?? '[]', true);
               if ($animals && count($animals)) {
-                require_once('../database/connection.db.php');
+                require_once(__DIR__ .'/../database/connection.db.php');
                 $db = getDatabaseConnection();
                 function translateAnimalType(string $animalType): string {
                   $translations = [
@@ -220,12 +220,14 @@
           </div>
           <?php if ($status === 'pending' && $_SESSION['user_id'] == $latestOrder['freelancer_id']): ?>
     <form class="cancel-order-form" action="" method="post">
+    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
       <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
       <button type="submit" name="accept_order" class="accept-order-btn" formaction="../actions/action_acceptRequest.php">Aceitar</button>
       <button type="submit" name="reject_order" class="reject-order-btn" formaction="../actions/action_rejectRequest.php">Rejeitar</button>
     </form>
   <?php elseif ($status === 'accepted_awaiting_payment' && $_SESSION['user_id'] == $latestOrder['client_id']): ?>
     <form action="#" method="post" class="cancel-order-form" id="payOrderForm">
+    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
       <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
       <button type="submit" class="accept-order-btn" id="openPaymentModalBtn">Efetuar pagamento</button>
     </form>
@@ -235,7 +237,7 @@
       $animalList = [];
       $animals = json_decode($latestOrder['animals'] ?? '[]', true);
       if ($animals && count($animals)) {
-        require_once('../database/connection.db.php');
+        require_once(__DIR__ . '/../database/connection.db.php');
         $db = getDatabaseConnection();
         // Função só se ainda não existir
         if (!function_exists('translateAnimalType')) {
@@ -289,12 +291,14 @@
   in_array($status, ['pending', 'rejected'])
 ): ?>
     <form action="../actions/action_cancelRequest.php" method="post" class="cancel-order-form">
-      <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
+    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
+    <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
       <button type="submit" class="cancel-order-btn">Cancelar pedido</button>
     </form>
   <?php elseif ($status === 'in_progress' && $_SESSION['user_id'] == $latestOrder['freelancer_id']): ?>
   <form action="../actions/action_completeService.php" method="post" class="cancel-order-form" style="margin-top:1em;">
-    <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
+  <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
+  <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
     <button type="submit" class="accept-order-btn" style="background:#81B29A;">Completar serviço</button>
   </form>
   <?php elseif (
@@ -308,6 +312,7 @@
         </div>
       <?php endif; ?>
       <form class="send-message-form" action="../actions/action_sendMessage.php" method="post">
+      <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
         <input type="hidden" name="ad" value="<?= $selectedAdId ?>">
         <input type="hidden" name="to" value="<?= $selectedUserId ?>">
         <input type="text" name="message" placeholder="Escreva uma mensagem..." required autocomplete="off">

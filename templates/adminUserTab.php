@@ -35,6 +35,7 @@ $users = User::getAllUsers($db);
                         <td>
                             <?php if ((int)$user['user_id'] !== (int)$_SESSION['user_id']): ?>
                                 <form action="/actions/action_elevateUser.php" method="post" class="admin-action-form">
+                                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
                                     <input type="hidden" name="user_id" value="<?= htmlspecialchars((string)$user['user_id']) ?>">
                                     <input type="hidden" name="current_status" value="<?= htmlspecialchars((string)$user['is_admin']) ?>">
                                     <button type="submit" name="action" value="toggle_admin"
@@ -43,6 +44,7 @@ $users = User::getAllUsers($db);
                                     </button>
                                 </form>
                                 <form action="/actions/action_deleteUser.php" method="post" class="admin-action-form" onsubmit="return confirm('Tem a certeza que quer eliminar este utilizador?');">
+                                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
                                     <input type="hidden" name="user_id" value="<?= htmlspecialchars((string)$user['user_id']) ?>">
                                     <button type="submit" name="action" value="delete_user" class="admin-btn delete">Eliminar</button>
                                 </form>

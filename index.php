@@ -1,6 +1,7 @@
 <?php
   declare(strict_types = 1);
-  session_start();
+  require_once(__DIR__ . '/init.php');
+
   if (!isset($_SESSION['user_id'])) {
     header('Location: pages/landingPage.php');
     exit;
@@ -52,9 +53,9 @@
       'sort' => $sort
   ];
 
-  $ads = Ad::search($db, $filters, $page, $limit);
-  $totalAds = Ad::countSearch($db, $filters); 
-  $totalPages = (int)ceil($totalAds / $limit);
+$ads = Ad::search($db, $filters, $page, $limit);
+$totalAds = Ad::countSearch($db, $filters);
+$totalPages = ceil($totalAds / $limit);
 
   if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
       drawAds($ads, $totalAds, $db);

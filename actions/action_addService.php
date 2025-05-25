@@ -1,10 +1,17 @@
 <?php
 declare(strict_types=1);
-session_start();
-
+require_once(__DIR__ . '/../init.php');
 require_once(__DIR__ . '/../database/connection.db.php');
 require_once(__DIR__ . '/../database/users.class.php');
 require_once(__DIR__ . '/../database/service.class.php');
+require_once(__DIR__ . '/../security.php');
+
+if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    error_log('CSRF token mismatch or missing for adding service. IP: ' . $_SERVER['REMOTE_ADDR']);
+    header('Location: ../pages/addService.php?error=csrf');
+    exit();
+}
+unset($_SESSION['csrf_token']);
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: /pages/login.php?message=' . urlencode('Acesso restrito. Por favor, faça login.'));
@@ -54,7 +61,7 @@ try {
     }
     exit;
 } catch (Exception $e) {
-    
+
     error_log("Erro inesperado ao adicionar serviço: " . $e->getMessage());
     header('Location: /pages/admin.php?tab=categories&error=' . urlencode('Ocorreu um erro inesperado.'));
     exit;

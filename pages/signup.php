@@ -1,10 +1,13 @@
 <?php
   declare(strict_types = 1);
 
-  require_once('../templates/layout.php');
-  require_once('../templates/signup.php');
+  require_once(__DIR__ . '/../templates/layout.php');
+  require_once(__DIR__ . '/../templates/signup.php');
+  require_once(__DIR__ . '/../security.php');
+  require_once(__DIR__ . '/../init.php');
 
+  $csrf_token = generate_csrf_token();
   drawHeader();
-  drawSignUp();
+  drawSignUp($csrf_token);
   drawFooter();
 ?>

@@ -1,16 +1,15 @@
 <?php
 declare(strict_types=1);
 
-require_once('../database/connection.db.php');
-require_once('../utils/session.php');
+require_once(__DIR__ .'/../database/connection.db.php');
+require_once(__DIR__ .'/../utils/session.php');
+require_once(__DIR__ . '/../init.php');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('HTTP/1.1 405 Method Not Allowed');
     die('Invalid request method');
 }
 
-$session = new Session();
-$session->start();
 if (!isset($_SESSION['user_id'])) {
     header('HTTP/1.1 403 Forbidden');
     die('You must be logged in to delete ads');
@@ -46,17 +45,17 @@ try {
     }
 
     $db->prepare('DELETE FROM Ad_animals WHERE ad_id = ?')->execute([$adId]);
-    
+
     $stmt = $db->prepare('DELETE FROM Ads WHERE ad_id = ?');
     $stmt->execute([$adId]);
-    
+
     $db->commit();
-    
+
     $_SESSION['success_message'] = 'Anúncio eliminado com sucesso';
-    
+
     header('Location: ../pages/userprofile.php?username=' . urlencode($_SESSION['username']));
     exit();
-    
+
 } catch (PDOException $e) {
     $db->rollBack();
     error_log('Delete ad error: ' . $e->getMessage());

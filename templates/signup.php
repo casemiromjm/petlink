@@ -2,7 +2,7 @@
 
 <link rel="stylesheet" href="../stylesheets/style.css">
 
-<?php function drawSignUp(): void { ?>
+<?php function drawSignUp($csrf_token): void { ?>
   <section class="form-container signup">
     <h2>Sign Up</h2>
     <h3>Bem-vindo!</h3>
@@ -18,6 +18,7 @@
       </p>
     <?php endif; ?>
     <form action="../actions/action_signup.php" method="post">
+    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
       <label for="name">Nome</label>
       <input type="text" id="name" name="name" required>
 

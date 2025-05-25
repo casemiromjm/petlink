@@ -1,22 +1,29 @@
 <?php
 declare(strict_types = 1);
-session_start();
+
 ini_set('display_errors', '1');
 error_reporting(E_ALL);
-
+require_once(__DIR__ . '/../init.php');
 require_once(__DIR__ . '/../database/connection.db.php');
+require_once(__DIR__ . '/../security.php');
 
-session_start();
 if (!isset($_SESSION['user_id'])) {
     header('Location: /pages/login.php?redirect=' .  urlencode($_SERVER['REQUEST_URI']) . '&message=' . urlencode('Para criar um anúncio, precisa estar logado.'));
 }
+
+if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    error_log('CSRF token mismatch or missing for ad creation. IP: ' . $_SERVER['REMOTE_ADDR']);
+    header('Location: ../pages/adCreate.php?error=csrf');
+    exit();
+}
+unset($_SESSION['csrf_token']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $db = getDatabaseConnection();
         $title = htmlspecialchars(trim($_POST['titulo']));
         $description = htmlspecialchars(trim($_POST['descricao']));
-        $serviceTypeId = intval($_POST['tipo']);
+        $serviceTypeId = intval($_POST['service_id']);
         $price = floatval($_POST['preco']);
         $pricePeriod = htmlspecialchars(trim($_POST['preco-por']));
         $username = $_SESSION['username'];
@@ -58,7 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: ../pages/adDetails.php?id=$adId&success=1");
         exit;
     } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
+        error_log("Application Error: " . $e->getMessage() . " - Stack Trace: " . $e->getTraceAsString());
+        echo "An unexpected error occurred. Please try again later or contact support.";
         exit;
     }
 }

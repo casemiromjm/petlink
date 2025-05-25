@@ -1,7 +1,16 @@
 <?php
 declare(strict_types = 1);
 
-require_once('../database/connection.db.php');
+require_once(__DIR__ . '/../database/connection.db.php');
+require_once(__DIR__ . '/../init.php');
+require_once(__DIR__ . '/../security.php');
+
+if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    error_log('CSRF token mismatch or missing for signing up. IP: ' . $_SERVER['REMOTE_ADDR']);
+    header('Location: ../pages/signup.php?error=csrf');
+    exit();
+}
+unset($_SESSION['csrf_token']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $db = getDatabaseConnection();
@@ -34,12 +43,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: ../pages/login.php?success=1');
         exit;
     } catch (PDOException $e) {
-        error_log($e->getMessage()); 
+        error_log($e->getMessage());
         if ($e->getCode() === '23000') {
             header('Location: ../pages/signup.php?error=duplicate');
         } else {
-            echo "Error: " . $e->getMessage();
-        }
+            error_log('Database Error: ' . $e->getMessage() . "\n" . $e->getTraceAsString());}
         exit;
     }
 }

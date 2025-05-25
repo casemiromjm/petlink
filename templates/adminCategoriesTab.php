@@ -36,6 +36,7 @@ $services = Service::getAllServices($db);
                                             <td><?= htmlspecialchars($type['animal_name']) ?></td>
                                             <td>
                                                 <form action="/actions/action_deleteAnimalType.php" method="post" class="admin-action-form" onsubmit="return confirm('Tem a certeza que quer eliminar esta espécie?');">
+                                                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
                                                     <input type="hidden" name="type_id" value="<?= htmlspecialchars((string)$type['animal_id']) ?>">
                                                     <button type="submit" class="admin-btn delete">Eliminar</button>
                                                 </form>
@@ -47,6 +48,7 @@ $services = Service::getAllServices($db);
                         <?php endif; ?>
                             <h4>Adicionar Nova Espécie</h4>
                                 <form action="/actions/action_addAnimalType.php" method="post" class="add-category-form">
+                                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
                                     <div class="form-group">
                                         <label for="new_category_name">Nome da Espécie:</label>
                                         <input type="text" id="new_category_name" name="name" required placeholder="Ex: Cão, Gato, Pássaro">
@@ -76,9 +78,10 @@ $services = Service::getAllServices($db);
                                         <td><?= htmlspecialchars($service->service_name) ?></td>
                                         <td>
                                             <form action="/actions/action_deleteService.php" method="post" class="admin-action-form" onsubmit="return confirm('Tem a certeza que quer eliminar este serviço?');">
-                                            <input type="hidden" name="service_id" value="<?= htmlspecialchars((string)$service->service_id) ?>">
-                                            <button type="submit" class="admin-btn delete">Eliminar</button>
-                                            </form>
+                                                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
+                                                <input type="hidden" name="service_id" value="<?= htmlspecialchars((string)$service->service_id) ?>">
+                                                <button type="submit" class="admin-btn delete">Eliminar</button>
+                                                </form>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
@@ -88,6 +91,7 @@ $services = Service::getAllServices($db);
                     <h4>Adicionar Novo Serviço</h4>
                         <form action="/actions/action_addService.php" method="post" class="add-category-form">
                             <div class="form-group">
+                                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
                                 <label for="new_service_name">Nome do Serviço:</label>
                                 <input type="text" id="new_service_name" name="name" required placeholder="Ex: Passeio, Petsitting, Veterinário">
                             </div>

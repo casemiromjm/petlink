@@ -4,8 +4,11 @@ declare(strict_types = 1);
 
 require_once(__DIR__ . '/../templates/layout.php');
 require_once(__DIR__ .  '/../templates/retrievePassword.php');
+require_once(__DIR__ . '/../security.php');
+require_once(__DIR__ . '/../init.php');
 
+$csrf_token = generate_csrf_token();
 drawHeader();
-drawRetrievePassword();
+drawRetrievePassword($csrf_token);
 drawFooter();
 ?>

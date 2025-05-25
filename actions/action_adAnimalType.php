@@ -1,11 +1,10 @@
 <?php
 declare(strict_types = 1);
 
-session_start();
-
-require_once('../database/connection.db.php');
-require_once('../database/user.db.php');
-require_once('../database/animal.db.php');
+require_once(__DIR__ . '/../init.php');
+require_once(__DIR__ . '/../database/connection.db.php');
+require_once(__DIR__ .' /../database/user.db.php');
+require_once(__DIR__ .' /../database/animal.db.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {

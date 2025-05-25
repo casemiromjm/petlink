@@ -1067,7 +1067,7 @@ form .animal-checkboxes label {
 text-decoration: none;
 color: inherit;
 display: inline-block;
-} 
+}
 
 .animal-image-container {
   height: 150px;
@@ -1669,6 +1669,7 @@ main {
   position: relative;
   word-break: break-word;
   box-shadow: 0 2px 8px rgba(44, 77, 67, 0.04);
+  margin: 20px;
 }
 
 .message.sent {
@@ -2105,7 +2106,7 @@ main {
 }
 
 .admin-section h3 {
-  margin-top: 0;
+  margin-top: 10 px;
   color: #333;
   border-bottom: 1px solid #eee;
   padding-bottom: 10px;
@@ -2195,6 +2196,22 @@ main {
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
+.toggle-header {
+  background-color: #f8f9fa;
+  padding: 15px 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.25rem;
+  color: #333;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.toggle-header:hover {
+  background-color: #e9ecef;
+}
+
 /* --- Landing Page Styles --- */
 .landing-hero {
   text-align: center;
@@ -2251,5 +2268,3 @@ main {
   font-size: 1em;
   padding-left: 1.2em;
 }
-
-

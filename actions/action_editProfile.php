@@ -1,8 +1,17 @@
 <?php
 declare(strict_types = 1);
 
-session_start();
-require_once('../database/connection.db.php');
+require_once(__DIR__ . '/../database/connection.db.php');
+require_once(__DIR__ . '/../security.php');
+require_once(__DIR__ . '/../init.php');
+
+
+if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    error_log('CSRF token mismatch or missing for profile edition. IP: ' . $_SERVER['REMOTE_ADDR']);
+    header('Location: ../pages/editProfile.php?error=csrf');
+    exit();
+}
+unset($_SESSION['csrf_token']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     error_log('Edit profile POST received');
@@ -65,11 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: ../pages/profile.php?success=1');
         exit;
     } catch (PDOException $e) {
-        error_log('Error updating profile: ' . $e->getMessage());
-        echo '<pre>';
-        echo 'Error updating profile: ' . $e->getMessage() . "\n";
-        echo 'Trace: ' . $e->getTraceAsString();
-        echo '</pre>';
+        error_log('Database Error in profile update: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
         header('Location: ../pages/profile.php?error=1');
         exit;
     }
