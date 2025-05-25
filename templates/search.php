@@ -84,7 +84,7 @@ $services = Service::getAllServices($db);
           <?php endforeach; ?>
       </select>
       </div>
-      <a href="#" onclick="limparFiltros()">Limpar Filtros</a>
+      <a href="#" id="clear-filters-button">Limpar Filtros</a>
     </div>
     <div class="sort">
       <h3 style="display:inline; margin-right: 0.5em;">Ordenar por:</h3>

@@ -9,7 +9,9 @@
   <section class="form-container login">
     <h2>Login</h2>
     <h3>Bem-vindo de volta!</h3>
-    <?php if (isset($_GET['error'])): ?>
+    <?php if (isset($_GET['message']) && !empty($_GET['message'])): ?>
+      <p class="error-message"><?= htmlspecialchars($_GET['message']) ?></p>
+    <?php elseif (isset($_GET['error'])): ?>
       <p class="error-message">Credenciais inválidas. Por favor, tente novamente.</p>
     <?php endif; ?>
     <form action="../actions/action_login.php" method="post">
