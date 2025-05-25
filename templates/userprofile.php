@@ -164,27 +164,27 @@ require_once(__DIR__ . '/../database/anuncios.class.php');
             <?php foreach ($userAds as $ad): ?>
               <a class="user-ad-card" href="../pages/adDetails.php?id=<?= htmlspecialchars((string)$ad['ad_id']) ?>">
                 <div class="user-ad-image">
-    <?php
-    $adId = $ad['ad_id'] ?? null;
-    $adImageSrc = '../resources/adPics/8.png'; // Default fallback image
+                  <?php
+                    $adId = $ad['ad_id'] ?? null;
+                    $adImageSrc = '../resources/adPics/8.png'; // Default fallback image
 
-    if ($adId) {
-        // First get the media_id from ad_media table
-        $stmt = $db->prepare('
-            SELECT m.file_name
-            FROM media m
-            JOIN ad_media am ON m.media_id = am.media_id
-            WHERE am.ad_id = ?
-            LIMIT 1
-        ');
-        $stmt->execute([$adId]);
-        $filename = $stmt->fetchColumn();
+                    if ($adId) {
+                        // First get the media_id from ad_media table
+                        $stmt = $db->prepare('
+                            SELECT m.file_name
+                            FROM media m
+                            JOIN ad_media am ON m.media_id = am.media_id
+                            WHERE am.ad_id = ?
+                            LIMIT 1
+                        ');
+                        $stmt->execute([$adId]);
+                        $filename = $stmt->fetchColumn();
 
-        if ($filename) {
-            $adImageSrc = '../resources/adPics/' . htmlspecialchars($filename) . '.png';
-        }
-    }
-    ?>
+                        if ($filename) {
+                            $adImageSrc = '../resources/adPics/' . htmlspecialchars($filename) . '.png';
+                        }
+                    }
+                  ?>
                   <img src="<?= htmlspecialchars($adImageSrc) ?>" alt="Imagem do anúncio">
                 </div>
                 <div class="user-ad-info">
