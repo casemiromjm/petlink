@@ -69,7 +69,7 @@ if (isset($_SESSION['user_id'])) {
               <?php if (isset($_SESSION['user_id'])): ?>
                 <div class="hamburger-menu">
                   <div class="menu-header">
-                    <img src="<?= htmlspecialchars(str_replace('./', '../', $_SESSION['profile_photo'] ?? '/resources/profilePics/0.png')) ?>" alt="Foto de perfil" class="user-photo">
+                    <img src="/resources/profilePics/<?= ($_SESSION['profile_photo'] ?? '0') ?>.png" alt="Foto de perfil" class="user-photo">
                     <span class="username"><?= htmlspecialchars($_SESSION['name'] ?? 'Usuário') ?></span>
                     <i class="fi fi-rr-menu-dots"></i>
                   </div>

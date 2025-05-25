@@ -28,7 +28,7 @@ require_once(__DIR__ . '/../database/anuncios.class.php');
         <div class="profile-header-main">
           <div class="profile-photo-container">
             <?php
-              $profilePhoto = $user['photo_id'] ?? null;
+              $profilePhoto = $_SESSION['profile_photo'] ?? null;
 
               // default case
               if (empty($profilePhoto) || $profilePhoto === 'default') {
@@ -36,12 +36,8 @@ require_once(__DIR__ . '/../database/anuncios.class.php');
               }
               
               // example images that are numeric
-              elseif (is_numeric($profilePhoto)) {
-                $profilePhotoSrc = '../resources/profilePics/' . $profilePhoto . '.png';
-              }
-
               else {
-                $profilePhotoSrc = '.' . $profilePhoto;
+                $profilePhotoSrc = '../resources/profilePics/' . $profilePhoto . '.png';
               }
             ?>
             <img src="<?= htmlspecialchars($profilePhotoSrc) ?>" alt="Foto de perfil" class="profile-photo">
