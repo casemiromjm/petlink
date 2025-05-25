@@ -2,9 +2,39 @@
     declare(strict_types = 1);
     require_once('sidebar.php');
     require_once(__DIR__ . '/../utils/session.php');
+    require_once(__DIR__ . '/../database/connection.db.php');
+
+    function drawEditAd(): void {
+        session_start();
+
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: login.php');
+            exit;
+        }
+
+        $db = getDatabaseConnection();
+        $userId = $_SESSION['user_id'];
+        $adId = isset($_GET['id']) ? intval($_GET['id']) : null;
+
+        if (!$adId) {
+            die('Anúncio não especificado.');
+        }
+
+        $stmt = $db->prepare('SELECT * FROM Ads WHERE ad_id = ? AND freelancer_id = ?');
+        $stmt->execute([$adId, $userId]);
+        $ad = $stmt->fetch();
+
+        if (!$ad) {
+            die('Anúncio não encontrado.');
+        }
+
+        $animalStmt = $db->prepare('SELECT animal_id FROM Ad_animals WHERE ad_id = ?');
+        $animalStmt->execute([$adId]);
+        $associatedAnimals = $animalStmt->fetchAll(PDO::FETCH_COLUMN);
+
+        $success = isset($_GET['success']) ? intval($_GET['success']) : 0;
 ?>
 
-<?php function drawEditAd(array $ad, array $associated_animals, int $success): void { ?>
 <main class="ads-layout">
     <?php if ($success === 1): ?>
     <div id="success-message" class="success-message">Anúncio editado com sucesso</div>
@@ -51,7 +81,7 @@
                             <input type="checkbox" 
                                 name="animais[]" 
                                 value="<?= $value ?>"
-                                <?= in_array($value, $associated_animals) ? 'checked' : '' ?>>
+                                <?= in_array($value, $associatedAnimals) ? 'checked' : '' ?>>
                             <?= htmlspecialchars($label) ?>
                         </label>
                     <?php endforeach; ?>
