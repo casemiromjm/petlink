@@ -256,7 +256,7 @@ INSERT INTO Users (username, email, name, photo_id, district, password_hash, use
 
 UPDATE Users SET is_admin = TRUE WHERE username = 'casemiro';
 UPDATE Users SET is_admin = TRUE WHERE username = 'francisca';
-UPDATE Users SET is_admin = TRUE WHERE username = 'staragarica';
+UPDATE Users SET is_admin = TRUE WHERE username = 'staragarcia';
 
 -- Inserir anúncios
 INSERT INTO Ads (service_id, title, freelancer_id, description, price, price_period) VALUES (4, 'Treino básico para cachorros', 4, 'Ensino comandos básicos e boas práticas.', 75.00, 'mês');

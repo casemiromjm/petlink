@@ -1,7 +1,8 @@
 <?php declare(strict_types = 1); ?>
 
-<link rel="stylesheet" href="../stylesheets/style.css">
 <?php require_once('../templates/sidebar.php'); ?>
+
+<link rel="stylesheet" href="../stylesheets/style.css">
 <script src="../javascript/script.js" defer></script> 
 
 <?php function drawConfig(): void { ?>

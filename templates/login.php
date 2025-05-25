@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1); ?>
 
-<link rel="stylesheet" href="../stylesheets/style.css">
+<!-- <link rel="stylesheet" href="../stylesheets/style.css"> -->
 
 <?php function drawLogin(): void { ?>
   <section class="form-container login">
@@ -19,5 +19,6 @@
       <button type="submit">Login</button>
     </form>
     <p>Ainda não se juntou à Petlink? <a href="signup.php">Crie uma conta</a>!</p>
+    <p><a href="retrievePassword.php">Esqueci minha senha</a></p>
   </section>
 <?php } ?>
