@@ -3,6 +3,9 @@
 <!-- <link rel="stylesheet" href="../stylesheets/style.css"> -->
 
 <?php function drawLogin(): void { ?>
+  <?php if (isset($_GET['success'])): ?>
+  <div id="success-message" class="success-message" style="margin-bottom: 0;">Alterações guardadas com sucesso.</div>
+  <?php endif; ?>
   <section class="form-container login">
     <h2>Login</h2>
     <h3>Bem-vindo de volta!</h3>

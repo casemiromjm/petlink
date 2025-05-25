@@ -51,7 +51,7 @@ try {
     $stmt = $db->prepare('UPDATE users SET password_hash = ? WHERE user_id = ?');
     $stmt->execute([$hashed_password, $user['user_id']]);
 
-    header('Location: ../pages/retrievePassword.php?success=1');
+    header('Location: ../pages/login.php?success=1');
     exit();
 
 } catch (PDOException $e) {
