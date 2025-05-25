@@ -161,12 +161,6 @@ nav ul .serviço :not(:last-child)::after {
   margin-left: 1em;
 }
 
-nav a img {
-  width: 20px;
-  height: auto;
-  vertical-align: middle;
-}
-
 nav .messages {
   position: relative;
   display: flex;
@@ -259,13 +253,11 @@ nav .profile-icon {
 
 .hamburger-menu .menu-options li:hover {
   background-color: #1f3934;
-  /* Slightly darker green for hover */
 }
 
 .hamburger-menu .menu-options li a {
   text-decoration: none;
   color: #f9fafb;
-  /* Light text color */
   font-size: 0.95em;
   display: block;
   width: 100%;
@@ -274,7 +266,6 @@ nav .profile-icon {
 
 .hamburger-menu .menu-options li a:hover {
   color: #81B29A;
-  /* Primary green for hover */
 }
 
 /* Footer */
@@ -324,21 +315,15 @@ footer {
   font-size: 1.2em;
 }
 
-
 .pesquisa input[type="text"],
 .pesquisa select,
+.pesquisa button,
 .sort select,
 .filtros select {
-  border-radius: 6px !important;
-}
-
-.pesquisa input[type="text"],
-.pesquisa select,
-.pesquisa button {
   height: 60px;
   font-size: 17px;
   padding: 0px 34px;
-  border-radius: 4px;
+  border-radius: 6px !important;
 }
 
 .input-wrapper {
@@ -351,16 +336,6 @@ footer {
   flex-grow: 1;
   max-width: 300px;
   position: relative;
-}
-
-.icon {
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: auto;
-  z-index: 2;
 }
 
 .pesquisa button {
@@ -383,16 +358,6 @@ footer {
 .filtros {
   margin-left: 75px;
   margin-top: 3em;
-}
-
-.filtros h2 {
-  font-size: 1.2em;
-  margin-bottom: 1.1em;
-}
-
-.filtros #titles {
-  display: flex;
-  gap: 5.4em;
 }
 
 .filtros h3 {
@@ -439,18 +404,10 @@ footer {
   font-size: 0.9em;
   width: 180px;
   height: 45px;
-  /* Match .filtros select */
   box-sizing: border-box;
 }
 
 /* Criar anúncio */
-.ad-create {
-  max-width: 650px;
-  margin: 2em auto;
-  background: white;
-  padding: 2em;
-  border-radius: 4px;
-}
 
 .upload-box {
   display: flex;
