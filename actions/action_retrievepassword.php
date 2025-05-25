@@ -3,9 +3,17 @@
 declare(strict_types = 1);
 
 require_once(__DIR__ . '/../database/connection.db.php');
+require_once(__DIR__ . '/../security.php');
+require_once(__DIR__ . '/../init.php');
+
+if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    error_log('CSRF token mismatch or missing for rejecting request. IP: ' . $_SERVER['REMOTE_ADDR']);
+    header('Location: ../pages/messages.php?error=csrf');
+    exit();
+}
+unset($_SESSION['csrf_token']);
 
 $db = getDatabaseConnection();
-
 
 try {
 

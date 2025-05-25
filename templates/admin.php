@@ -1,7 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-function drawAdminPanel(string $currentTab, array $users, array $animalTypes, array $services ,array $overview): void { ?>
+function drawAdminPanel(string $currentTab, array $users, array $animalTypes, array $services ,array $overview, string $csrf_token): void { ?>
     <section class="admin-panel">
         <h2>Painel de Administração</h2>
         <?php switch ($currentTab):

@@ -2217,7 +2217,7 @@ main {
   position: relative;
   word-break: break-word;
   box-shadow: 0 2px 8px rgba(44, 77, 67, 0.04);
-  margin: 20px auto;
+  margin: 20px;
 }
 
 .message.sent {
@@ -2682,7 +2682,7 @@ main {
 }
 
 .admin-section h3 {
-  margin-top: 0;
+  margin-top: 10 px;
   color: #333;
   border-bottom: 1px solid #eee;
   padding-bottom: 10px;
@@ -2764,7 +2764,7 @@ main {
 }
 
 .add-category-form input[type="text"] {
-  width: 100%;
+  width: 95%;
   padding: 12px;
   border: 1px solid #ced4da;
   border-radius: 6px;

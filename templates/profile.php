@@ -1,15 +1,16 @@
 <?php declare(strict_types = 1); ?>
 
 <link rel="stylesheet" href="../stylesheets/style.css">
-<script src="../javascript/script.js" defer></script> 
+<script src="../javascript/script.js" defer></script>
 
-<?php function drawEditProfile(): void { ?>
+<?php function drawEditProfile($csrf_token): void { ?>
   <?php if (isset($_GET['success']) && intval($_GET['success']) === 1): ?>
     <div id="success-message" class="success-message">Dados atualizados com sucesso</div>
   <?php endif; ?>
   <section class="form-container">
     <h2>Editar Perfil</h2>
     <form action="../actions/action_editProfile.php" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
       <div class="profile-picture">
         <div class="profile-image-placeholder">
           <img src="<?= htmlspecialchars(str_replace('./', '../', $_SESSION['profile_photo'] ?? '../resources/default_profile.png')) ?>" alt="Foto de perfil">

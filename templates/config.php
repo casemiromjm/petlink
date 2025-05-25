@@ -3,9 +3,9 @@
 <?php require_once('../templates/sidebar.php'); ?>
 
 <link rel="stylesheet" href="../stylesheets/style.css">
-<script src="../javascript/script.js" defer></script> 
+<script src="../javascript/script.js" defer></script>
 
-<?php function drawConfig(): void { ?>
+<?php function drawConfig(string $csrf_token): void { ?>
   <?php if (isset($_GET['success'])): ?>
     <div id="success-message" class="success-message" style="margin-bottom: 0;">Alterações guardadas com sucesso.</div>
   <?php endif; ?>
@@ -22,6 +22,7 @@
       </div>
     <?php endif; ?>
     <form id="config-form" action="../actions/action_config.php" method="post">
+      <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
       <label for="email">Email</label>
       <input type="email" id="email" name="email" value="<?= htmlspecialchars($_SESSION['email'] ?? '') ?>" readonly style="background: #ececec; opacity: 0.7; cursor: not-allowed;">
 

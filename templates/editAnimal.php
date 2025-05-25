@@ -3,7 +3,7 @@
 <link rel="stylesheet" href="../stylesheets/style.css">
 <?php require_once('../templates/sidebar.php'); ?>
 
-<?php function drawEditAnimal(array $animal, array $speciesList): void { ?>
+<?php function drawEditAnimal(array $animal, array $speciesList, string $csrf_token): void { ?>
 <main class="animals-layout">
     <aside class="side-nav">
         <?php drawNavbar(); ?>
@@ -12,6 +12,8 @@
         <div class="form-container">
             <h2>Editar Animal</h2>
             <form action="../actions/action_editAnimal.php" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
+
                 <input type="hidden" name="animal_id" value="<?= htmlspecialchars((string)$animal['animal_id']) ?>">
                 <label for="animal-picture">Fotografia</label>
                 <div class="upload-box">
@@ -40,6 +42,7 @@
                 <button type="submit">Salvar Alterações</button>
             </form>
             <form action="../actions/action_deleteAnimal.php" method="POST" onsubmit="return confirm('Tem certeza que deseja apagar este animal? Esta ação é irreversível.');" class="delete-animal-form">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
                 <input type="hidden" name="animal_id" value="<?= htmlspecialchars((string)$animal['animal_id']) ?>"> <button type="submit" id="erase-animal">Apagar Animal</button>
             </form>
         </div>

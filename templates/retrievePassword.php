@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-function drawRetrievePassword() : void {
+function drawRetrievePassword($csrf_token) : void {
 ?>
 
     <?php if (isset($_GET['success'])): ?>
@@ -19,6 +19,8 @@ function drawRetrievePassword() : void {
         </div>
         <?php endif; ?>
         <form id="config-form" action="../actions/action_retrievepassword.php" method="post">
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
+
             <label for="email">Confirme seu email cadastrado</label>
             <input type="email" id="email" name="email" required>
 

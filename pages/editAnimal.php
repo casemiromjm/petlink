@@ -1,17 +1,19 @@
 <?php
 declare(strict_types = 1);
 
-require_once('../templates/layout.php');
-require_once('../templates/editAnimal.php');
-require_once('../database/connection.db.php');
+require_once(__DIR__ . '/../templates/layout.php');
+require_once(__DIR__ . '/../templates/editAnimal.php');
+require_once(__DIR__ . '/../database/connection.db.php');
+require_once(__DIR__ . '/../security.php');
+require_once(__DIR__ . '/../init.php');
 
-session_start();
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit;
 }
 
+$csrf_token = generate_csrf_token();
 $db = getDatabaseConnection();
 $userId = $_SESSION['user_id'];
 $animalId = isset($_GET['id']) ? intval($_GET['id']) : null;
@@ -32,6 +34,6 @@ $speciesStmt = $db->query('SELECT animal_id, animal_name FROM Animal_types');
 $speciesList = $speciesStmt->fetchAll();
 
 drawHeader();
-drawEditAnimal($animal, $speciesList);
+drawEditAnimal($animal, $speciesList, $csrf_token);
 drawFooter();
 ?>

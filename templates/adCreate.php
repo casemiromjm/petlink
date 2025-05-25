@@ -10,10 +10,11 @@ $services = Service::getAllServices($db);
 ?>
 <link rel="stylesheet" href="../stylesheets/style.css">
 
-<?php function drawAdCreate() { global $animalSpecies, $services ;?>
+<?php function drawAdCreate(string $csrf_token) { global $animalSpecies, $services ;?>
     <section class="form-container">
         <h2>Anunciar Serviço</h2>
-        <form id="ad-form" action="../actions/action_adCreate.php" method="post" enctype="multipart/form-data">
+        <form id="ad-form" action="../actions/action_adCreate.php" method="post" enctype="multipart/form-data" >
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
             <label for="upload-box">Carregar fotografias</label>
             <div class="upload-box">
                 <input type="file" id="imageUpload" name="image" accept="image/*">

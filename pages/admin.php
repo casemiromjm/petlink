@@ -7,8 +7,11 @@ require_once(__DIR__.'/../database/animal.class.php');
 require_once(__DIR__.'/../database/service.class.php');
 require_once(__DIR__.'/../templates/admin.php');
 require_once(__DIR__.'/../templates/layout.php');
+require_once(__DIR__ . '/../security.php');
+
 
 $db = getDatabaseConnection();
+$csrf_token = generate_csrf_token();
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php?message=' . urlencode('Acesso restrito. Por favor, faça login.'));
@@ -65,7 +68,7 @@ drawHeader();
                 echo '<p class="message error">' . htmlspecialchars($_GET['error']) . '</p>';
             }
             ?>
-            <?php drawAdminPanel($currentTab, $users, $animalTypes, $services, $overview); ?>
+            <?php drawAdminPanel($currentTab, $users, $animalTypes, $services, $overview, $csrf_token); ?>
         </main>
     </div>
     <script src="/javascript/visibility.js"></script>

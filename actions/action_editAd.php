@@ -3,14 +3,22 @@ declare(strict_types=1);
 
 require_once(__DIR__ . '/../database/connection.db.php');
 require_once(__DIR__ . '/../utils/session.php');
+require_once(__DIR__ . '/../security.php');
+require_once(__DIR__ . '/../init.php');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('HTTP/1.1 405 Method Not Allowed');
     die('Invalid request method');
 }
 
-$session = new Session();
-$session->start();
+
+
+if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    error_log('CSRF token mismatch or missing for ad edition. IP: ' . $_SERVER['REMOTE_ADDR']);
+    header('Location: ../pages/edit_ad.php?error=csrf');
+    exit();
+}
+unset($_SESSION['csrf_token']);
 
 if (!isset($_SESSION['user_id'])) {
     header('HTTP/1.1 403 Forbidden');
@@ -37,7 +45,7 @@ try {
     $stmt = $db->prepare('SELECT freelancer_id FROM Ads WHERE ad_id = ?');
     $stmt->execute([$adId]);
     $ownerId = $stmt->fetchColumn();
-    
+
     if ($ownerId !== $userId) {
         throw new Exception('You can only edit your own ads');
     }
@@ -51,7 +59,7 @@ try {
 
     $imagePath = $current_img;
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = '../resources/'; 
+        $uploadDir = '../resources/';
         $fileName = uniqid() . '_' . basename($_FILES['image']['name']);
         $targetPath = $uploadDir . $fileName;
 
@@ -61,7 +69,7 @@ try {
 
         if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
             $stmt = $db->prepare('
-                INSERT INTO Media (file_name, media_type) 
+                INSERT INTO Media (file_name, media_type)
                 VALUES (?, ?)
             ');
             $stmt->execute([$filename, $mediaType]);
@@ -71,13 +79,13 @@ try {
     }
 
     $updateAd = $db->prepare('
-        UPDATE Ads SET 
+        UPDATE Ads SET
             title = ?,
             description = ?,
             price = ?
         WHERE ad_id = ?
     ');
-    
+
     if (!$updateAd->execute([$title, $description, $price, $adId])) {
         throw new Exception('Failed to update ad');
     }
@@ -94,7 +102,7 @@ try {
 }
 
     $db->prepare('DELETE FROM Ad_animals WHERE ad_id = ?')->execute([$adId]);
-    
+
     if (!empty($animalTypes)) {
         $insertAnimal = $db->prepare('INSERT INTO Ad_animals (ad_id, animal_id) VALUES (?, ?)');
         foreach ($animalTypes as $animalId) {
@@ -108,7 +116,7 @@ try {
     }
 
     $db->commit();
-    
+
     $_SESSION['success_message'] = 'Anúncio editado com sucesso';
     header("Location: ../pages/adDetails.php?id=$adId&success=1");
     exit();

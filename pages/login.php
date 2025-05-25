@@ -3,6 +3,10 @@
 
   require_once(__DIR__ . '/../templates/layout.php');
   require_once(__DIR__ . '/../templates/login.php');
+  require_once(__DIR__ . '/../security.php');
+  require_once(__DIR__ . '/../init.php');
+
+  $csrf_token = generate_csrf_token();
 
   drawHeader();
 
@@ -10,6 +14,6 @@
       echo '<p id="error-message">' . htmlspecialchars($_GET['message']) . '</p>';
   }
 
-  drawLogin();
+  drawLogin($csrf_token);
   drawFooter();
 ?>

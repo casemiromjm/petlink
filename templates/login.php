@@ -2,7 +2,7 @@
 
 <!-- <link rel="stylesheet" href="../stylesheets/style.css"> -->
 
-<?php function drawLogin(): void { ?>
+<?php function drawLogin($csrf_token): void { ?>
   <section class="form-container login">
     <h2>Login</h2>
     <h3>Bem-vindo de volta!</h3>
@@ -10,6 +10,7 @@
       <p class="error-message">Credenciais inválidas. Por favor, tente novamente.</p>
     <?php endif; ?>
     <form action="../actions/action_login.php" method="post">
+    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
       <label for="username">Username ou email</label>
       <input type="text" id="username" name="username" required>
 
