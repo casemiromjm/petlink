@@ -107,8 +107,7 @@ a:hover {
 header {
   background-color: #81B29A;
   color: white;
-  padding: 10px 20px;
-  /* Reduced from 22px 20px */
+  padding: 0px 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -129,13 +128,6 @@ header {
   height: auto;
 }
 
-.logo h1 {
-  margin: 0;
-  font-size: 1.7em;
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-}
 
 nav ul {
   list-style: none;
@@ -376,10 +368,8 @@ footer {
   color: white;
   border: none;
   padding: 10px 20px;
-  font-size: 17px;
   cursor: pointer;
   font-weight: bold;
-  height: 60px;
   align-self: center;
   min-width: 120px;
   border-radius: 6px;
@@ -387,15 +377,6 @@ footer {
 
 .pesquisa button:hover {
   background-color: #568870;
-}
-
-#error-message {
-  color: red;
-  border: 1px solid red;
-  padding: 10px;
-  margin: 0;
-  margin-bottom: 15px;
-  background-color: #ffb6b6;
 }
 
 /* Filtros */
@@ -2260,10 +2241,6 @@ main {
   pointer-events: none;
 }
 
-#erase-animal {
-  background-color: #b15050;
-}
-
 
 /* MODAL DO COMPRAR SERVIÇO */
 .modal-overlay {
@@ -2687,18 +2664,12 @@ main {
 }
 
 .add-category-form input[type="text"] {
-  width: 100%;
+  width: 95%;
   padding: 12px;
   border: 1px solid #ced4da;
   border-radius: 6px;
   font-size: 1rem;
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-.add-category-form input[type="text"]:focus {
-  border-color: #81B29A;
-  box-shadow: 0 0 0 0.2rem #568870;
-  outline: none;
 }
 
 .user-list,
@@ -2739,59 +2710,42 @@ main {
   white-space: nowrap;
 }
 
-.elevate-button {
-  background-color: rgb(41, 166, 70);
+.admin-btn {
+  padding: 6px 10px;
   color: white;
   border: none;
-  border-radius: 5px;
-  padding: 8px 12px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  font-size: 1rem;
+  transition: background-color 0.2s, transform 0.1s;
+  white-space: nowrap;
+  margin-left: 8px;
 }
 
-.elevate-button:hover {
+.admin-btn.elevate {
+  background-color: #29a646;
+}
+
+.admin-btn.elevate:hover {
   background-color: #218838;
 }
 
-.demote-button {
+.admin-btn.demote {
   background-color: #ffc107;
   color: #333;
-  border: none;
-  border-radius: 5px;
-  padding: 8px 12px;
-  cursor: pointer;
-  transition: background-color 0.2s;
 }
 
-.demote-button:hover {
+.admin-btn.demote:hover {
   background-color: #e0a800;
+  color: #fff;
 }
 
-.add-category-form {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
+.admin-btn.delete {
+  background-color: #E63946;
 }
 
-.add-category-form input[type="text"] {
-  flex-grow: 1;
-  padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
-
-.add-category-form button {
-  background-color: #81B29A;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 8px 15px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.add-category-form button:hover {
-  background-color: #64947d;
+.admin-btn.delete:hover {
+  background-color: #9f141f;
 }
 
 .toggle-header {

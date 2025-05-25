@@ -37,13 +37,14 @@ $users = User::getAllUsers($db);
                                 <form action="/actions/action_elevateUser.php" method="post" class="admin-action-form">
                                     <input type="hidden" name="user_id" value="<?= htmlspecialchars((string)$user['user_id']) ?>">
                                     <input type="hidden" name="current_status" value="<?= htmlspecialchars((string)$user['is_admin']) ?>">
-                                    <button type="submit" name="action" value="toggle_admin">
+                                    <button type="submit" name="action" value="toggle_admin"
+                                        class="admin-btn <?= ((int)$user['is_admin'] === 1) ? 'demote' : 'elevate' ?>">
                                         <?= ((int)$user['is_admin'] === 1) ? 'Remover Admin' : 'Tornar Admin' ?>
                                     </button>
                                 </form>
                                 <form action="/actions/action_deleteUser.php" method="post" class="admin-action-form" onsubmit="return confirm('Tem a certeza que quer eliminar este utilizador?');">
                                     <input type="hidden" name="user_id" value="<?= htmlspecialchars((string)$user['user_id']) ?>">
-                                    <button type="submit" name="action" value="delete_user" style="background-color: #dc3545; color: white;">Eliminar</button>
+                                    <button type="submit" name="action" value="delete_user" class="admin-btn delete">Eliminar</button>
                                 </form>
                             <?php else: ?>
                                 (Eu)
