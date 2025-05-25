@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1); ?>
 
-<?php require_once('../templates/sidebar.php'); ?>
+<?php require_once(__DIR__ . '/../templates/sidebar.php'); ?>
 
 <link rel="stylesheet" href="../stylesheets/style.css">
 <script src="../javascript/script.js" defer></script> 
