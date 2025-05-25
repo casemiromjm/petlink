@@ -34,25 +34,29 @@ if (isset($_SESSION['user_id'])) {
 </head>
 <body>
   <header>
-    <div class="logo">
+  <div class="logo">
+    <a href="../index.php">
       <img src="../resources/logo.png" alt="logo">
-      <h1><a href="../index.php">PetLink</a></h1>
-    </div>
-    <nav style="width:100%;">
-      <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
-        <div class="nav-center" style="flex:1; display: flex; justify-content: center;">
-          <ul style="display: flex; align-items: center; gap: 0;">
-            <li><a href="../index.php">Contratar Serviço</a></li>
-            <li style="pointer-events:none; color:#fff; font-weight:bold; padding: 0 1em;">|</li>
-            <li><a href="../pages/adCreate.php">Anunciar Serviço</a></li>
-            <?php if ($isAdmin): ?>
-              <li style="pointer-events:none; color:#fff; font-weight:bold; padding: 0 1em;">|</li>
-              <li><a href="/pages/admin.php">Painel de Admin</a></li>
+    </a>
+    <h1><a href="../index.php">PetLink</a></h1>
+  </div>
+    <nav class="navbar-container">
+      <div class="navbar-flex">
+        <div class="nav-center">
+          <ul>
+            <?php if (isset($_SESSION['user_id'])): ?>
+              <li><a href="../index.php">Contratar Serviço</a></li>
+              <li class="nav-divider">|</li>
+              <li><a href="../pages/adCreate.php">Anunciar Serviço</a></li>
+              <?php if ($isAdmin): ?>
+                <li class="nav-divider">|</li>
+                <li><a href="/pages/admin.php">Painel de Admin</a></li>
+              <?php endif; ?>
             <?php endif; ?>
           </ul>
         </div>
-        <div class="nav-right" style="display: flex; align-items: center; gap: 1.5em;">
-          <ul style="display: flex; align-items: center; margin: 0;">
+        <div class="nav-right">
+          <ul>
             <?php if (isset($_SESSION['user_id'])): ?>
             <li style="position:relative;">
               <a href="../pages/messages.php">Mensagens
