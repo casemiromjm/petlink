@@ -51,7 +51,7 @@ try {
     $title = $_POST['title'];
     $description = $_POST['description'];
     $price = $_POST['price'];
-    // $price_period = $_POST['price_period'];
+    $price_period = $_POST['price_period'];
     $animalTypes = $_POST['animais'] ?? [];
     $current_img = $_POST['ad-picture'] ?? null;
 
@@ -82,11 +82,12 @@ try {
         UPDATE Ads SET
             title = ?,
             description = ?,
-            price = ?
+            price = ?,
+            price_period = ?
         WHERE ad_id = ?
     ');
 
-    if (!$updateAd->execute([$title, $description, $price, $adId])) {
+    if (!$updateAd->execute([$title, $description, $price, $price_period, $adId])) {
         throw new Exception('Failed to update ad');
     }
 
