@@ -114,6 +114,49 @@ header {
   grid-area: header;
 }
 
+/* Navbar Layout */
+.navbar-container {
+  width: 100%;
+}
+
+.navbar-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.nav-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-center ul {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+}
+
+.nav-right ul {
+  display: flex;
+  align-items: center;
+  margin: 0;
+}
+
+.nav-divider {
+  pointer-events: none;
+  color: #fff;
+  font-weight: bold;
+  padding: 0 1em;
+}
+
 .logo {
   display: flex;
   align-items: center;

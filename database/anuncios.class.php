@@ -559,51 +559,49 @@ class Ad {
         }
 
         public static function countSearch(PDO $db, array $filters): int {
-        $where = [];
-        $params = [];
+    $where = [];
+    $params = [];
 
-        if (!empty($filters['search'])) {
-            $where[] = '(Ads.title LIKE ? OR Ads.description LIKE ?)';
-            $params[] = '%' . $filters['search'] . '%';
-            $params[] = '%' . $filters['search'] . '%';
-        }
-        if (!empty($filters['location'])) {
-            $where[] = 'LOWER(Users.district) = ?';
-            $params[] = strtolower($filters['location']);
-        }
-        if (!empty($filters['duracao'])) {
-            $where[] = 'LOWER(Ads.price_period) = ?';
-            $params[] = strtolower($filters['duracao']);
-        }
-        if (!empty($filters['animal'])) {
-            $where[] = 'EXISTS (SELECT 1 FROM Ad_animals aa JOIN Animal_types at ON aa.animal_id = at.animal_id WHERE aa.ad_id = Ads.ad_id AND at.animal_name = ?)';
-
-            $params[] = $filters['animal'];
-        }
-        if (!empty($filters['servico'])) {
-            $where[] = 'EXISTS (SELECT 1 FROM Ad_services s JOIN Services sv ON s.service_id = sv.service_id WHERE s.ad_id = Ads.ad_id AND sv.service_name = ?)';
-
-            $params[] = $filters['servico'];
-        }
-        if (!empty($filters['user_id'])) {
-            $where[] = 'Users.user_id = ?';
-            $params[] = $filters['user_id'];
-        }
-
-        $whereSql = $where ? 'WHERE ' . implode(' AND ', $where) : '';
-
-        $sql = "
-            SELECT COUNT(*)
-            FROM Ads
-            JOIN Users ON Ads.freelancer_id = Users.user_id
-            $whereSql
-        ";
-
-        $stmt = $db->prepare($sql);
-        foreach ($params as $i => $param) {
-            $stmt->bindValue($i + 1, $param);
-        }
-        $stmt->execute();
-        return (int)$stmt->fetchColumn();
+    if (!empty($filters['search'])) {
+        $where[] = '(Ads.title LIKE ? OR Ads.description LIKE ?)';
+        $params[] = '%' . $filters['search'] . '%';
+        $params[] = '%' . $filters['search'] . '%';
     }
+    if (!empty($filters['location'])) {
+        $where[] = 'LOWER(Users.district) = ?';
+        $params[] = strtolower($filters['location']);
+    }
+    if (!empty($filters['duracao'])) {
+        $where[] = 'LOWER(Ads.price_period) = ?';
+        $params[] = strtolower($filters['duracao']);
+    }
+    if (!empty($filters['animal'])) {
+        $where[] = 'EXISTS (SELECT 1 FROM Ad_animals aa WHERE aa.ad_id = Ads.ad_id AND aa.animal_id = ?)';
+        $params[] = (int)$filters['animal'];
+    }
+    if (!empty($filters['servico'])) {
+        $where[] = 'Ads.service_id = ?';
+        $params[] = (int)$filters['servico'];
+    }
+    if (!empty($filters['user_id'])) {
+        $where[] = 'Users.user_id = ?';
+        $params[] = $filters['user_id'];
+    }
+
+    $whereSql = $where ? 'WHERE ' . implode(' AND ', $where) : '';
+
+    $sql = "
+        SELECT COUNT(*)
+        FROM Ads
+        JOIN Users ON Ads.freelancer_id = Users.user_id
+        $whereSql
+    ";
+
+    $stmt = $db->prepare($sql);
+    foreach ($params as $i => $param) {
+        $stmt->bindValue($i + 1, $param);
+    }
+    $stmt->execute();
+    return (int)$stmt->fetchColumn();
+}
 }
