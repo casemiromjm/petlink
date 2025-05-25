@@ -4,11 +4,6 @@ declare(strict_types = 1);
 
 function drawRetrievePassword() : void {
 ?>
-
-    <?php if (isset($_GET['success'])): ?>
-    <div id="success-message" class="success-message" style="margin-bottom: 0;">Alterações guardadas com sucesso.</div>
-    <?php endif; ?>
-
     <div class='form-container'>
         <h2>Recuperação de senha</h2>
         <?php if (isset($_GET['error'])): ?>

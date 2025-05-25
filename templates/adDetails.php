@@ -1,4 +1,9 @@
-<?php declare(strict_types = 1); ?>
+<?php 
+
+declare(strict_types = 1); 
+require_once(__DIR__ . '/../database/connection.db.php')
+
+?>
 
 <link rel="stylesheet" href="../stylesheets/style.css">
 <script src="../javascript/script.js"></script>
@@ -24,18 +29,45 @@ function drawAdDetails(): void {
     $reviewCount = Reviews::getReviewCountForAd($db, (int)$adId);
     ?>
 
-    <section class="ad-details">
-      <div class="ad-user">
-        <div class="ad-user-header">
-          <?php
-          $profilePhotoId = $ad->getPhotoId();
+  <section class="ad-details">
+    <div class="ad-user">
+      <div class="ad-user-header">
+        <?php
+        $profilePhotoId = $ad->getPhotoId();
 
-          if (empty($profilePhotoId)) {
-              $src = '/resources/profilePics/0.png';
-          } else {
-              $src = "/resources/profilePics/" . htmlspecialchars((string)$profilePhotoId) . ".png";
-          }
-      ?>
+        if (empty($profilePhotoId) || $profilePhotoId === 'default') {
+            $src = '/resources/profilePics/0.png';
+        }
+        // If it's a numeric ID (default images 1.png, 2.png, etc.)
+        elseif (is_numeric($profilePhotoId)) {
+            $src = '/resources/profilePics/' . $profilePhotoId . '.png';
+        }
+        // Fallback for invalid cases
+        else {
+            $src = '/resources/profilePics/0.png';
+        }
+        ?>
+        <img src="<?= htmlspecialchars($src) ?>" alt="Profile Photo" class="ad-user-photo">
+        <div class="ad-user-info">
+          <strong><?= htmlspecialchars(($ad->getName()) ?? 'Nome não disponível') ?></strong>
+          <span class="username"><?= htmlspecialchars($ad->getUsername()?? 'Usuário não disponível') ?></span>
+        </div>
+      </div>
+      <?php
+        if (!empty($ad->getCreatedAt())) {
+          $date = new DateTime;
+          $monthNum = (int)$date->format('n');
+          $year = $date->format('Y');
+          $meses = [
+            1 => 'janeiro', 2 => 'fevereiro', 3 => 'março', 4 => 'abril',
+            5 => 'maio', 6 => 'junho', 7 => 'julho', 8 => 'agosto',
+            9 => 'setembro', 10 => 'outubro', 11 => 'novembro', 12 => 'dezembro'
+          ];
+          $membroDesde = ucfirst($meses[$monthNum]) . " de " . $year;
+        } else {
+          $membroDesde = "Data de registo desconhecida";
+        }
+
     <img src="<?= htmlspecialchars($src) ?>" alt="Profile Photo" class="ad-user-photo">
           <div class="ad-user-info">
             <strong><?= htmlspecialchars(($ad->getName()) ?? 'Nome não disponível') ?></strong>
@@ -67,6 +99,34 @@ function drawAdDetails(): void {
           ?>
           <p><i class="fi fi-rr-star"></i> <?= number_format($averageRating, 1) ?>/5 (<?= $reviewCount ?> avaliações)</p>
         <?php
+          $adMediaIds = $ad->getMediaIds() ?? [];
+
+        if (empty($adMediaIds)) {
+            $src = '/resources/adPics/8.png';
+        ?>
+            <img src="<?= htmlspecialchars($src) ?>" alt="Imagem do anúncio" class="carousel-slide active">
+        <?php
+        } else {
+          $mediaFiles = [];
+          $placeholders = implode(',', array_fill(0, count($adMediaIds), '?'));
+          $db = getDatabaseConnection();
+          $stmt = $db->prepare("
+              SELECT file_name 
+              FROM Media 
+              WHERE media_id IN ($placeholders)
+            ");
+          $stmt->execute($adMediaIds);
+          $mediaFiles = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+
+          $isFirstSlide = true;
+            foreach ($mediaFiles as $filename) {
+                $src = '/resources/adPics/' . htmlspecialchars((string)$filename) . '.png';
+                ?>
+                <img src="<?= htmlspecialchars($src) ?>" alt="Imagem do anúncio" class="carousel-slide <?= $isFirstSlide ? 'active' : '' ?>">
+                <?php
+                $isFirstSlide = false;
+            }
         }
         ?>
 

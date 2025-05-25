@@ -35,74 +35,75 @@
   $location = isset($_GET['location']) ? $_GET['location'] : '';
   $search = isset($_GET['search']) ? $_GET['search'] : '';
 
-$duracao = ($_GET['duracao'] ?? '') !== '' && $_GET['duracao'] !== 'Qualquer' ? $_GET['duracao'] : '';
-$animal = ($_GET['animal'] ?? '') !== '' && $_GET['animal'] !== 'Todos' ? $_GET['animal'] : '';
-$servico = ($_GET['servico'] ?? '') !== '' && $_GET['servico'] !== 'Todos' ? $_GET['servico'] : '';
+  $duracao = ($_GET['duracao'] ?? '') !== '' && $_GET['duracao'] !== 'Qualquer' ? $_GET['duracao'] : '';
+  $animal = ($_GET['animal'] ?? '') !== '' && $_GET['animal'] !== 'Todos' ? $_GET['animal'] : '';
+  $servico = ($_GET['servico'] ?? '') !== '' && $_GET['servico'] !== 'Todos' ? $_GET['servico'] : '';
 
-$userId = isset($_GET['user_id']) ? intval($_GET['user_id']) : null;
-$sort = $_GET['sort'] ?? 'recentes';
+  $userId = isset($_GET['user_id']) ? intval($_GET['user_id']) : null;
+  $sort = $_GET['sort'] ?? 'recentes';
 
-$filters = [
-    'search' => $search,
-    'location' => $location,
-    'duracao' => $duracao,
-    'animal' => $animal,
-    'servico' => $servico,
-    'user_id' => $userId,
-    'sort' => $sort
-];
+  $filters = [
+      'search' => $search,
+      'location' => $location,
+      'duracao' => $duracao,
+      'animal' => $animal,
+      'servico' => $servico,
+      'user_id' => $userId,
+      'sort' => $sort
+  ];
 
-$ads = Ad::search($db, $filters, $page, $limit);
-$totalAds = Ad::countSearch($db, $filters); 
-$totalPages = ceil($totalAds / $limit);
+  $ads = Ad::search($db, $filters, $page, $limit);
+  $totalAds = Ad::countSearch($db, $filters); 
+  $totalPages = (int)ceil($totalAds / $limit);
 
-if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
-    drawAds($ads, $totalAds, $db);
-    exit;
-}
+  if (isset($_GET['ajax']) && $_GET['ajax'] == '1') {
+      drawAds($ads, $totalAds, $db);
+      exit;
+  }
 
   drawHeader();
   drawSearch();
 
-if ($totalPages > 1) {
-    echo '<div class="pagination">';
+  if ($totalPages > 1) {
+      echo '<div class="pagination">';
 
-    if ($page > 1) {
-        // Link para a página anterior
-        echo '<a href="' . buildPaginationLink($page - 1) . '" class="arrow">&laquo;</a>'; // <--- ATENÇÃO AQUI
-    } else {
-        echo '<span class="arrow disabled">&laquo;</span>';
-    }
+      if ($page > 1) {
+          // Link para a página anterior
+          echo '<a href="' . buildPaginationLink($page - 1) . '" class="arrow">&laquo;</a>'; // <--- ATENÇÃO AQUI
+      } else {
+          echo '<span class="arrow disabled">&laquo;</span>';
+      }
 
-    $range = 2;
+      $range = 2;
 
-    if ($page > $range + 1) {
-        echo '<a href="' . buildPaginationLink(1) . '">1</a>';
-        if ($page > $range + 2) {
-            echo '<span>...</span>';
-        }
-    }
+      if ($page > $range + 1) {
+          echo '<a href="' . buildPaginationLink(1) . '">1</a>';
+          if ($page > $range + 2) {
+              echo '<span>...</span>';
+          }
+      }
 
-    for ($i = max(1, $page - $range); $i <= min($totalPages, $page + $range); $i++) {
-        $activeClass = ($i === $page) ? 'active' : '';
-        echo '<a href="' . buildPaginationLink($i) . '" class="' . $activeClass . '">' . $i . '</a>';
-    }
+      for ($i = max(1, $page - $range); $i <= min($totalPages, $page + $range); $i++) {
+          $activeClass = ($i === $page) ? 'active' : '';
+          echo '<a href="' . buildPaginationLink($i) . '" class="' . $activeClass . '">' . $i . '</a>';
+      }
 
-    if ($page < $totalPages - $range) {
-        if ($page < $totalPages - $range - 1) {
-            echo '<span>...</span>';
-        }
+      if ($page < $totalPages - $range) {
+          if ($page < $totalPages - $range - 1) {
+              echo '<span>...</span>';
+          }
 
-        echo '<a href="' . buildPaginationLink($totalPages) . '">' . $totalPages . '</a>';
-    }
+          echo '<a href="' . buildPaginationLink($totalPages) . '">' . $totalPages . '</a>';
+      }
 
-    if ($page < $totalPages) {
-        echo '<a href="' . buildPaginationLink($page + 1) . '" class="arrow">&raquo;</a>';
-    } else {
-        echo '<span class="arrow disabled">&raquo;</span>';
-    }
+      if ($page < $totalPages) {
+          echo '<a href="' . buildPaginationLink($page + 1) . '" class="arrow">&raquo;</a>';
+      } else {
+          echo '<span class="arrow disabled">&raquo;</span>';
+      }
 
-    echo '</div>';
-}
+      echo '</div>';
+  }
+
   drawFooter();
 ?>

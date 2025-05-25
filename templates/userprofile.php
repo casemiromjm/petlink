@@ -1,4 +1,7 @@
-<?php declare(strict_types = 1); ?>
+<?php
+declare(strict_types = 1); 
+require_once(__DIR__ . '/../database/anuncios.class.php');
+?>
 
 <link rel="stylesheet" href="../stylesheets/style.css">
 
@@ -25,14 +28,15 @@
         <div class="profile-header-main">
           <div class="profile-photo-container">
             <?php
-              $profilePhoto = $user['photo_id'] ?? null;
-              if (
-                !$profilePhoto ||
-                $profilePhoto === 'default' ||
-                $profilePhoto === '../resources/default_profile.png'
-              ) {
+              $profilePhoto = $_SESSION['profile_photo'] ?? null;
+
+              // default case
+              if (empty($profilePhoto) || $profilePhoto === 'default') {
                 $profilePhotoSrc = '../resources/profilePics/0.png';
-              } else {
+              }
+              
+              // example images that are numeric
+              else {
                 $profilePhotoSrc = '../resources/profilePics/' . $profilePhoto . '.png';
               }
             ?>
@@ -175,7 +179,7 @@
                   <div class="user-ad-animals">
                     <i class="fi fi-rr-paw"></i>
                     <?php
-                      $adAnimals = getAnuncioAnimals($db, $ad['ad_id']);
+                      $adAnimals = Ad::getAnuncio($db, $ad['ad_id']);
                       echo htmlspecialchars(implode(', ', $adAnimals));
                     ?>
                   </div>

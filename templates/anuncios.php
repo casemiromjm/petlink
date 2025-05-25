@@ -25,20 +25,32 @@
             <a href="pages/adDetails.php?id=<?= htmlspecialchars((string)$ad->getId()) ?>" class="ad">
                     <div class="ad-image">
                     <?php
-                            $adPhotoId = 'default';
+                        // default src
+                        $adPhotoId = 'default';
+                        $mediaIds = $ad->getMediaIds();
+                        $filename = null;
+                        $src = null;
 
-                            if (!empty($ad->getMediaIds())) {
-                                $adPhotoId = $ad->getMediaIds()[0];
-                            }
+                        if (!empty($mediaIds)) {
+                            $stmt = $db->prepare('
+                                SELECT file_name 
+                                FROM Media 
+                                WHERE media_id = ? 
+                                LIMIT 1
+                            ');
+                            $stmt->execute([$mediaIds[0]]);
+                            $filename = $stmt->fetchColumn();
+                            $adPhotoId = 'not_default';
+                        }
 
-                            if ($adPhotoId === 'default') {
-                                $src = '/resources/adPics/8.png';
-                            } else {
-                                $src = "/resources/adPics/" . htmlspecialchars((string)$adPhotoId) . ".png";
-                            }
-                            ?>
+                        if ($adPhotoId === 'default') {
+                            $src = '/resources/adPics/8.png';
+                        } else {
+                            $src = '/resources/adPics/' . htmlspecialchars((string)$filename) . '.png';
+                        }
+                    ?>
 
-                            <img src="<?= htmlspecialchars($src) ?>" alt="Imagem do anúncio" >
+                            <img src="<?= $src ?>" alt="Imagem do anúncio" >
                         </div>
                     <div class="ad-content">
                         <div class="ad-header">

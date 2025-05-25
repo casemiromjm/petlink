@@ -36,17 +36,13 @@
 ?>
 
 <main class="ads-layout">
-    <?php if ($success === 1): ?>
-    <div id="success-message" class="success-message">Anúncio editado com sucesso</div>
-    <?php endif; ?>
-    
     <section class="ad-content">
         <div class="form-container">
             <h2>Editar Anúncio</h2>
             <form action="../actions/action_editAd.php" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="ad_id" value="<?= htmlspecialchars((string)$ad['ad_id']) ?>">
                 
-                <label for="animal-picture">Fotografia</label>
+                <label for="ad-picture">Fotografia</label>
                     <div class="upload-box">
                         <input type="file" id="ad-picture" name="ad-picture" accept="image/*">
                         <?php if (!empty($ad['ad_picture'])): ?>

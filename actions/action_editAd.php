@@ -46,29 +46,37 @@ try {
     $description = $_POST['description'];
     $price = $_POST['price'];
     $animalTypes = $_POST['animais'] ?? [];
-    // array key ta errado
     $current_img = $_POST['ad-picture'] ?? null;
 
-    $imagePath = $current_img;
-    if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = '../resources/'; 
-        $fileName = uniqid() . '_' . basename($_FILES['image']['name']);
-        $targetPath = $uploadDir . $fileName;
+    $ad_img_path = null;
+    $newMediaId = null;
+    if (isset($_FILES['ad-picture']) && $_FILES['ad-picture']['error'] === UPLOAD_ERR_OK) {
+        $fileName = random_int(1000000000, 9999999999);
+
+        $uploadDir = '../resources/adPics/'; 
+        $targetPath = $uploadDir . $fileName . '.png';
+
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $mimeType = $finfo->file($_FILES['ad-picture']['tmp_name']);
 
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
 
-        if (move_uploaded_file($_FILES['image']['tmp_name'], $targetPath)) {
+        if (move_uploaded_file($_FILES['ad-picture']['tmp_name'], $targetPath)) {
+
             $stmt = $db->prepare('
                 INSERT INTO Media (file_name, media_type) 
                 VALUES (?, ?)
             ');
-            $stmt->execute([$filename, $mediaType]);
+            $stmt->execute([$fileName, 'image']);
+            $newMediaId = $db->lastInsertId();
 
-            $imagePath = './resources/' . $fileName;
+            $ad_img_path = './resources/adPics' . $fileName . '.png';
         }
     }
+
+    // preciso add a parte do price_period
 
     $updateAd = $db->prepare('
         UPDATE Ads SET 
@@ -84,14 +92,12 @@ try {
 
     $db->prepare('DELETE FROM Ad_media WHERE ad_id = ?')->execute([$adId]);
 
-    if ($imagePath !== $current_img) {
-    $insertMedia = $db->prepare('INSERT INTO Ad_media (ad_id, media_id) VALUES (?, ?)');
-    foreach ($uploadedMediaIds as $mediaId) {
-        if (!$insertMedia->execute([$adId, $mediaId])) {
+    if ($newMediaId !== null) {
+        $insertMedia = $db->prepare('INSERT INTO Ad_media (ad_id, media_id) VALUES (?, ?)');
+        if (!$insertMedia->execute([$adId, $newMediaId])) {
             throw new Exception('Failed to associate media with ad');
         }
     }
-}
 
     $db->prepare('DELETE FROM Ad_animals WHERE ad_id = ?')->execute([$adId]);
     
@@ -110,7 +116,7 @@ try {
     $db->commit();
     
     $_SESSION['success_message'] = 'Anúncio editado com sucesso';
-    header("Location: ../pages/adDetails.php?id=$adId&success=1");
+    header("Location: ../pages/adDetails.php?id=$adId&success=2");
     exit();
 
 } catch (Exception $e) {

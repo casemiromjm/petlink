@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['username'] = $user['username'];
         $_SESSION['name'] = $user['name'];
-        $_SESSION['profile_photo'] = $user['profile_photo'];
+        $_SESSION['profile_photo'] = $user['photo_id'];
         $_SESSION['email'] = $user['email'];
         $_SESSION['phone'] = $user['phone']; 
         $_SESSION['district'] = $user['district']; 
