@@ -49,9 +49,8 @@ try {
     $stmt = $db->prepare('SELECT freelancer_id FROM Ads WHERE ad_id = ?');
     $stmt->execute([$adId]);
     $ownerId = $stmt->fetchColumn();
-    
-    if ($ownerId !== $userId && !$isAdmin) {
 
+    if ($ownerId !== $userId) {
         throw new Exception('You can only edit your own ads');
     }
 

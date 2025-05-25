@@ -38,8 +38,8 @@ try {
     $stmt = $db->prepare('SELECT freelancer_id FROM Ads WHERE ad_id = ?');
     $stmt->execute([$adId]);
     $adOwner = $stmt->fetchColumn();
-    
-    if ($adOwner !== $_SESSION['user_id'] && !$isAdmin) {
+
+    if ($adOwner !== $_SESSION['user_id']) {
         header('HTTP/1.1 403 Forbidden');
         die('You can only delete your own ads');
     }

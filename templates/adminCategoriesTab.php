@@ -78,10 +78,9 @@ $services = Service::getAllServices($db);
                                         <td><?= htmlspecialchars($service->service_name) ?></td>
                                         <td>
                                             <form action="/actions/action_deleteService.php" method="post" class="admin-action-form" onsubmit="return confirm('Tem a certeza que quer eliminar este serviço?');">
-                                                <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
-                                                <input type="hidden" name="service_id" value="<?= htmlspecialchars((string)$service->service_id) ?>">
-                                                <button type="submit" class="admin-btn delete">Eliminar</button>
-                                                </form>
+                                            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
+                                            <button type="submit" style="background-color: #dc3545; color: white;">Eliminar</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

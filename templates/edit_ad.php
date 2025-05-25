@@ -5,7 +5,7 @@
     require_once(__DIR__ . '/../utils/session.php');
     require_once(__DIR__ . '/../database/connection.db.php');
 
-    function drawEditAd(): void {
+    function drawEditAd($csrf_token): void {
 
         if (!isset($_SESSION['user_id'])) {
             header('Location: login.php');

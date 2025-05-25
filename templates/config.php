@@ -1,6 +1,10 @@
 <?php declare(strict_types = 1); ?>
 
+<<<<<<< HEAD
 <?php require_once(__DIR__ . '/../templates/sidebar.php'); ?>
+=======
+<?php require_once(__DIR__ .'/../templates/sidebar.php'); ?>
+>>>>>>> seguranca
 
 <link rel="stylesheet" href="../stylesheets/style.css">
 <script src="../javascript/script.js" defer></script>

@@ -15,6 +15,7 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 
+$csrf_token = generate_csrf_token();
 $db = getDatabaseConnection();
 $userId = $_SESSION['user_id'];
 $animalId = isset($_GET['id']) ? intval($_GET['id']) : null;
