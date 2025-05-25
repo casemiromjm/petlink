@@ -1,7 +1,9 @@
 <?php declare(strict_types = 1); ?>
 
 <link rel="stylesheet" href="../stylesheets/style.css">
-<?php require_once('../templates/sidebar.php'); ?>
+<?php
+require_once(__DIR__ . '/../templates/sidebar.php')
+?>
 
 <?php function drawEditAnimal(array $animal, array $speciesList, string $csrf_token): void { ?>
 <main class="animals-layout">

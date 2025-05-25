@@ -158,7 +158,7 @@
             <?php
               $animals = json_decode($latestOrder['animals'] ?? '[]', true);
               if ($animals && count($animals)) {
-                require_once('../database/connection.db.php');
+                require_once(__DIR__ .'/../database/connection.db.php');
                 $db = getDatabaseConnection();
                 function translateAnimalType(string $animalType): string {
                   $translations = [
@@ -237,7 +237,7 @@
       $animalList = [];
       $animals = json_decode($latestOrder['animals'] ?? '[]', true);
       if ($animals && count($animals)) {
-        require_once('../database/connection.db.php');
+        require_once(__DIR__ . '/../database/connection.db.php');
         $db = getDatabaseConnection();
         // Função só se ainda não existir
         if (!function_exists('translateAnimalType')) {

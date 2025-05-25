@@ -38,7 +38,7 @@ $services = Service::getAllServices($db);
                 <input type="number" id="preco" name="preco" required>
                 <label for="preco-por">€ /</label>
                 <select id="preco-por" name="preco-por" required>
-                    <option disabled selected>Selecionar</option>
+                    <option disabled selected value="">Selecionar</option>
                     <option>hora</option>
                     <option>dia</option>
                     <option>semana</option>

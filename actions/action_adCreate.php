@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $db = getDatabaseConnection();
         $title = htmlspecialchars(trim($_POST['titulo']));
         $description = htmlspecialchars(trim($_POST['descricao']));
-        $serviceTypeId = intval($_POST['tipo']);
+        $serviceTypeId = intval($_POST['service_id']);
         $price = floatval($_POST['preco']);
         $pricePeriod = htmlspecialchars(trim($_POST['preco-por']));
         $username = $_SESSION['username'];

@@ -25,7 +25,7 @@
                 <select id="species" name="species" required>
                     <option disabled selected>Selecionar</option>
                     <?php
-                    require_once('../database/connection.db.php');
+                    require_once(__DIR__ .'/../database/connection.db.php');
                     $db = getDatabaseConnection();
                     $stmt = $db->query('SELECT animal_id, animal_name FROM Animal_types');
                     while ($row = $stmt->fetch()): ?>
