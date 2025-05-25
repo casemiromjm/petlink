@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
   fetchResults(initialPage);
 
   function limparFiltros() {
-    if (document.getElementById('duracao')) document.getElementById('duracao').value = 'Qualquer';
+    if (document.getElementById('duracao')) document.getElementById('duracao').value = '';
     if (document.getElementById('animal')) document.getElementById('animal').value = '';
     if (document.getElementById('servico')) document.getElementById('servico').value = '';
     if (document.getElementById('search-input')) document.getElementById('search-input').value = '';
@@ -101,7 +101,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const clearFiltersButton = document.getElementById('clear-filters-button');
   if (clearFiltersButton) {
-    clearFiltersButton.addEventListener('click', limparFiltros);
+    clearFiltersButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      limparFiltros();
+    });
   }
 
 });
