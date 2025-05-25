@@ -337,7 +337,4 @@
     }
   });
 </script>
-<div class="modal-content review-modal-content">
-  <!-- conteúdo do modal -->
-</div>
 <?php } ?>

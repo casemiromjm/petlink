@@ -40,16 +40,20 @@ function translateAnimalType(string $animalType): string {
             $animals = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($animals as $animal):
-                // Agora, acede a animal_id_from_db
                 $animalRowId = isset($animal['animal_id_from_db']) && is_numeric($animal['animal_id_from_db']) && (int)$animal['animal_id_from_db'] > 0 ? (int)$animal['animal_id_from_db'] : null;
 
                 if ($animalRowId !== null):
             ?>
                 <a class="animal-card-link" href="../pages/editAnimal.php?id=<?= htmlspecialchars((string)$animalRowId) ?>">
                     <div class="animal-card">
-                        <img src="<?= htmlspecialchars(str_replace('./', '../', $animal['animal_picture'] ?? '../resources/default_animal.png')) ?>" alt="Animal">
-                        <h3><?= htmlspecialchars($animal['name']) ?></h3>
-                        <p><?= htmlspecialchars(translateAnimalType($animal['animal_name'])) ?> • <?= htmlspecialchars((string)$animal['age']) ?> anos</p>
+                        <div class="animal-image-container">
+                            <img src="<?= htmlspecialchars(str_replace('./', '../', $animal['animal_picture'] ?? '../resources/default_animal.png')) ?>" alt="<?= htmlspecialchars($animal['name']) ?>">
+                        </div>
+                        <div class="animal-info">
+                            <h3><?= htmlspecialchars($animal['name']) ?></h3>
+                            <p class="animal-type"><?= htmlspecialchars(translateAnimalType($animal['animal_name'])) ?></p>
+                            <p class="animal-age"><?= htmlspecialchars((string)$animal['age']) ?> anos</p>
+                        </div>
                     </div>
                 </a>
             <?php

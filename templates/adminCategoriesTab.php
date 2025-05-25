@@ -37,7 +37,7 @@ $services = Service::getAllServices($db);
                                             <td>
                                                 <form action="/actions/action_deleteAnimalType.php" method="post" class="admin-action-form" onsubmit="return confirm('Tem a certeza que quer eliminar esta espécie?');">
                                                     <input type="hidden" name="type_id" value="<?= htmlspecialchars((string)$type['animal_id']) ?>">
-                                                    <button type="submit" style="background-color: #dc3545; color: white;">Eliminar</button>
+                                                    <button type="submit" class="admin-btn delete">Eliminar</button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -77,7 +77,7 @@ $services = Service::getAllServices($db);
                                         <td>
                                             <form action="/actions/action_deleteService.php" method="post" class="admin-action-form" onsubmit="return confirm('Tem a certeza que quer eliminar este serviço?');">
                                             <input type="hidden" name="service_id" value="<?= htmlspecialchars((string)$service->service_id) ?>">
-                                            <button type="submit" style="background-color: #dc3545; color: white;">Eliminar</button>
+                                            <button type="submit" class="admin-btn delete">Eliminar</button>
                                             </form>
                                         </td>
                                     </tr>
