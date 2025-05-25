@@ -42,17 +42,23 @@ $userId = $_SESSION['user_id'];
 try {
     $db->beginTransaction();
 
+    $stmt = $db->prepare('SELECT is_admin FROM users WHERE user_id = ?');
+    $stmt->execute([$userId]);
+    $isAdmin = (bool)$stmt->fetchColumn();
+
     $stmt = $db->prepare('SELECT freelancer_id FROM Ads WHERE ad_id = ?');
     $stmt->execute([$adId]);
     $ownerId = $stmt->fetchColumn();
+    
+    if ($ownerId !== $userId && !$isAdmin) {
 
-    if ($ownerId !== $userId) {
         throw new Exception('You can only edit your own ads');
     }
 
     $title = $_POST['title'];
     $description = $_POST['description'];
     $price = $_POST['price'];
+    // $price_period = $_POST['price_period'];
     $animalTypes = $_POST['animais'] ?? [];
     $current_img = $_POST['ad-picture'] ?? null;
 
@@ -78,8 +84,6 @@ try {
             $ad_img_path = './resources/adPics' . $fileName . '.png';
         }
     }
-
-    // preciso add a parte do price_period
 
     $updateAd = $db->prepare('
         UPDATE Ads SET
