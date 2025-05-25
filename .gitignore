@@ -1,3 +1,5 @@
 # IDEs
 .vscode/
 
+# database
+database/database.db
