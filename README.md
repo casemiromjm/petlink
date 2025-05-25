@@ -25,7 +25,7 @@
 - [X] Oversee and ensure the smooth operation of the entire system.
 
 **Extra:**
-- [X] Users can perosnalize their experience by adding their own pets
+- [X] Users can personalize their experience by adding their own pets to their profile.
 
 ## Running
 
