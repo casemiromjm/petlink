@@ -1,15 +1,22 @@
 <?php
 declare(strict_types = 1);
-session_start();
+
 ini_set('display_errors', '1');
 error_reporting(E_ALL);
-
+require_once(__DIR__ . '/../init.php');
 require_once(__DIR__ . '/../database/connection.db.php');
+require_once(__DIR__ . '/../security.php');
 
-session_start();
 if (!isset($_SESSION['user_id'])) {
     header('Location: /pages/login.php?redirect=' .  urlencode($_SERVER['REQUEST_URI']) . '&message=' . urlencode('Para criar um anúncio, precisa estar logado.'));
 }
+
+if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+    error_log('CSRF token mismatch or missing for ad creation. IP: ' . $_SERVER['REMOTE_ADDR']);
+    header('Location: ../pages/adCreate.php?error=csrf');
+    exit();
+}
+unset($_SESSION['csrf_token']);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {

@@ -1,12 +1,12 @@
 <?php
 declare(strict_types = 1);
 
-require_once('../templates/layout.php');
-require_once('../templates/sidebar.php');
-require_once('../templates/animals.php');
-require_once('../database/connection.db.php');
+require_once(__DIR__ . '/../templates/layout.php');
+require_once(__DIR__ . '/../templates/sidebar.php');
+require_once(__DIR__ . '/../templates/animals.php');
+require_once(__DIR__ . '/../database/connection.db.php');
+require_once(__DIR__ . '/../init.php');
 
-session_start();
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');

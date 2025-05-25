@@ -10,10 +10,11 @@ $services = Service::getAllServices($db);
 ?>
 <link rel="stylesheet" href="../stylesheets/style.css">
 
-<?php function drawAdCreate() { global $animalSpecies, $services ;?>
+<?php function drawAdCreate(string $csrf_token) { global $animalSpecies, $services ;?>
     <section class="form-container">
         <h2>Anunciar Serviço</h2>
-        <form id="ad-form" action="../actions/action_adCreate.php" method="post" enctype="multipart/form-data">
+        <form id="ad-form" action="../actions/action_adCreate.php" method="post" enctype="multipart/form-data" >
+        <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
             <label for="upload-box">Carregar fotografias</label>
             <div class="upload-box">
                 <input type="file" id="imageUpload" name="image" accept="image/*">
@@ -25,7 +26,7 @@ $services = Service::getAllServices($db);
             <textarea id="descricao" name="descricao" required></textarea>
 
             <label for="tipo">Tipo de serviço</label>
-            <select id="tipo" name="service_id" required> <option disabled selected value="">Selecionar</option>
+            <select id="service_id" name="service_id" required> <option disabled selected value="">Selecionar</option>
                 <?php foreach ($services as $service): ?>
                     <option value="<?= htmlspecialchars((string)$service->service_id) ?>">
                         <?= htmlspecialchars($service->service_name) ?>
@@ -37,7 +38,7 @@ $services = Service::getAllServices($db);
                 <input type="number" id="preco" name="preco" required>
                 <label for="preco-por">€ /</label>
                 <select id="preco-por" name="preco-por" required>
-                    <option disabled selected>Selecionar</option>
+                    <option disabled selected value="">Selecionar</option>
                     <option>hora</option>
                     <option>dia</option>
                     <option>semana</option>

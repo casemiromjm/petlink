@@ -62,13 +62,13 @@ function drawEditAnimal(): void {
                     <label for="age">Idade</label>
                     <input type="number" id="age" name="age" value="<?= htmlspecialchars((string)$animal['age']) ?>" required>
 
-                    <button type="submit">Salvar Alterações</button>
-                </form>
-                <form action="../actions/action_deleteAnimal.php" method="POST" onsubmit="return confirm('Tem certeza que deseja apagar este animal? Esta ação é irreversível.');" class="delete-animal-form">
-                    <input type="hidden" name="animal_id" value="<?= htmlspecialchars((string)$animal['animal_id']) ?>">
-                    <button type="submit" class="delete-button">Apagar Animal</button>
-                </form>
-            </div>
-        </section>
-    </main>
+                <button type="submit">Salvar Alterações</button>
+            </form>
+            <form action="../actions/action_deleteAnimal.php" method="POST" onsubmit="return confirm('Tem certeza que deseja apagar este animal? Esta ação é irreversível.');" class="delete-animal-form">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
+                <input type="hidden" name="animal_id" value="<?= htmlspecialchars((string)$animal['animal_id']) ?>"> <button type="submit" id="erase-animal">Apagar Animal</button>
+            </form>
+        </div>
+    </section>
+</main>
 <?php } ?>
