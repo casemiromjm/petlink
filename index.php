@@ -1,5 +1,11 @@
 <?php
   declare(strict_types = 1);
+  session_start();
+  if (!isset($_SESSION['user_id'])) {
+    header('Location: pages/landingPage.php');
+    exit;
+  }
+
   ini_set('log_errors', 'On');
   ini_set('error_log', __DIR__ . '/../error_log.txt');
   error_reporting(E_ALL);
