@@ -71,8 +71,19 @@
                 <label for="ad-description">Descrição</label>
                 <textarea id="ad-description" name="description" required><?= htmlspecialchars($ad['description']) ?></textarea>
 
-                <label for="ad-price">Preço</label>
-                <input type="number" id="ad-price" name="price" step="0.01" value="<?= htmlspecialchars((string)$ad['price']) ?>" required>
+                <label for="preco">Preço</label>
+                <div id="preco-container">
+                    <input type="number" id="preco" name="price" value="<?= htmlspecialchars((string)$ad['price']) ?>" required>
+
+                    <label for="preco-por">€ /</label>
+                    <select id="preco-por" name="price_period" required>
+                        <option value="hora" <?= ($ad['price_period'] ?? '') === 'hora' ? 'selected' : '' ?>>hora</option>
+                        <option value="dia" <?= ($ad['price_period'] ?? '') === 'dia' ? 'selected' : '' ?>>dia</option>
+                        <option value="semana" <?= ($ad['price_period'] ?? '') === 'semana' ? 'selected' : '' ?>>semana</option>
+                        <option value="mês" <?= ($ad['price_period'] ?? '') === 'mês' ? 'selected' : '' ?>>mês</option>
+                    </select>
+                </div>
+  
 
                 <div class="animal-checkboxes">
                     <?php
