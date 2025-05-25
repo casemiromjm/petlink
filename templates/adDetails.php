@@ -1,4 +1,9 @@
-<?php declare(strict_types = 1); ?>
+<?php 
+
+declare(strict_types = 1); 
+require_once(__DIR__ . '/../database/connection.db.php')
+
+?>
 
 <link rel="stylesheet" href="../stylesheets/style.css">
 <script src="../javascript/script.js"></script>
@@ -6,6 +11,10 @@
 <?php function drawAdDetails(Ad $ad, array $reviews,float $averageRating, int $reviewCount, int $success): void { ?>
   <?php if ($success === 1): ?>
     <div id="success-message" class="success-message">Anúncio criado com sucesso</div>
+  <?php endif; ?>
+
+  <?php if ($success === 2): ?>
+    <div id="success-message" class="success-message">Anúncio editado com sucesso</div>
   <?php endif; ?>
 
   <section class="ad-details">
@@ -72,14 +81,25 @@
 
         if (empty($adMediaIds)) {
             $src = '/resources/adPics/8.png';
-            ?>
+        ?>
             <img src="<?= htmlspecialchars($src) ?>" alt="Imagem do anúncio" class="carousel-slide active">
-            <?php
+        <?php
         } else {
+          $mediaFiles = [];
+          $placeholders = implode(',', array_fill(0, count($adMediaIds), '?'));
+          $db = getDatabaseConnection();
+          $stmt = $db->prepare("
+              SELECT file_name 
+              FROM Media 
+              WHERE media_id IN ($placeholders)
+            ");
+          $stmt->execute($adMediaIds);
+          $mediaFiles = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
 
           $isFirstSlide = true;
-            foreach ($adMediaIds as $mediaId) {
-                $src = '/resources/adPics/' . htmlspecialchars((string)$mediaId) . '.png';
+            foreach ($mediaFiles as $filename) {
+                $src = '/resources/adPics/' . htmlspecialchars((string)$filename) . '.png';
                 ?>
                 <img src="<?= htmlspecialchars($src) ?>" alt="Imagem do anúncio" class="carousel-slide <?= $isFirstSlide ? 'active' : '' ?>">
                 <?php

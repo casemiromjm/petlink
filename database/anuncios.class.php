@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+require_once('reviews.class.php');
 
 class Ad {
     private int $id;
@@ -173,23 +174,22 @@ class Ad {
         }
 
         $mediaIds = [];
-        $mediaQuery = '
-            SELECT
-            AM.media_id
-            FROM Ad_media AM
-            WHERE AM.ad_id = ?
-        ';
-        $mediaStmt = $db->prepare($mediaQuery);
-        $mediaStmt->execute([$id]);
-
-        $adMedia = $mediaStmt->fetchAll(PDO::FETCH_COLUMN);
-        if ($adMedia !== false) {
-            $mediaIds = $adMedia;
+        try {
+            $mediaStmt = $db->prepare('
+                SELECT media_id 
+                FROM Ad_media 
+                WHERE ad_id = ?
+            ');
+            $mediaStmt->execute([$id]);
+            $mediaIds = $mediaStmt->fetchAll(PDO::FETCH_COLUMN);
+        } catch (PDOException $e) {
+            error_log("Error fetching media for ad {$id}: " . $e->getMessage());
         }
+
         $averageRating = Reviews::getAverageRatingForAd($db, (int)$adData['id']);
         $reviewCount = Reviews::getReviewCountForAd($db, (int)$adData['id']);
 
-        return new Ad(
+        return new Ad (
             (int)$adData['id'],
             (int)$adData['service_id'],
             (int)$adData['freelancer_id'],
