@@ -55,7 +55,6 @@
             <h2>Editar Anúncio</h2>
             <form action="../actions/action_editAd.php" method="post" enctype="multipart/form-data">
             <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
-
                 <input type="hidden" name="ad_id" value="<?= htmlspecialchars((string)$ad['ad_id']) ?>">
 
                 <label for="animal-picture">Fotografia</label>

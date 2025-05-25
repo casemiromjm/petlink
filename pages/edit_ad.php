@@ -36,6 +36,6 @@ $associatedAnimals = $animalStmt->fetchAll(PDO::FETCH_COLUMN);
 $success = isset($_GET['success']) ? intval($_GET['success']) : 0;
 
 drawHeader();
-drawEditAd($ad, $associatedAnimals, $success, $csrf_token);
+drawEditAd($csrf_token);
 drawFooter();
 ?>

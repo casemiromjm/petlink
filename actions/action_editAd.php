@@ -1,17 +1,15 @@
 <?php
 declare(strict_types=1);
 
+require_once(__DIR__ . '/../init.php');
+require_once(__DIR__ . '/../security.php');
 require_once(__DIR__ . '/../database/connection.db.php');
 require_once(__DIR__ . '/../utils/session.php');
-require_once(__DIR__ . '/../security.php');
-require_once(__DIR__ . '/../init.php');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('HTTP/1.1 405 Method Not Allowed');
     die('Invalid request method');
 }
-
-
 
 if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
     error_log('CSRF token mismatch or missing for ad edition. IP: ' . $_SERVER['REMOTE_ADDR']);
@@ -25,10 +23,6 @@ if (!isset($_SESSION['user_id'])) {
     die('You must be logged in to edit ads');
 }
 
-if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
-    header('HTTP/1.1 403 Forbidden');
-    die('Invalid CSRF token');
-}
 
 $adId = isset($_POST['ad_id']) ? intval($_POST['ad_id']) : null;
 if (!$adId) {
