@@ -5,6 +5,8 @@
     require_once(__DIR__ . '/../utils/security.php');
     require_once(__DIR__ . '/../database/connection.db.php');
 
+    init();
+
     function drawEditAd($csrf_token): void {
 
         if (!isset($_SESSION['user_id'])) {
@@ -55,7 +57,7 @@
         <div class="form-container">
             <h2>Editar Anúncio</h2>
             <form action="../actions/action_editAd.php" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
+                <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
                 <input type="hidden" name="ad_id" value="<?= htmlspecialchars((string)$ad['ad_id']) ?>">
 
                 <label for="animal-picture">Fotografia</label>
@@ -88,24 +90,22 @@
 
                 <div class="animal-checkboxes">
                     <?php
-                    $animalOptions = [
-                        1 => 'Cães',
-                        2 => 'Gatos',
-                        3 => 'Pássaros',
-                        4 => 'Roedores',
-                        5 => 'Répteis',
-                        6 => 'Peixes',
-                        7 => 'Furões',
-                        8 => 'Coelhos'
-                    ];
 
-                    foreach ($animalOptions as $value => $label): ?>
+                    $stmt = $db->prepare('SELECT animal_id, animal_name FROM Animal_types ORDER BY animal_id');
+                    $stmt->execute();
+
+                    $animalOptions = [];
+                    while ($row = $stmt->fetch()) {
+                        $animalOptions[$row['animal_id']] = $row['animal_name'];
+                    }
+
+                    foreach ($animalOptions as $id => $name): ?>
                         <label>
                             <input type="checkbox"
                                 name="animais[]"
-                                value="<?= $value ?>"
-                                <?= in_array($value, $associatedAnimals) ? 'checked' : '' ?>>
-                            <?= htmlspecialchars($label) ?>
+                                value="<?= $id ?>"
+                                <?= in_array($id, $associatedAnimals) ? 'checked' : '' ?>>
+                            <?= htmlspecialchars($name) ?>
                         </label>
                     <?php endforeach; ?>
                 </div>

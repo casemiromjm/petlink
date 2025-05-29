@@ -3,14 +3,14 @@ declare(strict_types = 1);
 
 require_once(__DIR__ . '/../init.php');
 require_once(__DIR__ . '/../database/connection.db.php');
-require_once(__DIR__ .' /../database/user.db.php');
-require_once(__DIR__ .' /../database/animal.db.php');
+require_once(__DIR__ . '/../database/users.class.php');
+require_once(__DIR__ . '/../database/animal.class.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $db = getDatabaseConnection();
 
-        if (!isset($_SESSION['user_id']) || !isUserAdmin($db, $_SESSION['user_id'])) {
+        if (!isset($_SESSION['user_id']) || !User::isUserAdmin($db, $_SESSION['user_id'])) {
             header('Location: ../pages/login.php?error=' . urlencode('Acesso negado. Apenas administradores podem adicionar categorias.'));
             exit;
         }
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
 
-        if (addAnimalType($db, $animalTypeName)) {
+        if (Animal_type::addAnimalType($db, $animalTypeName)) {
             header('Location: ../pages/admin.php?success=' . urlencode('Tipo de animal "' . $animalTypeName . '" adicionado com sucesso!'));
             exit;
         } else {
