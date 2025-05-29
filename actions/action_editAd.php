@@ -36,7 +36,7 @@ $userId = $_SESSION['user_id'];
 try {
     $db->beginTransaction();
 
-    $stmt = $db->prepare('SELECT is_admin FROM users WHERE user_id = ?');
+    $stmt = $db->prepare('SELECT is_admin FROM Users WHERE user_id = ?');
     $stmt->execute([$userId]);
     $isAdmin = (bool)$stmt->fetchColumn();
 
@@ -44,7 +44,7 @@ try {
     $stmt->execute([$adId]);
     $ownerId = $stmt->fetchColumn();
 
-    if ($ownerId !== $userId) {
+    if (($ownerId !== $userId) && !$isAdmin) {
         throw new Exception('You can only edit your own ads');
     }
 
