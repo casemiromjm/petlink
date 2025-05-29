@@ -7,6 +7,7 @@ require_once(__DIR__.'/../database/animal.class.php');
 require_once(__DIR__.'/../database/service.class.php');
 require_once(__DIR__.'/../templates/admin.php');
 require_once(__DIR__.'/../templates/layout.php');
+
 $db = getDatabaseConnection();
 
 $users = User::getAllUsers($db);

@@ -1,11 +1,5 @@
 <?php
   declare(strict_types = 1);
-  require_once(__DIR__ . '/init.php');
-
-  if (!isset($_SESSION['user_id'])) {
-    header('Location: pages/landingPage.php');
-    exit;
-  }
 
   ini_set('log_errors', 'On');
   ini_set('error_log', __DIR__ . '/../error_log.txt');
@@ -22,6 +16,13 @@
   require_once(__DIR__.'/database/connection.db.php');
   require_once(__DIR__.'/database/anuncios.class.php');
 
+  init();
+
+  if (!isset($_SESSION['user_id'])) {
+    header('Location: pages/landingPage.php');
+    exit();
+  }
+  
   function buildPaginationLink(int $pageNumber): string {
       $currentGet = $_GET;
       $currentGet['page'] = $pageNumber;
@@ -95,7 +96,7 @@ $totalPages = ceil($totalAds / $limit);
               echo '<span>...</span>';
           }
 
-          echo '<a href="' . buildPaginationLink($totalPages) . '">' . $totalPages . '</a>';
+          echo '<a href="' . buildPaginationLink((int)$totalPages) . '">' . $totalPages . '</a>';
       }
 
       if ($page < $totalPages) {

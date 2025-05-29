@@ -3,12 +3,14 @@
 declare(strict_types = 1);
 
 require_once(__DIR__ . '/../database/connection.db.php');
-require_once(__DIR__ . '/../security.php');
+require_once(__DIR__ . '/../utils/security.php');
 require_once(__DIR__ . '/../init.php');
 
-if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+init();
+
+if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || ($_POST['csrf_token'] !== $_SESSION['csrf_token'])) {
     error_log('CSRF token mismatch or missing for rejecting request. IP: ' . $_SERVER['REMOTE_ADDR']);
-    header('Location: ../pages/messages.php?error=csrf');
+    header('Location: ../pages/retrievePassword.php?error=csrf');
     exit();
 }
 unset($_SESSION['csrf_token']);
@@ -18,7 +20,7 @@ $db = getDatabaseConnection();
 try {
 
     if (!isset($_POST['email'], $_POST['username'], $_POST['district'], $_POST['new_password'], $_POST['confirm_password'])) {
-        header('Location: ../pages/retrievepassword.php?error=missing_fields');
+        header('Location: ../pages/retrievePassword.php?error=empty_fields');
         exit();
     }
 
@@ -29,17 +31,17 @@ try {
     $confirm_password = $_POST['confirm_password'];
 
     if (empty($email) || empty($username) || empty($district) || empty($new_password) || empty($confirm_password)) {
-        header('Location: ../pages/retrievepassword.php?error=empty_fields');
+        header('Location: ../pages/retrievePassword.php?error=empty_fields');
         exit();
     }
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        header('Location: ../pages/retrievepassword.php?error=invalid_email');
+        header('Location: ../pages/retrievePassword.php?error=invalid_email');
         exit();
     }
 
     if ($new_password !== $confirm_password) {
-        header('Location: ../pages/retrievepassword.php?error=password_mismatch');
+        header('Location: ../pages/retrievePassword.php?error=password_mismatch');
         exit();
     }
 
@@ -51,7 +53,7 @@ try {
     $user = $stmt->fetch();
 
     if (!$user) {
-        header('Location: ../pages/retrievepassword.php?error=invalid_credentials');
+        header('Location: ../pages/retrievePassword.php?error=invalid_credentials');
         exit();
     }
 
@@ -64,7 +66,7 @@ try {
 
 } catch (PDOException $e) {
     error_log('Password reset error: ' . $e->getMessage());
-        header('Location: ../pages/retrievepassword.php?error=1');
+        header('Location: ../pages/retrievePassword.php?error=1');
     exit();
 }
 ?>

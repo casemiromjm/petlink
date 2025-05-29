@@ -5,7 +5,7 @@ ini_set('display_errors', '1');
 error_reporting(E_ALL);
 require_once(__DIR__ . '/../init.php');
 require_once(__DIR__ . '/../database/connection.db.php');
-require_once(__DIR__ . '/../security.php');
+require_once(__DIR__ . '/../utils/security.php');
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: /pages/login.php?redirect=' .  urlencode($_SERVER['REQUEST_URI']) . '&message=' . urlencode('Para criar um anúncio, precisa estar logado.'));

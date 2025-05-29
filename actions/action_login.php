@@ -1,8 +1,11 @@
 <?php
+
 declare(strict_types = 1);
 require_once(__DIR__ . '/../init.php');
 require_once(__DIR__ . '/../database/connection.db.php');
-require_once(__DIR__ . '/../security.php');
+require_once(__DIR__ . '/../utils/security.php');
+
+init();
 
 if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
     error_log('CSRF token mismatch or missing for login. IP: ' . $_SERVER['REMOTE_ADDR']);
@@ -34,10 +37,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         error_log('User logged in: ' . print_r($_SESSION, true));
 
         header('Location: ../index.php');
-        exit;
+        exit();
     } else {
         header('Location: ../pages/login.php?error=1');
-        exit;
+        exit();
     }
 }
 ?>

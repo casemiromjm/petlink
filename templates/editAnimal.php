@@ -1,10 +1,12 @@
 <?php
 declare(strict_types = 1);
-require_once(__DIR__ . '/../init.php');
+
 require_once(__DIR__ . '/../database/connection.db.php');
 require_once(__DIR__ . '/../templates/sidebar.php');
 ?>
+
 <link rel="stylesheet" href="../stylesheets/style.css">
+
 <?php
 
 function drawEditAnimal($csrf_token): void {

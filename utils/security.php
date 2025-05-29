@@ -1,6 +1,10 @@
 <?php
-// security.php
+
 declare(strict_types = 1);
+
+require_once(__DIR__ . '/../init.php');
+
+init();
 
 function generate_csrf_token(): string {
     // Check if session is active before trying to access $_SESSION
@@ -17,10 +21,10 @@ function generate_csrf_token(): string {
     } else {
         error_log("DEBUG: CSRF - Using EXISTING token from session: " . $_SESSION['csrf_token'] . " (from " . debug_backtrace()[0]['file'] . ":" . debug_backtrace()[0]['line'] . ")");
     }
+    
     return $_SESSION['csrf_token'];
 }
 
-// You might also have a validation function here, something like:
 function validate_csrf_token(string $postedToken): bool {
     if (session_status() !== PHP_SESSION_ACTIVE) {
         error_log("CRITICAL ERROR: validate_csrf_token called when session is NOT active!");
@@ -35,9 +39,9 @@ function validate_csrf_token(string $postedToken): bool {
     error_log("DEBUG: CSRF Validation - Match? " . ($postedToken === $sessionToken ? 'YES' : 'NO'));
 
     // Clear the token regardless of validation outcome to prevent replay attacks
-    unset($_SESSION['csrf_token']); // IMPORTANT: Do this *after* logging the session token
+    unset($_SESSION['csrf_token']);
 
-    return ($postedToken !== null && $postedToken === $sessionToken);
+    return (($postedToken !== null) && ($postedToken === $sessionToken));
 }
 
 ?>

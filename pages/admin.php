@@ -7,7 +7,7 @@ require_once(__DIR__.'/../database/animal.class.php');
 require_once(__DIR__.'/../database/service.class.php');
 require_once(__DIR__.'/../templates/admin.php');
 require_once(__DIR__.'/../templates/layout.php');
-require_once(__DIR__ . '/../security.php');
+require_once(__DIR__ . '/../utils/security.php');
 
 
 $db = getDatabaseConnection();

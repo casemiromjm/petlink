@@ -2,9 +2,8 @@
 declare(strict_types=1);
 
 require_once(__DIR__ . '/../init.php');
-require_once(__DIR__ . '/../security.php');
+require_once(__DIR__ . '/../utils/security.php');
 require_once(__DIR__ . '/../database/connection.db.php');
-require_once(__DIR__ . '/../utils/session.php');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('HTTP/1.1 405 Method Not Allowed');

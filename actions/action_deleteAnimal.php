@@ -2,6 +2,7 @@
 declare(strict_types = 1);
 require_once(__DIR__ . '/../init.php');
 require_once(__DIR__ . '/../database/connection.db.php');
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $db = getDatabaseConnection();

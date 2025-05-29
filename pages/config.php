@@ -4,7 +4,7 @@
   require_once(__DIR__ . '/../templates/layout.php');
   require_once(__DIR__ . '/../templates/sidebar.php');
   require_once(__DIR__ . '/../templates/config.php');
-  require_once(__DIR__ . '/../security.php');
+  require_once(__DIR__ . '/../utils/security.php');
   require_once(__DIR__ . '/../init.php');
 
   $csrf_token = generate_csrf_token();
