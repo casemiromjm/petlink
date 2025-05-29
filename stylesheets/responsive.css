@@ -1,0 +1,91 @@
+/* PAGINAS COM RESPONSIVE:
+landing page
+login
+signup
+*/
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/*página de anúncios */
+@media (max-width: 800px) {
+
+  .pesquisa,
+  .filtros,
+  .sort {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    margin-left: 0 !important;
+    margin-top: 1em !important;
+    gap: 0.5em !important;
+    width: 100% !important;
+  }
+
+  .pesquisa .input-wrapper,
+  .pesquisa .select-wrapper,
+  .filtros > div,
+  .sort {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin-bottom: 0.5em;
+  }
+
+  .pesquisa button {
+    width: 100% !important;
+    min-width: unset !important;
+    margin-top: 0.5em;
+  }
+
+  .filtros {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    margin-left: 0 !important;
+    margin-top: 1em !important;
+    gap: 0.5em !important;
+    width: 100% !important;
+  }
+
+  .filtros-left {
+    flex-direction: column !important;
+    gap: 0.5em !important;
+    width: 100% !important;
+  }
+
+  .filtros select,
+  .filtros h3 {
+    width: 100% !important;
+  }
+
+  .sort select {
+    width: 100% !important;
+  }
+
+  .ad-list {
+    flex-direction: column !important;
+    gap: 1em !important;
+    align-items: center !important;     
+    width: 100% !important;
+    margin: 0 !important;              
+    justify-content: center !important;  
+  }
+
+  .ad {
+    width: 95% !important;               
+    min-width: unset !important;
+    max-width: 600px !important;        
+    margin: 0.5em 0 !important;        
+  }
+
+  .ad-image {
+    height: 180px !important;
+  }
+
+
+  .result-text h2 {
+    margin-left: 0 !important;
+    text-align: center !important;
+  }
+}
+
