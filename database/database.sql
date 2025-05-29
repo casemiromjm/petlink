@@ -4,12 +4,13 @@ PRAGMA foreign_keys=ON;      -- fazendo no .sql, remove comandos desnecessários
 DROP TABLE IF EXISTS Messages;
 DROP TABLE IF EXISTS User_animals;
 DROP TABLE IF EXISTS Reviews;
-DROP TABLE IF EXISTS Orders;
+DROP TABLE IF EXISTS ServiceRequests;
+DROP TABLE IF EXISTS Ad_services;
 DROP TABLE IF EXISTS Ad_animals;
-DROP TABLE IF EXISTS Animal_types;
+DROP TABLE IF EXISTS Ad_media;
 DROP TABLE IF EXISTS Ads;
 DROP TABLE IF EXISTS Services;
-DROP TABLE IF EXISTS Ad_media;
+DROP TABLE IF EXISTS Animal_types;
 DROP TABLE IF EXISTS Users;
 DROP TABLE IF EXISTS Media;
 
@@ -19,7 +20,6 @@ CREATE TABLE Media (
     file_name TEXT NOT NULL,
     media_type TEXT NOT NULL,
     uploaded DATETIME DEFAULT CURRENT_TIMESTAMP,
-
     CONSTRAINT valid_media_type CHECK (media_type IN ('image', 'video'))
 );
 
@@ -34,25 +34,19 @@ CREATE TABLE Users (
     phone           TEXT,
     district        TEXT NOT NULL,
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    user_description TEXT DEFAULT '', -- <-- add this line
-
+    user_description TEXT DEFAULT '',
     FOREIGN KEY (photo_id) REFERENCES Media(media_id) ON DELETE CASCADE
-);
-
-CREATE TABLE Ad_media (
-    ad_id       INTEGER,
-    media_id    INTEGER,
-
-    PRIMARY KEY (ad_id, media_id),
-    FOREIGN KEY (ad_id) REFERENCES Ads(ad_id) ON DELETE CASCADE,
-    FOREIGN KEY (media_id) REFERENCES Media(media_id) ON DELETE CASCADE
-
 );
 
 CREATE TABLE Services (
     service_id      INTEGER PRIMARY KEY AUTOINCREMENT,
     service_name    TEXT UNIQUE NOT NULL,
     description     TEXT
+);
+
+CREATE TABLE Animal_types (
+    animal_id   INTEGER PRIMARY KEY AUTOINCREMENT,
+    animal_name TEXT UNIQUE NOT NULL
 );
 
 CREATE TABLE Ads (
@@ -64,27 +58,26 @@ CREATE TABLE Ads (
     price           REAL NOT NULL,
     price_period    TEXT NOT NULL,
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
     FOREIGN KEY (freelancer_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (service_id) REFERENCES Services(service_id) ON DELETE RESTRICT,
     CONSTRAINT valid_price_period CHECK (price_period IN ('hora', 'semana', 'dia', 'mês'))
 );
 
-CREATE TABLE Animal_types (
-    animal_id   INTEGER PRIMARY KEY AUTOINCREMENT,
-    animal_name TEXT UNIQUE NOT NULL
+CREATE TABLE Ad_media (
+    ad_id       INTEGER,
+    media_id    INTEGER,
+    PRIMARY KEY (ad_id, media_id),
+    FOREIGN KEY (ad_id) REFERENCES Ads(ad_id) ON DELETE CASCADE,
+    FOREIGN KEY (media_id) REFERENCES Media(media_id) ON DELETE CASCADE
 );
 
 CREATE TABLE Ad_animals (
     ad_id       INTEGER,
     animal_id   INTEGER,
-
     PRIMARY KEY (ad_id, animal_id),
     FOREIGN KEY (ad_id) REFERENCES Ads(ad_id) ON DELETE CASCADE,
     FOREIGN KEY (animal_id) REFERENCES Animal_types(animal_id) ON DELETE RESTRICT
 );
-
-
 
 CREATE TABLE Reviews (
     review_id       INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -93,7 +86,6 @@ CREATE TABLE Reviews (
     rating          INTEGER NOT NULL CHECK (rating >= 1 AND rating <= 5),
     comment         TEXT,
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
     FOREIGN KEY (ad_id) REFERENCES Ads(ad_id) ON DELETE CASCADE,
     FOREIGN KEY (client_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
@@ -105,7 +97,6 @@ CREATE TABLE User_animals (
     name            TEXT NOT NULL,
     age             INTEGER NOT NULL,
     animal_picture  TEXT,
-
     FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
     FOREIGN KEY (species) REFERENCES Animal_types(animal_id) ON DELETE RESTRICT
 );
@@ -118,7 +109,6 @@ CREATE TABLE Messages (
     text            TEXT NOT NULL,
     sent_at         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_read         BOOLEAN DEFAULT 0,
-
     FOREIGN KEY (ad_id) REFERENCES Ads(ad_id) ON DELETE CASCADE,
     FOREIGN KEY (from_user_id) REFERENCES Users (user_id) ON DELETE CASCADE,
     FOREIGN KEY (to_user_id) REFERENCES Users (user_id) ON DELETE CASCADE
@@ -143,7 +133,7 @@ CREATE TABLE ServiceRequests (
     price_period TEXT NOT NULL,
     status TEXT DEFAULT 'pending',
     is_paid BOOLEAN DEFAULT 0,   
-    reviewed        BOOLEAN DEFAULT FALSE,
+    reviewed BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (ad_id) REFERENCES Ads(ad_id),
     FOREIGN KEY (client_id) REFERENCES Users(user_id),
@@ -173,6 +163,7 @@ INSERT INTO Services (service_name, description) VALUES ('Veterinário', 'Servi�
 INSERT INTO Services (service_name, description) VALUES ('Transporte', 'Serviços de transporte de animais');
 
 -- Inserir Media
+INSERT INTO Media (file_name, media_type) VALUES ('0', 'image');
 INSERT INTO Media (file_name, media_type) VALUES ('1', 'image');
 INSERT INTO Media (file_name, media_type) VALUES ('2', 'image');
 INSERT INTO Media (file_name, media_type) VALUES ('3', 'image');
@@ -221,42 +212,45 @@ INSERT INTO Media (file_name, media_type) VALUES ('br', 'video');
 INSERT INTO Media (file_name, media_type) VALUES ('rb', 'video');
 
 -- Inserir utilizadores
-INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('casemiro', 'casemiro@example.com', 'Casemiro', 1 , '912345678', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('francisca', 'francisca@example.com', 'Francisca', 2, '912345378', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
+INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('casemiro', 'casemiro@example.com', 'Casemiro', 1 , '912345678', 'Porto','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', 'Um dos membros do projeto!');
+INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('francisca', 'francisca@example.com', 'Francisca', 2, '912345378', 'Porto','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', 'Um dos membros do projeto!');
 INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('staragarcia', 'sara@example.com', 'Sara García', 3, '936737882', 'Porto','$2y$10$bo2fazm9RBwKYDs.ZUbDNOza8phRWEo7bPyI5LTM8SjGJX5PvNf2G', 'Olá! Sou uma das vítimas do projeto de LTW! Sou administradora deste site :) (mais um merge conflict e vou administrar a minha própria morte) Gosto muito de todos os animais, especialmente aqueles com um ar meio estúpido!! Neste moment tenho 3 ratazanas domésticas de estimação, e gostava muito de ter um pombo.');
-INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('rita_t', 'rita@example.com', 'Rita Teixeira', 4, '914567890', 'Coimbra','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('joao_pets', 'joao@example.com', 'João Costa', 5, '913456789', 'Porto','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('maria123', 'maria@example.com', 'Maria Silva',6 , '912345678', 'Lisboa','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('tomas_vv3', 'tomasthebest@example.com', 'Tomás Ribeiro', 1, '914191674', 'Setúbal','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('anasantos', 'ana.santos@example.com', 'Ana Santos', 2, 'Aveiro','961122334','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('carlosm', 'carlos.m@example.com', 'Carlos Martins',3, 'Braga' ,'923456789','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('sofia_l', 'sofia.l@example.com', 'Sofia Lima', 4 , 'Faro','935678901','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('miguel_p', 'miguel.p@example.com', 'Miguel Pereira', 5, 'Guarda','917890123','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('margarida_p', 'margarida.p@example.com','Margarida Pacheco' ,6 , 'Funchal', '927788990','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('joanam', 'joana.m@example.com', 'Joana Marta', 1, 'Beja', '939900112','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('helder_c', 'helder.c@example.com', 'Helder Carlo', 2, 'Portalegre', '916611223','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('fernando_g', 'fernando.g@example.com', 'Fernando Gonçalves',3 , '918899002', 'Bragança','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('tiagom', 'tiago.m@example.com', 'Tiago Mendes', 4, '969876543', 'Santarém','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('patriciav', 'patricia.v@example.com', 'Patrícia Vicente',5, 'Setúbal', '921234567','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('brunor', 'bruno.r@example.com', 'Bruno Ribeiro', 6, 'Viana do Castelo', '967788990','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('carla_s', 'carla.s@example.com', 'Carla Sousa', 1, 'Vila Real', '928899001','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('carlos_r', 'carlo.s@example.com', 'Carlos Ribeiro', 2, 'Vila Real ', '928838001','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('beatriz_c', 'beatriz.c@example.com', 'Beatriz Castro',3, 'Aveiro', '936677889','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('ricardoj', 'ricardo.j@example.com', 'Ricardo Sousa',4, 'Faro', '933445566','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('andreia_p', 'andreia.p@example.com','Andreia Sousa', 5, 'Porto', '915566778','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('jose_s', 'jose.s@example.com', 'Jose Sousa',4, 'Sines', '919900113','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('pedror', 'pedro.r@example.com', 'Pedro Rodrigues', 5, 'Évora','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('sara_c', 'sara.c@example.com', 'Sara Costa', 6, 'Castelo Branco','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('manuel_a', 'manuel.a@example.com', 'Manuel Almeida',1, 'Leiria','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('luis_g', 'luis.g@example.com', 'Luis Sousa', 2, 'Leiria','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('ines_f', 'ines.f@example.com', 'Ines Fagundes',3, 'Viseu','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
-INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('isabel_m', 'isabel.m@example.com', 'Isabel Moreira',4, 'Guimarães','7110eda4d09e062aa5e4a390b0a572ac0d2c0220', '');
+INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('rita_t', 'rita@example.com', 'Rita Teixeira', 4, '914567890', 'Coimbra','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('joao_pets', 'joao@example.com', 'João Costa', 5, '913456789', 'Porto','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('maria123', 'maria@example.com', 'Maria Silva',6 , '912345678', 'Lisboa','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('tomas_vv3', 'tomasthebest@example.com', 'Tomás Ribeiro', 1, '914191674', 'Setúbal','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('anasantos', 'ana.santos@example.com', 'Ana Santos', 2, 'Aveiro','961122334','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('carlosm', 'carlos.m@example.com', 'Carlos Martins',3, 'Braga' ,'923456789','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('sofia_l', 'sofia.l@example.com', 'Sofia Lima', 4 , 'Faro','935678901','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('miguel_p', 'miguel.p@example.com', 'Miguel Pereira', 5, 'Guarda','917890123','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('margarida_p', 'margarida.p@example.com','Margarida Pacheco' ,6 , 'Funchal', '927788990','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('joanam', 'joana.m@example.com', 'Joana Marta', 1, 'Beja', '939900112','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('helder_c', 'helder.c@example.com', 'Helder Carlo', 2, 'Portalegre', '916611223','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('fernando_g', 'fernando.g@example.com', 'Fernando Gonçalves',3 , '918899002', 'Bragança','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, phone, district, password_hash, user_description) VALUES ('tiagom', 'tiago.m@example.com', 'Tiago Mendes', 4, '969876543', 'Santarém','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('patriciav', 'patricia.v@example.com', 'Patrícia Vicente',5, 'Setúbal', '921234567','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('brunor', 'bruno.r@example.com', 'Bruno Ribeiro', 6, 'Viana do Castelo', '967788990','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('carla_s', 'carla.s@example.com', 'Carla Sousa', 1, 'Vila Real', '928899001','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('carlos_r', 'carlo.s@example.com', 'Carlos Ribeiro', 2, 'Vila Real ', '928838001','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('beatriz_c', 'beatriz.c@example.com', 'Beatriz Castro',3, 'Aveiro', '936677889','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('ricardoj', 'ricardo.j@example.com', 'Ricardo Sousa',4, 'Faro', '933445566','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('andreia_p', 'andreia.p@example.com','Andreia Sousa', 5, 'Porto', '915566778','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, phone, password_hash, user_description) VALUES ('jose_s', 'jose.s@example.com', 'Jose Sousa',4, 'Sines', '919900113','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('pedror', 'pedro.r@example.com', 'Pedro Rodrigues', 5, 'Évora','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('sara_c', 'sara.c@example.com', 'Sara Costa', 6, 'Castelo Branco','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('manuel_a', 'manuel.a@example.com', 'Manuel Almeida',1, 'Leiria','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('luis_g', 'luis.g@example.com', 'Luis Sousa', 2, 'Leiria','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('ines_f', 'ines.f@example.com', 'Ines Fagundes',3, 'Viseu','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('isabel_m', 'isabel.m@example.com', 'Isabel Moreira',4, 'Guimarães','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
+INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('test_user', 'test_user@example.com', 'Test User', 0, 'Porto','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', 'Test User');
+INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('test_admin', 'test_admin@example.com', 'Test Admin', 0, 'Porto','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', 'Test Admin');
 
 -- Inserir admins
 
 UPDATE Users SET is_admin = TRUE WHERE username = 'casemiro';
 UPDATE Users SET is_admin = TRUE WHERE username = 'francisca';
 UPDATE Users SET is_admin = TRUE WHERE username = 'staragarcia';
+UPDATE Users SET is_admin = TRUE WHERE username = 'test_admin';
 
 -- Inserir anúncios
 INSERT INTO Ads (service_id, title, freelancer_id, description, price, price_period) VALUES (4, 'Treino básico para cachorros', 4, 'Ensino comandos básicos e boas práticas.', 75.00, 'mês');
@@ -288,6 +282,61 @@ INSERT INTO Ads (service_id, title, freelancer_id, description, price, price_per
 INSERT INTO Ads (service_id, title, freelancer_id, description, price, price_period) VALUES (4,'Aulas de Socialização para Cachorros (Aveiro)', 16, 'Socialização precoce para cachorros bem ajustados.', 70.00, 'mês');
 INSERT INTO Ads (service_id, title, freelancer_id, description, price, price_period) VALUES (3,'Alimentação de Gatos e Limpeza de Caixa de Areia (Sines)',18, 'Visitas diárias para cuidados essenciais de gatos.', 10.00, 'hora');
 INSERT INTO Ads (service_id, title, freelancer_id, description, price, price_period) VALUES (3,'Babysitting de Animais na Ilha (Funchal)', 15, 'Cuide dos seus animais enquanto desfruta do seu tempo fora.', 30.00, 'dia');
+INSERT INTO Ads (service_id, title, freelancer_id, description, price, price_period) VALUES 
+(1, 'Passeios personalizados para cães ativos', 4, 'Passeios adaptados ao nível de energia do seu cão.', 18.00, 'hora'),
+(3, 'Babysitting especializado para cães grandes', 4, 'Cuidados especializados para raças grandes.', 30.00, 'dia'),
+(2, 'Banho e escovação profissional', 4, 'Serviço completo de higiene para seu pet.', 35.00, 'dia'),
+(5, 'Hospedagem premium para cães', 4, 'Alojamento com muito espaço e conforto.', 50.00, 'dia'),
+(4, 'Treino avançado de obediência', 4, 'Para cães que já dominam o básico.', 45.00, 'hora');
+INSERT INTO Ads (service_id, title, freelancer_id, description, price, price_period) VALUES 
+(3, 'Cuidados para gatos idosos', 5, 'Experiência com gatos sênior e necessidades especiais.', 25.00, 'dia'),
+(1, 'Passeios em grupo para socialização', 5, 'Ótimo para cães que precisam socializar.', 15.00, 'hora'),
+(6, 'Visitas veterinárias acompanhadas', 5, 'Acompanhamento em consultas veterinárias.', 20.00, 'hora');
+INSERT INTO Ads (service_id, title, freelancer_id, description, price, price_period) VALUES 
+(2, 'Tosquia higiênica para cães', 6, 'Foco em áreas sensíveis e higiene.', 30.00, 'hora'),
+(3, 'Babysitting para cães com medo', 6, 'Paciência e técnicas para cães ansiosos.', 35.00, 'dia'),
+(4, 'Treino para competições', 6, 'Preparação para eventos caninos.', 60.00, 'hora'),
+(5, 'Alojamento para cães de grande porte', 6, 'Espaço amplo para raças grandes.', 45.00, 'dia'),
+(1, 'Passeios terapêuticos', 6, 'Para cães com limitações físicas.', 20.00, 'hora');
+INSERT INTO Ads (service_id, title, freelancer_id, description, price, price_period) VALUES 
+(1, 'Passeios noturnos seguros', 7, 'Passeios com equipamento de segurança.', 15.00, 'hora'),
+(3, 'Babysitting de última hora', 7, 'Disponível para emergências.', 40.00, 'dia'),
+(5, 'Alojamento familiar', 7, 'Seu pet será tratado como família.', 35.00, 'dia'),
+(6, 'Primeiros socorros para pets', 7, 'Cuidados básicos em situações de emergência.', 25.00, 'hora'),
+(2, 'Banho relaxante', 7, 'Com música suave e massagem.', 30.00, 'hora');
+INSERT INTO Ads (service_id, title, freelancer_id, description, price, price_period) VALUES 
+(3, 'Cuidados para aves exóticas', 8, 'Experiência com pássaros especiais.', 25.00, 'dia'),
+(6, 'Fisioterapia para animais', 8, 'Exercícios para recuperação física.', 40.00, 'hora'),
+(1, 'Passeios para cães idosos', 8, 'Ritmo adaptado para pets sênior.', 12.00, 'hora');
+INSERT INTO Ads (service_id, title, freelancer_id, description, price, price_period) VALUES 
+(3, 'Cuidados para aves exóticas', 8, 'Experiência com pássaros especiais.', 25.00, 'dia'),
+(6, 'Fisioterapia para animais', 8, 'Exercícios para recuperação física.', 40.00, 'hora'),
+(1, 'Passeios para cães idosos', 8, 'Ritmo adaptado para pets sênior.', 12.00, 'hora');
+INSERT INTO Ads (service_id, title, freelancer_id, description, price, price_period) VALUES 
+(3, 'Babysitting para gatos ariscos', 11, 'Experiência com gatos difíceis.', 30.00, 'dia'),
+(1, 'Passeios para gatos', 11, 'Com coleira e trela especial.', 15.00, 'hora'),
+(5, 'Alojamento para gatos', 11, 'Ambiente tranquilo e seguro.', 25.00, 'dia'),
+(6, 'Cuidados pós-cirúrgicos', 11, 'Monitoramento após procedimentos.', 35.00, 'hora'),
+(2, 'Banho terapêutico', 11, 'Para gatos com problemas de pele.', 40.00, 'hora'),
+(4, 'Socialização para gatos', 11, 'Ajuda seu gato a se adaptar.', 30.00, 'hora');
+INSERT INTO Ads (service_id, title, freelancer_id, description, price, price_period) VALUES 
+(2, 'Tosquia para raças específicas', 12, 'Conhecimento em padrões de raça.', 45.00, 'hora'),
+(3, 'Babysitting para cães de caça', 12, 'Experiência com raças ativas.', 40.00, 'dia'),
+(1, 'Passeios em áreas rurais', 12, 'Para cães que amam natureza.', 20.00, 'hora');
+INSERT INTO Ads (service_id, title, freelancer_id, description, price, price_period) VALUES 
+(5, 'Alojamento para aves', 13, 'Gaiolas espaçosas e seguras.', 15.00, 'dia'),
+(3, 'Babysitting para pássaros', 13, 'Cuidados especializados.', 20.00, 'dia'),
+(6, 'Corte de unhas para aves', 13, 'Técnica segura e profissional.', 15.00, 'hora'),
+(1, 'Exercícios para pássaros', 13, 'Estimulação mental e física.', 10.00, 'hora'),
+(2, 'Banho para pássaros', 13, 'Métodos naturais e seguros.', 25.00, 'hora'),
+(4, 'Treino para aves', 13, 'Ensino de comandos básicos.', 30.00, 'hora');
+INSERT INTO Ads (service_id, title, freelancer_id, description, price, price_period) VALUES 
+(2, 'Banho de hidratação', 14, 'Para pelagem macia e saudável.', 35.00, 'hora'),
+(3, 'Babysitting para cães de show', 14, 'Cuidados para cães de exposição.', 50.00, 'dia'),
+(5, 'Alojamento VIP', 14, 'Com câmeras 24h e relatórios diários.', 60.00, 'dia'),
+(1, 'Passeios personalizados', 14, 'Rotas adaptadas ao seu pet.', 25.00, 'hora'),
+(6, 'Massagem terapêutica', 14, 'Para relaxamento muscular.', 40.00, 'hora'),
+(4, 'Preparação para exposições', 14, 'Treino e cuidados especiais.', 55.00, 'hora');
 
 -- Associar tipos de animais aos anúncios
 INSERT INTO Ad_animals (ad_id, animal_id) VALUES (1, 1); -- Cães
@@ -326,7 +375,26 @@ INSERT INTO Ad_animals (ad_id, animal_id) VALUES (26, 1); -- Cães
 INSERT INTO Ad_animals (ad_id, animal_id) VALUES (27, 1); -- Cães
 INSERT INTO Ad_animals (ad_id, animal_id) VALUES (28, 2); -- Gatos
 INSERT INTO Ad_animals (ad_id, animal_id) VALUES (29, 6); -- Peixes
-
+INSERT INTO Ad_animals (ad_id, animal_id) VALUES 
+(30, 1), (31, 1), (32, 1), (32, 2), (33, 1), (34, 1);
+INSERT INTO Ad_animals (ad_id, animal_id) VALUES 
+(35, 2), (36, 1), (37, 1), (37, 2);
+INSERT INTO Ad_animals (ad_id, animal_id) VALUES 
+(38, 1), (39, 1), (40, 1), (41, 1), (42, 1);
+INSERT INTO Ad_animals (ad_id, animal_id) VALUES 
+(43, 1), (44, 1), (44, 2), (45, 1), (46, 1), (47, 1), (47, 2);
+INSERT INTO Ad_animals (ad_id, animal_id) VALUES 
+(48, 3), (49, 1), (50, 1);
+INSERT INTO Ad_animals (ad_id, animal_id) VALUES 
+(51, 4), (51, 8), (52, 7), (53, 8), (54, 4), (55, 4), (56, 8);
+INSERT INTO Ad_animals (ad_id, animal_id) VALUES 
+(57, 2), (58, 2), (59, 2), (60, 2), (61, 2), (62, 2);
+INSERT INTO Ad_animals (ad_id, animal_id) VALUES 
+(63, 1), (64, 1), (65, 1);
+INSERT INTO Ad_animals (ad_id, animal_id) VALUES 
+(66, 3), (67, 3), (68, 3), (69, 3), (70, 3), (71, 3);
+INSERT INTO Ad_animals (ad_id, animal_id) VALUES 
+(72, 1), (73, 1), (74, 1), (75, 1), (76, 1), (77, 1);
 
 -- Associar media aos anúncios
 INSERT INTO Ad_media (ad_id, media_id) VALUES (1, 8);
@@ -361,6 +429,26 @@ INSERT INTO Ad_media (ad_id, media_id) VALUES (25, 12);
 INSERT INTO Ad_media (ad_id, media_id) VALUES (26, 13);
 INSERT INTO Ad_media (ad_id, media_id) VALUES (27, 7);
 INSERT INTO Ad_media (ad_id, media_id) VALUES (29, 8);
+INSERT INTO Ad_media (ad_id, media_id) VALUES 
+(30, 7), (31, 8), (32, 9), (33, 10), (34, 11);
+INSERT INTO Ad_media (ad_id, media_id) VALUES 
+(35, 12), (36, 13), (37, 7);
+INSERT INTO Ad_media (ad_id, media_id) VALUES 
+(38, 8), (39, 9), (40, 10), (41, 11), (42, 12);
+INSERT INTO Ad_media (ad_id, media_id) VALUES 
+(43, 13), (44, 7), (45, 8), (46, 9), (47, 10);
+INSERT INTO Ad_media (ad_id, media_id) VALUES 
+(48, 11), (49, 12), (50, 13);
+INSERT INTO Ad_media (ad_id, media_id) VALUES 
+(51, 7), (52, 8), (53, 9), (54, 10), (55, 11), (56, 12);
+INSERT INTO Ad_media (ad_id, media_id) VALUES 
+(57, 13), (58, 7), (59, 8), (60, 9), (61, 10), (62, 11);
+INSERT INTO Ad_media (ad_id, media_id) VALUES 
+(63, 12), (64, 13), (65, 7);
+INSERT INTO Ad_media (ad_id, media_id) VALUES 
+(66, 8), (67, 9), (68, 10), (69, 11), (70, 12), (71, 13);
+INSERT INTO Ad_media (ad_id, media_id) VALUES 
+(72, 7), (73, 8), (74, 9), (75, 10), (76, 11), (77, 12);
 
 -- Associar tipos de serviço aos anúncios
 INSERT INTO Ad_services(ad_id, service_id) VALUES (1, 1); -- Passeio
@@ -392,8 +480,26 @@ INSERT INTO Ad_services(ad_id, service_id) VALUES (26, 3); -- Petsitting
 INSERT INTO Ad_services(ad_id, service_id) VALUES (27, 4); -- Treino
 INSERT INTO Ad_services(ad_id, service_id) VALUES (28, 3); -- Petsitting
 INSERT INTO Ad_services(ad_id, service_id) VALUES (29, 3); -- Petsitting
-
--- Inserir orders
+INSERT INTO Ad_services(ad_id, service_id) VALUES 
+(72, 2), (73, 3), (74, 5), (75, 1), (76, 6), (77, 4);
+INSERT INTO Ad_services(ad_id, service_id) VALUES 
+(66, 5), (67, 3), (68, 6), (69, 1), (70, 2), (71, 4);
+INSERT INTO Ad_services(ad_id, service_id) VALUES 
+(63, 2), (64, 3), (65, 1);
+INSERT INTO Ad_services(ad_id, service_id) VALUES 
+(57, 3), (58, 1), (59, 5), (60, 6), (61, 2), (62, 4);
+INSERT INTO Ad_services(ad_id, service_id) VALUES 
+(51, 3), (52, 5), (53, 1), (54, 6), (55, 2), (56, 4);
+INSERT INTO Ad_services(ad_id, service_id) VALUES 
+(48, 3), (49, 6), (50, 1);
+INSERT INTO Ad_services(ad_id, service_id) VALUES 
+(43, 1), (44, 3), (45, 5), (46, 6), (47, 2);
+INSERT INTO Ad_services(ad_id, service_id) VALUES 
+(38, 2), (39, 3), (40, 4), (41, 5), (42, 1);
+INSERT INTO Ad_services(ad_id, service_id) VALUES 
+(35, 3), (36, 1), (37, 6);
+INSERT INTO Ad_services(ad_id, service_id) VALUES 
+(30, 1), (31, 3), (32, 2), (33, 5), (34, 4);
 
 -- Inserir reviews
 INSERT INTO Reviews (ad_id, client_id, rating, comment) VALUES
@@ -571,6 +677,22 @@ INSERT INTO Reviews (ad_id, client_id, rating, comment) VALUES
 (29, 2, 4, 'Bom para viagens, mas o preço é um pouco alto.'),
 (29, 3, 5, 'Meus animais estavam muito bem cuidados. Excelente!'),
 (29, 4, 4, 'Confiável, mas a comunicação poderia ser mais frequente.');
+
+-- inserting random animals
+INSERT INTO User_animals (user_id, species, name, age, animal_picture) VALUES
+(1, 1, 'Rex', 3, '/resources/animal_pics/rex.jpg'),
+(1, 2, 'Mittens', 5, '/resources/animal_pics/mittens.jpg'),
+
+(3, 1, 'Buddy', 2, '/resources/animal_pics/buddy.jpg'),
+
+(5, 2, 'Whiskers', 4, '/resources/animal_pics/whiskers.jpg'),
+(5, 3, 'Tweety', 1, '/resources/animal_pics/tweety.jpg'),
+(5, 1, 'Max', 7, '/resources/animal_pics/max.jpg'),
+
+(7, 4, 'Nibbles', 2, '/resources/animal_pics/nibbles.jpg'),
+(7, 1, 'Rocky', 4, '/resources/animal_pics/rocky.jpg'),
+
+(10, 2, 'Luna', 3, '/resources/animal_pics/luna.jpg');
 
 -- Query para obter nome e foto de animais de um utilizador específico
 SELECT name, animal_picture FROM user_animals WHERE user_id = 1;
