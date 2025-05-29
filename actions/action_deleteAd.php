@@ -52,7 +52,7 @@ try {
 
     $_SESSION['success_message'] = 'Anúncio eliminado com sucesso';
 
-    header('Location: ../pages/userprofile.php?username=' . urlencode($_SESSION['username']));
+    header('Location: ../index.php');
     exit();
 
 } catch (PDOException $e) {
