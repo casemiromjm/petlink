@@ -28,16 +28,14 @@ require_once(__DIR__ . '/../database/anuncios.class.php');
         <div class="profile-header-main">
           <div class="profile-photo-container">
             <?php
-              $profilePhoto = $_SESSION['profile_photo'] ?? null;
+              $profilePhotoId = $user['photo_id'] ?? null;
 
-              // default case
-              if (empty($profilePhoto) || $profilePhoto === 'default') {
+              if (empty($profilePhotoId) || $profilePhotoId === 'default') {
                 $profilePhotoSrc = '../resources/profilePics/0.png';
-              }
-              
-              // example images that are numeric
-              else {
-                $profilePhotoSrc = '../resources/profilePics/' . $profilePhoto . '.png';
+              } elseif (is_numeric($profilePhotoId)) {
+                $profilePhotoSrc = '../resources/profilePics/' . $profilePhotoId . '.png';
+              } else {
+                $profilePhotoSrc = '../resources/profilePics/0.png';
               }
             ?>
             <img src="<?= htmlspecialchars($profilePhotoSrc) ?>" alt="Foto de perfil" class="profile-photo">
@@ -192,8 +190,12 @@ require_once(__DIR__ . '/../database/anuncios.class.php');
                   <div class="user-ad-animals">
                     <i class="fi fi-rr-paw"></i>
                     <?php
-                      $adAnimals = Ad::getAnuncio($db, $ad['ad_id']);
-                      echo htmlspecialchars(implode(', ', $adAnimals));
+                    $adObj = Ad::getAnuncio($db, $ad['ad_id']);
+                    if ($adObj) {
+                        echo htmlspecialchars(implode(', ', $adObj->getAnimals()));
+                    } else {
+                        echo 'N/A';
+                    }
                     ?>
                   </div>
                   <div class="user-ad-price">
