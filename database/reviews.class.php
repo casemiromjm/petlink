@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 require_once(__DIR__ . '/users.class.php');
+
 class Reviews {
     public int $rating;
     public ?string $comment;
@@ -10,7 +11,6 @@ class Reviews {
     private int $ad_id;
     private int $client_id;
     private string $created_at;
-
 
     public ?User $userObject;
 
@@ -21,12 +21,11 @@ class Reviews {
         int $rating,
         ?string $comment,
         string $created_at,
-        ?User $userObject
+        ?User $userObject = null
 
     ) {
         $this->id = $id;
         $this->client_id = $client_id;
-
         $this->ad_id = $ad_id;
         $this->rating = $rating;
         $this->comment = $comment;
@@ -55,23 +54,49 @@ class Reviews {
     }
 
     public static function getById(PDO $db, int $id): ?Reviews {
-        $stmt = $db->prepare("SELECT * FROM reviews WHERE review_id = :review_id");
+        $stmt = $db->prepare("
+            SELECT 
+                r.*,
+                u.user_id,
+                u.username,
+                u.name,
+                u.email,
+                u.district,
+                u.phone,
+                u.photo_id,
+                u.created_at AS user_created_at
+            FROM reviews r
+            LEFT JOIN users u ON r.client_id = u.user_id
+            WHERE r.review_id = :review_id
+        ");
         $stmt->execute([':review_id' => $id]);
 
         $review = $stmt->fetch();
         if (!$review) return null;
 
+        $user = $review['user_id'] ? new User(
+            (int)$review['user_id'],
+            $review['name'],
+            $review['username'],
+            $review['email'],
+            $review['district'],
+            $review['phone'],
+            (int)$review['photo_id'],
+            $review['user_created_at']
+        ) : null;
+
         return new Reviews(
-            (int)$review['id'],
+            (int)$review['review_id'],
             (int)$review['client_id'],
             (int)$review['ad_id'],
             (int)$review['rating'],
             $review['comment'] ?? null,
-            $review['created_at']
+            $review['created_at'],
+            $user
         );
     }
 
-    static public function getByAdId(PDO $db, int $adId): array {
+    public static function getByAdId(PDO $db, int $adId): array {
 
         $stmt = $db->prepare('
             SELECT
@@ -130,17 +155,44 @@ class Reviews {
 
 
     public static function getByUser(PDO $db, int $client_idId): array {
-        $stmt = $db->prepare("SELECT * FROM reviews WHERE client_id = :client_id");
+        $stmt = $db->prepare("
+            SELECT 
+                r.*,
+                u.user_id,
+                u.username,
+                u.name,
+                u.email,
+                u.district,
+                u.phone,
+                u.photo_id,
+                u.created_at AS user_created_at
+            FROM reviews r
+            JOIN users u ON r.client_id = u.user_id
+            WHERE r.client_id = :client_id
+        ");
         $stmt->execute([':client_id' => $client_idId]);
+
         $reviews = [];
-        while ($row = $stmt->fetch()) {
+        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $user = new User(
+                (int)$row['user_id'],
+                $row['name'],
+                $row['username'],
+                $row['email'],
+                $row['district'],
+                $row['phone'],
+                (int)$row['photo_id'],
+                $row['user_created_at']
+            );
+
             $reviews[] = new Reviews(
                 (int)$row['id'],
                 (int)$row['client_id'],
                 (int)$row['ad_id'],
                 (int)$row['rating'],
                 $row['comment'] ?? null,
-                $row['created_at']
+                $row['created_at'],
+                $user
             );
         }
         return $reviews;
@@ -155,7 +207,7 @@ class Reviews {
     ): ?Reviews {
         $stmt = $db->prepare("INSERT INTO reviews (client_id, ad_id, rating, comment) VALUES (:client_id, :ad_id, :rating, :comment)");
         $result = $stmt->execute([
-            ':client_id'    => $client_id,
+            ':client_id' => $client_id,
             ':ad_id' => $ad_id,
             ':rating'  => $rating,
             ':comment' => $comment
@@ -167,26 +219,25 @@ class Reviews {
         return self::getById($db, $newId);
     }
 
- function update(PDO $db): bool {
+    public function update(PDO $db): bool {
         $stmt = $db->prepare("
             UPDATE reviews
             SET rating = :rating, comment = :comment
-            WHERE id = :id
+            WHERE review_id = :id
         ");
         return $stmt->execute([
-            ':rating'  => $this->rating,
+            ':rating' => $this->rating,
             ':comment' => $this->comment,
-            ':id'      => $this->id
+            ':id' => $this->id
         ]);
     }
 
-
     public function delete(PDO $db): bool {
-        $stmt = $db->prepare("DELETE FROM reviews WHERE id = :id");
+        $stmt = $db->prepare("DELETE FROM reviews WHERE review_id = :id");
         return $stmt->execute([':id' => $this->id]);
     }
 
-    static public function getAverageRatingForAd(PDO $db, int $adId): float {
+    public static function getAverageRatingForAd(PDO $db, int $adId): float {
         $stmt = $db->prepare('
             SELECT AVG(rating) AS avg_rating
             FROM reviews WHERE ad_id = ?');
@@ -195,7 +246,7 @@ class Reviews {
         return (float)($result['avg_rating'] ?? 0.0);
     }
 
-    static public function getReviewCountForAd(PDO $db, int $adId): int {
+    public static function getReviewCountForAd(PDO $db, int $adId): int {
         $stmt = $db->prepare('
         SELECT COUNT(*) AS review_count
         FROM reviews WHERE ad_id = ?');
