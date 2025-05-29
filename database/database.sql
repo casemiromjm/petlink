@@ -163,7 +163,6 @@ INSERT INTO Services (service_name, description) VALUES ('Veterinário', 'Servi�
 INSERT INTO Services (service_name, description) VALUES ('Transporte', 'Serviços de transporte de animais');
 
 -- Inserir Media
-INSERT INTO Media (file_name, media_type) VALUES ('0', 'image');
 INSERT INTO Media (file_name, media_type) VALUES ('1', 'image');
 INSERT INTO Media (file_name, media_type) VALUES ('2', 'image');
 INSERT INTO Media (file_name, media_type) VALUES ('3', 'image');
@@ -242,8 +241,8 @@ INSERT INTO Users (username, email, name, photo_id, district, password_hash, use
 INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('luis_g', 'luis.g@example.com', 'Luis Sousa', 2, 'Leiria','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
 INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('ines_f', 'ines.f@example.com', 'Ines Fagundes',3, 'Viseu','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
 INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('isabel_m', 'isabel.m@example.com', 'Isabel Moreira',4, 'Guimarães','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', '');
-INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('test_user', 'test_user@example.com', 'Test User', 0, 'Porto','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', 'Test User');
-INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('test_admin', 'test_admin@example.com', 'Test Admin', 0, 'Porto','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', 'Test Admin');
+INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('test_user', 'test_user@example.com', 'Test User', 1, 'Porto','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', 'Test User');
+INSERT INTO Users (username, email, name, photo_id, district, password_hash, user_description) VALUES ('test_admin', 'test_admin@example.com', 'Test Admin', 1, 'Porto','$2y$10$x1M271jIoMIaAd5NgWTS5eWTDwZkVIL94a1BN5lzFXFtzjkVdLDYu', 'Test Admin');
 
 -- Inserir admins
 
