@@ -13,6 +13,8 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
+init();
+
 $db = getDatabaseConnection();
 $csrf_token = generate_csrf_token();
 

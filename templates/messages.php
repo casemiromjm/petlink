@@ -2,7 +2,9 @@
 
 <link rel="stylesheet" href="../stylesheets/style.css">
 
-<?php function drawMensagens(array $chats, array $messages, ?int $selectedAdId, ?int $selectedUserId, $latestOrder = null, $csrf_token): void { ?>
+<?php function drawMensagens(array $chats, array $messages, ?int $selectedAdId, ?int $selectedUserId, $latestOrder = null, $csrf_token = null): void { 
+  $csrf_token = $csrf_token ?? $_SESSION['csrf_token'] ?? '';
+?>
 <div class="chat-container">
   <aside class="chat-list">
     <h2>Conversas</h2>
@@ -220,14 +222,14 @@
           </div>
           <?php if ($status === 'pending' && $_SESSION['user_id'] == $latestOrder['freelancer_id']): ?>
     <form class="cancel-order-form" action="" method="post">
-    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
+    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?? $csrf_token; ?>">
       <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
       <button type="submit" name="accept_order" class="accept-order-btn" formaction="../actions/action_acceptRequest.php">Aceitar</button>
       <button type="submit" name="reject_order" class="reject-order-btn" formaction="../actions/action_rejectRequest.php">Rejeitar</button>
     </form>
   <?php elseif ($status === 'accepted_awaiting_payment' && $_SESSION['user_id'] == $latestOrder['client_id']): ?>
     <form action="#" method="post" class="cancel-order-form" id="payOrderForm">
-    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
+    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?? $csrf_token; ?>">
       <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
       <button type="submit" class="accept-order-btn" id="openPaymentModalBtn">Efetuar pagamento</button>
     </form>
@@ -291,13 +293,13 @@
   in_array($status, ['pending', 'rejected'])
 ): ?>
     <form action="../actions/action_cancelRequest.php" method="post" class="cancel-order-form">
-    <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
+    <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?? $csrf_token; ?>">
     <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
       <button type="submit" class="cancel-order-btn">Cancelar pedido</button>
     </form>
   <?php elseif ($status === 'in_progress' && $_SESSION['user_id'] == $latestOrder['freelancer_id']): ?>
   <form action="../actions/action_completeService.php" method="post" class="cancel-order-form" style="margin-top:1em;">
-  <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
+  <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?? $csrf_token; ?>">
   <input type="hidden" name="order_id" value="<?= htmlspecialchars((string)($latestOrder['request_id'] ?? $latestOrder['id'] ?? $latestOrder['rowid'] ?? '')) ?>">
     <button type="submit" class="accept-order-btn" style="background:#81B29A;">Completar serviço</button>
   </form>
@@ -312,7 +314,7 @@
         </div>
       <?php endif; ?>
       <form class="send-message-form" action="../actions/action_sendMessage.php" method="post">
-      <input type="hidden" name="csrf_token" value="<?php echo htmlspecialchars($csrf_token, ENT_QUOTES | ENT_HTML5, 'UTF-8'); ?>">
+      <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token'] ?? $csrf_token; ?>">
         <input type="hidden" name="ad" value="<?= $selectedAdId ?>">
         <input type="hidden" name="to" value="<?= $selectedUserId ?>">
         <input type="text" name="message" placeholder="Escreva uma mensagem..." required autocomplete="off">
