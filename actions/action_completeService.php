@@ -2,7 +2,7 @@
 declare(strict_types=1);
 require_once(__DIR__ . '/../init.php');
 require_once(__DIR__ . '/../database/connection.db.php');
-require_once(__DIR__ . '/../security.php');
+require_once(__DIR__ . '/../utils/security.php');
 
 if (!isset($_POST['csrf_token']) || !isset($_SESSION['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
     error_log('CSRF token mismatch or missing for completing service. IP: ' . $_SERVER['REMOTE_ADDR']);
