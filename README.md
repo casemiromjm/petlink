@@ -1,6 +1,7 @@
-# ltw02g05
+# PetLink
+PetLink is a web application designed to connect pet owners with freelancers offering various pet-related services. There is NO real payment processing involved, only a simulated checkout process.
 
-## Features
+## Implemented Features
 
 **User:**
 - [x] Register a new account.
@@ -27,12 +28,15 @@
 **Extra:**
 - [X] Users can personalize their experience by adding their own pets to their profile.
 
-## Running
+## How to run
+```
+git clone git@github.com:casemiromjm/petlink.git
+cd petlink
+sqlite3 database/database.db < database/database.sql
+php -S localhost:9000
+```
 
-    sqlite3 database/database.db < database/database.sql
-    php -S localhost:9000
-
-## Credentials
+## Credentials for getting started
 
 - test_admin/1234
 - test_user/1234
